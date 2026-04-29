@@ -1,0 +1,60 @@
+<div class="dashboard-wrapper">
+  <nav class="navbar navbar-light bg-white border-bottom px-4 py-2 sticky-top">
+    <div class="container-fluid d-flex align-items-center justify-content-start gap-3">
+
+      <div class="profile-trigger" (click)="toggleProfile()">
+        <img [src]="userProfile?.profilePictureUrl || 'assets/hero-vector.png'" alt=""
+          class="nav-profile-img shadow-sm">
+      </div>
+
+      <span class="navbar-brand fw-bold fs-4 text-dark mb-0">
+        Lumina <span class="text-info">Dashboard</span>
+      </span>
+
+    </div>
+  </nav>
+
+  <div class="main-layout">
+    <aside class="profile-drawer" [class.open]="isProfileOpen">
+      <div class="p-3 border-bottom d-flex justify-content-between align-items-center bg-light">
+        <h5 class="mb-0 fw-bold">User Account</h5>
+        <button class="btn-close" (click)="toggleProfile()"></button>
+      </div>
+
+      <div class="drawer-body">
+        <app-user-profile></app-user-profile>
+      </div>
+    </aside>
+
+    <div class="dashboard-wrapper d-flex">
+      <aside class="sidebar text-white p-3" style="width: 270px; min-height: 91.6vh;">
+        <h4 class="mb-4 text-info fw-bold d-flex align-items-center">Lumina Panel
+        </h4>
+
+        <ul class="nav flex-column">
+
+          <li class="nav-item mb-2" *ngIf="hasPermission('users:read')">
+            <a class="nav-link d-flex align-items-center" routerLink="users" routerLinkActive="active-link">
+              <i class="bi bi-people-fill me-3"></i> Users Management
+            </a>
+          </li>
+
+          <li class="nav-item mb-2" *ngIf="hasPermission('roles:read')">
+            <a class="nav-link d-flex align-items-center" routerLink="roles" routerLinkActive="active-link">
+              <i class="bi bi-shield-lock-fill me-3"></i> Roles Management
+            </a>
+          </li>
+
+        </ul>
+      </aside>
+
+      <div class="flex-grow-1">
+        <main class="content-area p-4">
+          <router-outlet></router-outlet>
+        </main>
+      </div>
+    </div>
+
+    <div class="drawer-overlay" *ngIf="isProfileOpen" (click)="toggleProfile()"></div>
+  </div>
+</div>
