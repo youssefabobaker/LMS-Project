@@ -27,7 +27,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     // 1. استثناء طلبات اللوجين والريفريش من إضافة التوكن أو معالجة الـ 401
     // بتلم كل طلبات الـ Auth (Login, Register, Refresh, Forget Password...)
-    if (request.url.toLowerCase().includes('authuntication')) {
+    if (request.url.toLowerCase().includes('authuntication') || request.url.toLowerCase().includes('department')) {
       console.log('Skipping Interceptor (No Header) for:', request.url);
       return next.handle(request);
     }

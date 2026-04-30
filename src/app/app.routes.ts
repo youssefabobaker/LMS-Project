@@ -10,6 +10,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { RoleManagementComponent } from './features/role-management/role-management.component';
 import { UserManagementComponent } from './features/user-management/user-management.component';
 import { permissionGuard } from './core/guards/permission.guard';
+import { DepartmentManagementComponent } from './features/department-management/department-management.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -33,8 +34,14 @@ export const routes: Routes = [
       {
         path: 'users',
         component: UserManagementComponent,
-        canActivate: [permissionGuard], // القفل الجديد
-        data: { permission: 'users:read' }, // المفتاح المطلوب
+        canActivate: [permissionGuard],
+        data: { permission: 'users:read' },
+      },
+      {
+        path: 'departments',
+        component: DepartmentManagementComponent,
+        canActivate: [permissionGuard],
+        data: { permission: 'Department:read' },
       },
       // مسار افتراضي عشان لما يفتح Dashboard متبقاش فاضية
       // { path: '', redirectTo: 'users', pathMatch: 'full' },

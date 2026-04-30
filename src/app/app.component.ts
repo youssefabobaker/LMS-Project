@@ -44,7 +44,8 @@ export class AppComponent implements OnInit, OnDestroy {
           path === 'auth/forgetPassword' ||
           path === 'dashboard' ||
           path === 'dashboard/roles' ||
-          path === 'dashboard/users'
+          path === 'dashboard/users' ||
+          path === 'dashboard/departments'
         );
         this.showNavbar = !(
           path === 'login' ||
@@ -54,7 +55,8 @@ export class AppComponent implements OnInit, OnDestroy {
           path === 'auth/forgetPassword' ||
           path === 'dashboard' ||
           path === 'dashboard/roles' ||
-          path === 'dashboard/users'
+          path === 'dashboard/users' ||
+          path === 'dashboard/departments'
         );
       });
   }

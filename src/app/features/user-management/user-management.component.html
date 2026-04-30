@@ -1,6 +1,6 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-info">User Management</h2>
+        <h2 class="text-info fw-bold mb-0">User Management</h2>
         <button *ngIf="hasPermission('users:add')" class="btn shadow-sm"
             [ngClass]="showForm ? 'btn-lumina-outline' : 'btn-lumina-main'"
             (click)="showForm = !showForm; (showForm ? null : resetForm())">
@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    <div class="card shadow-sm" *ngIf="!isLoading">
+    <div class="card shadow-sm mb-4" *ngIf="!isLoading">
         <div class="table-container">
             <table class="table table-hover align-middle mb-0">
                 <thead class="bg-light sticky-top">
@@ -95,8 +95,9 @@
                         <th>User Info</th>
                         <th>Role</th>
                         <th class="text-center ">Status</th>
-                        <th *ngIf="hasPermission('users:update') || hasPermission('users:delete')" class="text-end"
-                            style="padding-right: 75px;">Actions</th>
+                        <th *ngIf="hasPermission('users:update') || hasPermission('users:delete')" class="text-center"
+                            style="width: 210px;">
+                            Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,17 +117,16 @@
                                 {{ user.isDisabled ? 'Disabled' : 'Active' }}
                             </span>
                         </td>
-                        <td class="text-end px-4">
-                            <div class="d-flex justify-content-end gap-2">
+                        <td *ngIf="hasPermission('users:update') || hasPermission('users:delete')" class="text-center">
+                            <div class="d-flex justify-content-center gap-2">
+                                <button *ngIf="hasPermission('users:update')" class="btn-edit-action"
+                                    (click)="editUser(user)">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </button>
                                 <button *ngIf="hasPermission('users:delete')" class="btn-status-action "
                                     [ngClass]="user.isDisabled ? 'btn-to-enable' : 'btn-to-disable'"
                                     (click)="toggleStatus(user.id)">
                                     {{ user.isDisabled ? 'Enable' : 'Disable' }}
-                                </button>
-
-                                <button *ngIf="hasPermission('users:update')" class="btn-edit-action"
-                                    (click)="editUser(user)">
-                                    <i class="bi bi-pencil-square"></i> Edit
                                 </button>
                             </div>
                         </td>
