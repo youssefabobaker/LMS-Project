@@ -51,6 +51,11 @@
             </a>
           </li>
 
+          <li class="nav-item mb-2" *ngIf="hasPermission('Course:read') || hasPermission('Course:readAll')">
+            <a class="nav-link d-flex align-items-center" routerLink="courses" routerLinkActive="active-link">
+              <i class="bi bi-book-fill me-3"></i> Course Management
+            </a>
+          </li>
 
         </ul>
       </aside>

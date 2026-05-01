@@ -11,6 +11,7 @@ import { RoleManagementComponent } from './features/role-management/role-managem
 import { UserManagementComponent } from './features/user-management/user-management.component';
 import { permissionGuard } from './core/guards/permission.guard';
 import { DepartmentManagementComponent } from './features/department-management/department-management.component';
+import { CourseManagementComponent } from './features/course-management/course-management.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -42,6 +43,12 @@ export const routes: Routes = [
         component: DepartmentManagementComponent,
         canActivate: [permissionGuard],
         data: { permission: 'Department:read' },
+      },
+      {
+        path: 'courses',
+        component: CourseManagementComponent,
+        canActivate: [permissionGuard],
+        data: { permission: 'Course:read' },
       },
       // مسار افتراضي عشان لما يفتح Dashboard متبقاش فاضية
       // { path: '', redirectTo: 'users', pathMatch: 'full' },

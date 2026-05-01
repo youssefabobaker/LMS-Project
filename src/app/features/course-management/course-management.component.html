@@ -1,0 +1,286 @@
+<div class="mt-4">
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  Page Header                                                           -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-info fw-bold mb-0">
+      Course Management
+    </h2>
+    <button *ngIf="hasPermission('Course:add')" class="btn btn-lumina-main" (click)="openCreateForm()">
+      <i class="bi bi-plus-lg me-2"></i>Create Course
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  Collapsible Create / Edit Form (US2 + US3)                           -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div *ngIf="showForm" class="card shadow-sm mb-4">
+    <!-- Card Header -->
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0 text-white">
+        <i class="bi bi-pencil-square me-2"></i>
+        {{ editingCourseId ? 'Edit Course' : 'Create New Course' }}
+      </h5>
+      <button class="btn btn-sm btn-outline-light" (click)="closeForm()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- Card Body — Reactive Form -->
+    <div class="card-body p-4">
+      <form [formGroup]="courseForm" (ngSubmit)="saveCourse()">
+        <div class="row g-3">
+
+          <!-- Title -->
+          <div class="col-md-6">
+            <label for="courseTitle" class="form-label fw-bold">
+              Title <span class="text-danger">*</span>
+            </label>
+            <input id="courseTitle" type="text" formControlName="title" class="form-control"
+              [class.is-invalid]="courseForm.get('title')?.invalid && courseForm.get('title')?.touched"
+              placeholder="e.g. Introduction to Algorithms" />
+            <div class="invalid-feedback">Title is required.</div>
+          </div>
+
+          <!-- Semester -->
+          <div class="col-md-3">
+            <label for="courseSemester" class="form-label fw-bold">
+              Semester <span class="text-danger">*</span>
+            </label>
+            <select id="courseSemester" formControlName="semster" class="form-select"
+              [class.is-invalid]="courseForm.get('semster')?.invalid && courseForm.get('semster')?.touched">
+              <option [ngValue]="null" disabled>Select semester</option>
+              <option *ngFor="let s of semesterOptions" [ngValue]="s.value">
+                {{ s.label }}
+              </option>
+            </select>
+            <div class="invalid-feedback">Semester is required.</div>
+          </div>
+
+          <!-- Credit Hours -->
+          <div class="col-md-3">
+            <label for="creditHour" class="form-label fw-bold">
+              Credit Hours <span class="text-danger">*</span>
+            </label>
+            <input id="creditHour" type="number" formControlName="credit_Hour" class="form-control"
+              [class.is-invalid]="courseForm.get('credit_Hour')?.invalid && courseForm.get('credit_Hour')?.touched"
+              min="1" placeholder="e.g. 3" />
+            <div class="invalid-feedback">Credit hours must be ≥ 1.</div>
+          </div>
+
+          <!-- Academic Level -->
+          <div class="col-md-3">
+            <label for="courseLevel" class="form-label fw-bold">
+              Academic Level <span class="text-danger">*</span>
+            </label>
+            <select id="courseLevel" formControlName="academicLevel" class="form-select"
+              [class.is-invalid]="courseForm.get('academicLevel')?.invalid && courseForm.get('academicLevel')?.touched">
+              <option [ngValue]="null" disabled>Select level</option>
+              <option *ngFor="let l of levelOptions" [ngValue]="l.value">
+                {{ l.label }}
+              </option>
+            </select>
+            <div class="invalid-feedback">Academic level is required.</div>
+          </div>
+
+          <!-- Image Upload -->
+          <div class="col-md-9">
+            <label for="courseImage" class="form-label fw-bold">
+              Course Image
+              <span class="text-muted fw-normal fs-7">(optional)</span>
+            </label>
+            <input id="courseImage" type="file" class="form-control" accept="image/*"
+              (change)="onFileSelected($event)" />
+            <div *ngIf="editingCourseId && existingImageUrl && !selectedFile" class="mt-1">
+              <small class="text-muted">
+                <i class="bi bi-image me-1"></i>Existing image will be kept
+              </small>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="col-12">
+            <label for="courseDesc" class="form-label fw-bold">
+              Description <span class="text-danger">*</span>
+            </label>
+            <textarea id="courseDesc" formControlName="description" class="form-control"
+              [class.is-invalid]="courseForm.get('description')?.invalid && courseForm.get('description')?.touched"
+              rows="3" placeholder="Brief course description..."></textarea>
+            <div class="invalid-feedback">Description is required.</div>
+          </div>
+
+          <!-- Learning Outcomes (optional) -->
+          <div class="col-12">
+            <label for="learningOutcomes" class="form-label fw-bold">
+              Learning Outcomes
+              <span class="text-muted fw-normal fs-7">(optional)</span>
+            </label>
+            <textarea id="learningOutcomes" formControlName="learningOutcomes" class="form-control" rows="2"
+              placeholder="e.g. Understand sorting, searching, graph algorithms"></textarea>
+          </div>
+
+        </div>
+
+        <!-- Form Actions -->
+        <div class="d-flex justify-content-end gap-2 pt-4 mt-3 border-top">
+          <button type="button" class="btn btn-lumina-outline" (click)="closeForm()">
+            <i class="bi bi-x-circle me-1"></i>Discard
+          </button>
+          <button type="submit" class="btn btn-save-action" [disabled]="courseForm.invalid">
+            <i class="bi bi-check-lg me-1"></i>Save Course
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  Loading Spinner (US1)                                                 -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <div class="spinner-border text-info" role="status" style="width: 3rem; height: 3rem;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="text-muted mt-3">Loading courses...</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  Error / Retry State                                                   -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div *ngIf="!isLoading && loadFailed" class="empty-state my-5">
+    <i class="bi bi-exclamation-triangle-fill text-warning"></i>
+    <p class="text-muted mb-3">Failed to load courses. Please check your connection.</p>
+    <button class="btn btn-lumina-main" (click)="loadCourses()">
+      <i class="bi bi-arrow-clockwise me-2"></i>Retry
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  Course Card Grid (US1)                                                -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div *ngIf="!isLoading && !loadFailed">
+
+    <!-- Empty State -->
+    <div *ngIf="courses.length === 0" class="empty-state">
+      <i class="bi bi-journal-x"></i>
+      <p>No courses found. Click <strong>Create Course</strong> to get started.</p>
+    </div>
+
+    <!-- Card Grid -->
+    <div class="courses-grid" *ngIf="courses.length > 0">
+      <div *ngFor="let course of courses" class="course-card">
+
+        <!-- ── Image + Status Badge ── -->
+        <div class="course-img-wrapper">
+          <img *ngIf="course.imageUrl" [src]="course.imageUrl" [alt]="course.title" class="course-img"
+            (error)="onImageError($event)" />
+          <div *ngIf="!course.imageUrl" class="img-placeholder">
+            <i class="bi bi-book"></i>
+          </div>
+
+          <!-- Status Badge (US4 — click to toggle) -->
+          <div class="status-overlay">
+            <button *ngIf="hasPermission('Course:update')"
+              [class]="course.isPublished ? 'badge-published' : 'badge-unpublished'" (click)="toggleStatus(course)"
+              [title]="course.isPublished ? 'Click to Unpublish' : 'Click to Publish'">
+              <i class="bi me-1" [class.bi-eye-fill]="course.isPublished"
+                [class.bi-eye-slash-fill]="!course.isPublished"></i>
+              {{ course.isPublished ? 'Published' : 'Unpublished' }}
+            </button>
+            <span *ngIf="!hasPermission('Course:update')"
+              [class]="course.isPublished ? 'badge-published' : 'badge-unpublished'" style="cursor: default;">
+              {{ course.isPublished ? 'Published' : 'Unpublished' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- ── Card Body ── -->
+        <div class="card-body-content">
+          <h5 class="course-title">{{ course.title }}</h5>
+          <p class="course-description">{{ course.description }}</p>
+
+          <!-- Meta Chips -->
+          <div class="meta-chips">
+            <span class="meta-chip">
+              <i class="bi bi-calendar3 me-1"></i>{{ getSemesterLabel(course.semster) }}
+            </span>
+            <span class="meta-chip">
+              <i class="bi bi-mortarboard me-1"></i>{{ getLevelLabel(course.academicLevel) }}
+            </span>
+            <span class="meta-chip">
+              <i class="bi bi-clock me-1"></i>{{ course.credit_Hour }} CR
+            </span>
+          </div>
+        </div>
+
+        <!-- ── Card Footer — Actions ── -->
+        <div
+          *ngIf="hasPermission('Course:update') || hasPermission('Course:delete') || hasPermission('Course:enrollInstructor')"
+          class="card-footer-actions">
+          <!-- Edit -->
+          <button *ngIf="hasPermission('Course:update')" class="btn btn-edit-action btn-sm"
+            (click)="editCourse(course)">
+            <i class="bi bi-pencil-square me-1"></i>Edit
+          </button>
+
+          <!-- Instructors Panel Toggle -->
+          <button *ngIf="hasPermission('Course:enrollInstructor') || hasPermission('Course:read')"
+            class="btn btn-lumina-outline btn-sm" (click)="toggleInstructorPanel(course)">
+            <i class="bi bi-person-workspace me-1"></i>
+            {{ course.showInstructors ? 'Hide' : 'Instructors' }}
+          </button>
+
+          <!-- Delete (US5) -->
+          <button *ngIf="hasPermission('Course:delete')" class="btn btn-status-action btn-to-disable btn-sm ms-auto"
+            (click)="removeCourse(course.id)">
+            <i class="bi bi-trash3 me-1"></i>Remove
+          </button>
+        </div>
+
+        <!-- ── Instructor Assignment Panel (US6) ── -->
+        <div *ngIf="course.showInstructors" class="instructor-panel">
+          <h6><i class="bi bi-people-fill me-1"></i>Enrolled Instructors</h6>
+
+          <!-- Loading indicator -->
+          <div *ngIf="instructorLoading" class="text-center py-2">
+            <div class="spinner-border spinner-border-sm text-info"></div>
+          </div>
+
+          <!-- Enrolled list -->
+          <div *ngIf="!instructorLoading">
+            <div *ngFor="let user of course.enrolledInstructors" class="instructor-chip">
+              <span>
+                <i class="bi bi-person-circle me-1"></i>
+                {{ user.userName }}
+                <small class="text-muted ms-1">({{ user.userEmail }})</small>
+              </span>
+              <button *ngIf="hasPermission('Course:unenrollInstructor')"
+                (click)="unenrollInstructor(course, user.userId)" title="Remove instructor">
+                <i class="bi bi-x-circle-fill"></i>
+              </button>
+            </div>
+
+            <p *ngIf="!course.enrolledInstructors || course.enrolledInstructors.length === 0" class="text-muted mb-2"
+              style="font-size: 0.8rem;">
+              No instructors assigned yet.
+            </p>
+
+            <!-- Enroll Input -->
+            <div *ngIf="hasPermission('Course:enrollInstructor')" class="d-flex gap-2 mt-2">
+              <input type="text" class="form-control form-control-sm" placeholder="Instructor User ID (GUID)"
+                [(ngModel)]="newInstructorId" />
+              <button class="btn btn-lumina-main btn-sm text-nowrap" (click)="enrollInstructor(course)"
+                [disabled]="!newInstructorId.trim()">
+                <i class="bi bi-plus"></i> Enroll
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
