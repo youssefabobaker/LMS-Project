@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Role, PermissionResponse } from '../../models/role';
 
 @Injectable({
@@ -12,15 +13,29 @@ export class RoleService {
 
   constructor(private http: HttpClient) { }
 
+  private normalizeRole(r: any): Role {
+    return {
+      id: r.id ?? r.Id,
+      name: r.name ?? r.Name,
+      isDeleted: r.isDeleted ?? r.IsDeleted ?? false,
+      isEnrollable: r.isEnrollable ?? r.IsEnrollable ?? false,
+      permissions: r.permissions ?? r.Permissions ?? []
+    };
+  }
+
   // 1. جلب كل الأدوار [cite: 35]
   getRoles(includeDisabled: boolean = false): Observable<Role[]> {
-    const params = new HttpParams().set('includeDisabled', includeDisabled.toString()); // [cite: 40]
-    return this.http.get<Role[]>(this.baseUrl, { params });
+    const params = new HttpParams().set('includeDisabled', includeDisabled.toString());
+    return this.http.get<any[]>(this.baseUrl, { params }).pipe(
+      map(roles => roles.map(r => this.normalizeRole(r)))
+    );
   }
 
   // 2. جلب دور محدد ببياناته وصلاحياته [cite: 66, 67]
   getRoleById(id: string): Observable<Role> {
-    return this.http.get<Role>(`${this.baseUrl}/${id}`);
+    return this.http.get<any>(`${this.baseUrl}/${id}`).pipe(
+      map(r => this.normalizeRole(r))
+    );
   }
 
   // 3. إنشاء دور جديد [cite: 106]

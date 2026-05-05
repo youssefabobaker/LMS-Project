@@ -6,14 +6,18 @@ export const permissionGuard: CanActivateFn = (route, state) => {
   const permissionService = inject(PermissionService);
   const router = inject(Router);
 
-  // بنجيب اسم الصلاحية المطلوبة من بيانات المسار (Route Data)
-  const requiredPermission = route.data['permission'] as string;
+  // Supports both a single permission string and an array of strings (OR logic).
+  // A single string keeps full backward-compatibility with all existing routes.
+  const requiredPermission = route.data['permission'] as string | string[];
 
-  if (permissionService.hasPermission(requiredPermission)) {
-    return true; // مسموح له يدخل
-  } else {
-    // مش مسموح له، بنوديه لصفحة الـ Dashboard الأساسية أو يطلع Error
-    router.navigate(['/dashboard']); 
-    return false;
+  const hasAccess = Array.isArray(requiredPermission)
+    ? requiredPermission.some((p) => permissionService.hasPermission(p))
+    : permissionService.hasPermission(requiredPermission);
+
+  if (hasAccess) {
+    return true;
   }
+
+  router.navigate(['/dashboard']);
+  return false;
 };

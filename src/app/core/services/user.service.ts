@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { User } from '../../models/user'; // تأكد من مسار الموديل عندك
 
 @Injectable({
@@ -16,24 +17,36 @@ export class UserService {
    * 1. جلب كل المستخدمين (صفحة 8 في الـ PDF)
    * @param includeNotConfirmed تضمين الحسابات التي لم يتم تأكيد إيميلها
    */
-  // في ملف user.service.ts
+  private normalizeUser(u: any): User {
+    return {
+      id: u.id ?? u.Id,
+      firstName: u.firstName ?? u.FirstName,
+      lastName: u.lastName ?? u.LastName,
+      email: u.email ?? u.Email,
+      isDisabled: u.isDisabled ?? u.IsDisabled ?? false,
+      academicYear: u.academicYear ?? u.AcademicYear,
+      departmentId: u.departmentId ?? u.DepartmentId,
+      roles: u.roles ?? u.Roles ?? []
+    };
+  }
+
   getUsers(
     includeNotConfirmed: boolean = true,
     includeDisabled: boolean = true,
   ): Observable<User[]> {
-    // بنجهز الـ Parameters اللي هتتبعت في الـ Query String
     const params = new HttpParams()
       .set('IncludeNotConfirmed', includeNotConfirmed.toString())
-      .set('includeDisabled', includeDisabled.toString()); // السطر الجديد
+      .set('includeDisabled', includeDisabled.toString());
 
-    return this.http.get<User[]>(this.baseUrl, { params });
+    return this.http.get<any[]>(this.baseUrl, { params }).pipe(
+      map(users => users.map(u => this.normalizeUser(u)))
+    );
   }
 
-  /**
-   * 2. جلب بيانات مستخدم محدد (صفحة 9 في الـ PDF)##########################################################################
-   */
   getUserById(id: string): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/${id}`);
+    return this.http.get<any>(`${this.baseUrl}/${id}`).pipe(
+      map(u => this.normalizeUser(u))
+    );
   }
 
   /**

@@ -139,82 +139,6 @@
             </button>
 </header>
 <!-- Interactive Form Card -->
-<section class="bg-surface-container-lowest rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-surface-variant overflow-hidden">
-<!-- Gradient Header -->
-<div class="bg-gradient-to-b from-deepest-navy to-lms-dark px-6 py-4 flex justify-between items-center cursor-pointer hover:opacity-95 transition-opacity">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-lms-primary">edit_document</span>
-<h3 class="font-card-header text-card-header text-lms-primary">Add / Edit Course</h3>
-</div>
-<button class="text-on-primary/70 hover:text-on-primary transition-colors">
-<span class="material-symbols-outlined">expand_less</span>
-</button>
-</div>
-<!-- Form Body -->
-<div class="p-6">
-<form class="space-y-6">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-<!-- Course Title -->
-<div class="col-span-1 md:col-span-2">
-<label class="block font-badge-label text-badge-label text-lms-dark mb-1.5">Course Title</label>
-<input class="w-full px-4 py-2 bg-surface border border-outline-variant rounded-DEFAULT focus:ring-2 focus:ring-lms-primary focus:border-lms-primary text-body-main font-body-main transition-all" placeholder="e.g. Advanced Cryptography" type="text"/>
-</div>
-<!-- Semester -->
-<div>
-<label class="block font-badge-label text-badge-label text-lms-dark mb-1.5">Semester</label>
-<div class="relative">
-<select class="w-full pl-4 pr-10 py-2 appearance-none bg-surface border border-outline-variant rounded-DEFAULT focus:ring-2 focus:ring-lms-primary focus:border-lms-primary text-body-main font-body-main transition-all">
-<option>Select Semester</option>
-<option>Fall 2024</option>
-<option>Spring 2025</option>
-</select>
-<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
-</div>
-</div>
-<!-- Level -->
-<div>
-<label class="block font-badge-label text-badge-label text-lms-dark mb-1.5">Academic Level</label>
-<div class="relative">
-<select class="w-full pl-4 pr-10 py-2 appearance-none bg-surface border border-outline-variant rounded-DEFAULT focus:ring-2 focus:ring-lms-primary focus:border-lms-primary text-body-main font-body-main transition-all">
-<option>Undergraduate</option>
-<option>Graduate</option>
-<option>Professional</option>
-</select>
-<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
-</div>
-</div>
-<!-- Credit Hours -->
-<div>
-<label class="block font-badge-label text-badge-label text-lms-dark mb-1.5">Credit Hours</label>
-<input class="w-full px-4 py-2 bg-surface border border-outline-variant rounded-DEFAULT focus:ring-2 focus:ring-lms-primary focus:border-lms-primary text-body-main font-body-main transition-all" max="6" min="1" placeholder="3" type="number"/>
-</div>
-</div>
-<!-- Description & Image Upload -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-<div class="lg:col-span-2">
-<label class="block font-badge-label text-badge-label text-lms-dark mb-1.5">Description</label>
-<textarea class="w-full px-4 py-2 bg-surface border border-outline-variant rounded-DEFAULT focus:ring-2 focus:ring-lms-primary focus:border-lms-primary text-body-main font-body-main transition-all resize-none" placeholder="Brief overview of course objectives and syllabus..." rows="4"></textarea>
-</div>
-<div>
-<label class="block font-badge-label text-badge-label text-lms-dark mb-1.5">Course Image Cover</label>
-<div class="border-2 border-dashed border-outline-variant bg-surface rounded-DEFAULT h-[108px] flex flex-col items-center justify-center text-center cursor-pointer hover:border-lms-primary hover:bg-lms-primary/5 transition-all group">
-<span class="material-symbols-outlined text-outline group-hover:text-lms-primary mb-1">cloud_upload</span>
-<span class="font-helper-text text-helper-text text-text-muted group-hover:text-lms-primary">Drag &amp; drop or <span class="underline">browse</span></span>
-</div>
-</div>
-</div>
-<!-- Form Actions -->
-<div class="pt-4 border-t border-surface-variant flex justify-end gap-3">
-<button class="px-5 py-2 rounded-DEFAULT font-badge-label text-badge-label text-on-surface-variant border border-outline-variant hover:bg-surface-variant transition-colors" type="button">
-                            Discard
-                        </button>
-<button class="bg-lms-primary text-on-primary px-5 py-2 rounded-DEFAULT font-badge-label text-badge-label shadow-sm hover:bg-lms-hover transition-colors" type="button">
-                            Save Course
-                        </button>
-</div>
-</form>
-</div>
-</section>
 <!-- Course Cards Grid -->
 <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 <!-- Card 1 -->
@@ -236,7 +160,7 @@
 <span class="material-symbols-outlined text-[1rem]">schedule</span> 4 Credits
                         </span>
 </div>
-<p class="font-body-main text-body-main text-text-muted line-clamp-2 mt-auto">Comprehensive study of modern cryptographic algorithms, secure communication protocols, and threat modeling in enterprise networks.</p>
+<div class="flex items-center gap-2 mb-2 text-text-body font-helper-text text-helper-text"><span class="material-symbols-outlined text-[1rem]">person</span><span>Instructor: Dr. Alan Turing</span></div><p class="font-body-main text-body-main text-text-muted line-clamp-2 mt-auto">Comprehensive study of modern cryptographic algorithms, secure communication protocols, and threat modeling in enterprise networks.</p>
 </div>
 <div class="px-5 py-3 border-t border-surface-variant bg-surface/50 flex items-center justify-between gap-2">
 <div class="flex gap-2">
@@ -245,7 +169,7 @@
 </button>
 <button class="p-1.5 text-status-active border border-status-active/30 rounded hover:bg-status-active/10 transition-colors" title="Toggle Status">
 <span class="material-symbols-outlined text-[1.1rem]">toggle_on</span>
-</button>
+</button><button class="p-1.5 text-lms-primary border border-lms-primary/30 rounded hover:bg-lms-primary/10 transition-colors" title="Assign Instructor"><span class="material-symbols-outlined text-[1.1rem]">person_add</span></button>
 <button class="p-1.5 text-status-danger border border-status-danger/30 rounded hover:bg-status-danger/10 transition-colors" title="Delete">
 <span class="material-symbols-outlined text-[1.1rem]">delete</span>
 </button>
@@ -275,7 +199,7 @@
 <span class="material-symbols-outlined text-[1rem]">schedule</span> 3 Credits
                         </span>
 </div>
-<p class="font-body-main text-body-main text-text-muted line-clamp-2 mt-auto">Advanced exploration of graph theory, dynamic programming, and computational complexity for software engineering.</p>
+<div class="flex items-center gap-2 mb-2 text-text-body font-helper-text text-helper-text"><span class="material-symbols-outlined text-[1rem]">person</span><span>Instructor: Prof. Ada Lovelace</span></div><p class="font-body-main text-body-main text-text-muted line-clamp-2 mt-auto">Advanced exploration of graph theory, dynamic programming, and computational complexity for software engineering.</p>
 </div>
 <div class="px-5 py-3 border-t border-surface-variant bg-surface/50 flex items-center justify-between gap-2">
 <div class="flex gap-2">
@@ -284,7 +208,7 @@
 </button>
 <button class="p-1.5 text-outline border border-outline/30 rounded hover:bg-surface-variant transition-colors" title="Toggle Status">
 <span class="material-symbols-outlined text-[1.1rem]">toggle_off</span>
-</button>
+</button><button class="p-1.5 text-lms-primary border border-lms-primary/30 rounded hover:bg-lms-primary/10 transition-colors" title="Assign Instructor"><span class="material-symbols-outlined text-[1.1rem]">person_add</span></button>
 <button class="p-1.5 text-status-danger border border-status-danger/30 rounded hover:bg-status-danger/10 transition-colors" title="Delete">
 <span class="material-symbols-outlined text-[1.1rem]">delete</span>
 </button>
@@ -314,7 +238,7 @@
 <span class="material-symbols-outlined text-[1rem]">schedule</span> 6 Credits
                         </span>
 </div>
-<p class="font-body-main text-body-main text-text-muted line-clamp-2 mt-auto">Capstone project course applying Agile methodologies, continuous integration, and team-based development practices to real-world problems.</p>
+<div class="flex items-center gap-2 mb-2 text-text-body font-helper-text text-helper-text"><span class="material-symbols-outlined text-[1rem]">person</span><span>Instructor: Dr. Grace Hopper</span></div><p class="font-body-main text-body-main text-text-muted line-clamp-2 mt-auto">Capstone project course applying Agile methodologies, continuous integration, and team-based development practices to real-world problems.</p>
 </div>
 <div class="px-5 py-3 border-t border-surface-variant bg-surface/50 flex items-center justify-between gap-2">
 <div class="flex gap-2">
@@ -323,7 +247,7 @@
 </button>
 <button class="p-1.5 text-status-active border border-status-active/30 rounded hover:bg-status-active/10 transition-colors" title="Toggle Status">
 <span class="material-symbols-outlined text-[1.1rem]">toggle_on</span>
-</button>
+</button><button class="p-1.5 text-lms-primary border border-lms-primary/30 rounded hover:bg-lms-primary/10 transition-colors" title="Assign Instructor"><span class="material-symbols-outlined text-[1.1rem]">person_add</span></button>
 <button class="p-1.5 text-status-danger border border-status-danger/30 rounded hover:bg-status-danger/10 transition-colors" title="Delete">
 <span class="material-symbols-outlined text-[1.1rem]">delete</span>
 </button>
@@ -334,6 +258,117 @@
                     </button>
 </div>
 </article>
-</section>
+<article class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-surface-variant overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-300">
+<div class="h-40 relative overflow-hidden bg-deepest-navy">
+<img class="w-full h-full object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-500" data-alt="Modern web development setup with code editor and browser." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn-Q1u0Y8t6x3zRkZ3j9f0-2VvB1z2_3x4y5z6a7b8c9d0e1f2g3h4i5j6k7l8m9n0o1p2q3r4s5t6u7v8w9x0y1z2"/>
+<div class="absolute inset-0 bg-gradient-to-t from-deepest-navy/80 to-transparent"></div>
+<div class="absolute top-3 right-3 bg-status-active text-on-primary px-2.5 py-1 rounded-DEFAULT font-badge-label text-[0.75rem] uppercase tracking-wider shadow-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span> Published
+                    </div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start gap-4 mb-2">
+<h4 class="font-table-header text-table-header text-lms-dark font-bold leading-tight">Web Development Fundamentals</h4>
+</div>
+<div class="flex items-center gap-3 mb-3">
+<span class="bg-lms-primary/10 text-lms-primary font-badge-label text-badge-label px-2.5 py-1 rounded-DEFAULT">Spring 2025</span>
+<span class="flex items-center gap-1 text-text-muted font-helper-text text-helper-text">
+<span class="material-symbols-outlined text-[1rem]">schedule</span> 3 Credits
+                        </span>
+</div>
+<div class="flex items-center gap-2 mb-2 text-text-body font-helper-text text-helper-text"><span class="material-symbols-outlined text-[1rem]">person</span><span>Instructor: Prof. Tim Berners-Lee</span></div><p class="font-body-main text-body-main text-text-muted line-clamp-2 mt-auto">Introduction to HTML5, CSS3, and JavaScript basics for building modern, responsive websites.</p>
+</div>
+<div class="px-5 py-3 border-t border-surface-variant bg-surface/50 flex items-center justify-between gap-2">
+<div class="flex gap-2">
+<button class="p-1.5 text-lms-primary border border-lms-primary/30 rounded hover:bg-lms-primary/10 transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[1.1rem]">edit</span>
+</button>
+<button class="p-1.5 text-status-active border border-status-active/30 rounded hover:bg-status-active/10 transition-colors" title="Toggle Status">
+<span class="material-symbols-outlined text-[1.1rem]">toggle_on</span>
+</button><button class="p-1.5 text-lms-primary border border-lms-primary/30 rounded hover:bg-lms-primary/10 transition-colors" title="Assign Instructor"><span class="material-symbols-outlined text-[1.1rem]">person_add</span></button>
+<button class="p-1.5 text-status-danger border border-status-danger/30 rounded hover:bg-status-danger/10 transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[1.1rem]">delete</span>
+</button>
+</div>
+<button class="px-3 py-1.5 text-lms-dark border border-lms-dark rounded-DEFAULT font-badge-label text-badge-label hover:bg-lms-dark hover:text-on-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[1rem]">assignment</span>
+                        Assessments
+                    </button>
+</div>
+</article><article class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-surface-variant overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-300">
+<div class="h-40 relative overflow-hidden bg-deepest-navy">
+<img class="w-full h-full object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-500" data-alt="Server racks and database visualization in a data center." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN1d2e3f4g5h6i7j8k9l0m1n2o3p4q5r6s7t8u9v0w1x2y3z4a5b6c7d8e9f0g1h2i3j4k5l6m7n8o9p0q1r2"/>
+<div class="absolute inset-0 bg-gradient-to-t from-deepest-navy/80 to-transparent"></div>
+<div class="absolute top-3 right-3 bg-status-active text-on-primary px-2.5 py-1 rounded-DEFAULT font-badge-label text-[0.75rem] uppercase tracking-wider shadow-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span> Published
+                    </div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start gap-4 mb-2">
+<h4 class="font-table-header text-table-header text-lms-dark font-bold leading-tight">Database Systems</h4>
+</div>
+<div class="flex items-center gap-3 mb-3">
+<span class="bg-lms-primary/10 text-lms-primary font-badge-label text-badge-label px-2.5 py-1 rounded-DEFAULT">Fall 2024</span>
+<span class="flex items-center gap-1 text-text-muted font-helper-text text-helper-text">
+<span class="material-symbols-outlined text-[1rem]">schedule</span> 4 Credits
+                        </span>
+</div>
+<div class="flex items-center gap-2 mb-2 text-text-body font-helper-text text-helper-text"><span class="material-symbols-outlined text-[1rem]">person</span><span>Instructor: Dr. Edgar Codd</span></div><p class="font-body-main text-body-main text-text-muted line-clamp-2 mt-auto">In-depth study of relational database design, SQL, transaction management, and NoSQL alternatives.</p>
+</div>
+<div class="px-5 py-3 border-t border-surface-variant bg-surface/50 flex items-center justify-between gap-2">
+<div class="flex gap-2">
+<button class="p-1.5 text-lms-primary border border-lms-primary/30 rounded hover:bg-lms-primary/10 transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[1.1rem]">edit</span>
+</button>
+<button class="p-1.5 text-status-active border border-status-active/30 rounded hover:bg-status-active/10 transition-colors" title="Toggle Status">
+<span class="material-symbols-outlined text-[1.1rem]">toggle_on</span>
+</button><button class="p-1.5 text-lms-primary border border-lms-primary/30 rounded hover:bg-lms-primary/10 transition-colors" title="Assign Instructor"><span class="material-symbols-outlined text-[1.1rem]">person_add</span></button>
+<button class="p-1.5 text-status-danger border border-status-danger/30 rounded hover:bg-status-danger/10 transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[1.1rem]">delete</span>
+</button>
+</div>
+<button class="px-3 py-1.5 text-lms-dark border border-lms-dark rounded-DEFAULT font-badge-label text-badge-label hover:bg-lms-dark hover:text-on-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[1rem]">assignment</span>
+                        Assessments
+                    </button>
+</div>
+</article><article class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-surface-variant overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-300">
+<div class="h-40 relative overflow-hidden bg-deepest-navy">
+<img class="w-full h-full object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-500" data-alt="Internal components of a CPU and memory architecture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM1n2o3p4q5r6s7t8u9v0w1x2y3z4a5b6c7d8e9f0g1h2i3j4k5l6m7n8o9p0q1r2s3t4u5v6w7x8y9z0a1"/>
+<div class="absolute inset-0 bg-gradient-to-t from-deepest-navy/80 to-transparent"></div>
+<div class="absolute top-3 right-3 bg-surface-variant text-on-surface-variant px-2.5 py-1 rounded-DEFAULT font-badge-label text-[0.75rem] uppercase tracking-wider border border-outline-variant shadow-sm">
+                        Draft
+                    </div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start gap-4 mb-2">
+<h4 class="font-table-header text-table-header text-lms-dark font-bold leading-tight">Operating Systems</h4>
+</div>
+<div class="flex items-center gap-3 mb-3">
+<span class="bg-surface-variant text-on-surface-variant font-badge-label text-badge-label px-2.5 py-1 rounded-DEFAULT">Spring 2025</span>
+<span class="flex items-center gap-1 text-text-muted font-helper-text text-helper-text">
+<span class="material-symbols-outlined text-[1rem]">schedule</span> 4 Credits
+                        </span>
+</div>
+<div class="flex items-center gap-2 mb-2 text-text-body font-helper-text text-helper-text"><span class="material-symbols-outlined text-[1rem]">person</span><span>Instructor: Linus Torvalds</span></div><p class="font-body-main text-body-main text-text-muted line-clamp-2 mt-auto">Fundamental concepts of OS design: process management, memory management, file systems, and concurrency.</p>
+</div>
+<div class="px-5 py-3 border-t border-surface-variant bg-surface/50 flex items-center justify-between gap-2">
+<div class="flex gap-2">
+<button class="p-1.5 text-lms-primary border border-lms-primary/30 rounded hover:bg-lms-primary/10 transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[1.1rem]">edit</span>
+</button>
+<button class="p-1.5 text-outline border border-outline/30 rounded hover:bg-surface-variant transition-colors" title="Toggle Status">
+<span class="material-symbols-outlined text-[1.1rem]">toggle_off</span>
+</button><button class="p-1.5 text-lms-primary border border-lms-primary/30 rounded hover:bg-lms-primary/10 transition-colors" title="Assign Instructor"><span class="material-symbols-outlined text-[1.1rem]">person_add</span></button>
+<button class="p-1.5 text-status-danger border border-status-danger/30 rounded hover:bg-status-danger/10 transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[1.1rem]">delete</span>
+</button>
+</div>
+<button class="px-3 py-1.5 text-lms-dark border border-lms-dark rounded-DEFAULT font-badge-label text-badge-label hover:bg-lms-dark hover:text-on-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[1rem]">assignment</span>
+                        Assessments
+                    </button>
+</div>
+</article></section>
 </main>
 </body></html>

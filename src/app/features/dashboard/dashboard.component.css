@@ -63,6 +63,12 @@
     border-right: 1px solid rgba(65, 179, 227, 0.2);
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    
+    /* Make the sidebar sticky so it doesn't scroll with content */
+    position: sticky;
+    top: 66px; /* Exact height of the top navbar (49px image + 16px padding + 1px border) */
+    height: calc(100vh - 66px);
+    overflow-y: auto;
 }
 
 /* تنسيق العنوان (Lumina Panel) */

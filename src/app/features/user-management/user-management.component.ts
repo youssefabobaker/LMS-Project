@@ -227,8 +227,23 @@ export class UserManagementComponent implements OnInit {
   }
 
   toggleStatus(userId: string): void {
+    const user = this.users.find((u) => u.id === userId);
+    if (!user) return;
+
+    // Optimistic update
+    user.isDisabled = !user.isDisabled;
+
     this.userService.toggleUserStatus(userId).subscribe({
-      next: () => this.loadUsers(),
+      error: () => {
+        // Revert on failure
+        user.isDisabled = !user.isDisabled;
+        Swal.fire({
+          icon: 'error',
+          title: 'Toggle Failed',
+          text: 'Could not update the user status. Please try again.',
+          confirmButtonColor: '#41B3E3',
+        });
+      },
     });
   }
 

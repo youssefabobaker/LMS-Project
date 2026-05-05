@@ -27,7 +27,7 @@
     </aside>
 
     <div class="dashboard-wrapper d-flex">
-      <aside class="sidebar text-white p-3" style="width: 270px; min-height: 91.6vh;">
+      <aside class="sidebar text-white p-3" style="width: 270px;">
         <h4 class="mb-4 text-info fw-bold d-flex align-items-center">Lumina Panel
         </h4>
 
@@ -51,6 +51,13 @@
             </a>
           </li>
 
+
+
+          <li class="nav-item mb-2" *ngIf="hasPermission('Course:read') || hasPermission('Course:readAll')">
+            <a class="nav-link d-flex align-items-center" routerLink="courses" routerLinkActive="active-link">
+              <i class="bi bi-book-fill me-3"></i> Courses
+            </a>
+          </li>
 
         </ul>
       </aside>

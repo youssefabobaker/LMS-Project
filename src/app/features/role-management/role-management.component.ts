@@ -76,8 +76,23 @@ export class RoleManagementComponent implements OnInit {
   }
 
   toggleStatus(roleId: string): void {
+    const role = this.roles.find((r) => r.id === roleId);
+    if (!role) return;
+
+    // Optimistic update
+    role.isDeleted = !role.isDeleted;
+
     this.roleService.toggleRoleStatus(roleId).subscribe({
-      next: () => this.loadRoles(),
+      error: () => {
+        // Revert on failure
+        role.isDeleted = !role.isDeleted;
+        Swal.fire({
+          icon: 'error',
+          title: 'Toggle Failed',
+          text: 'Could not update the role status. Please try again.',
+          confirmButtonColor: '#41B3E3',
+        });
+      },
     });
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Department } from '../../models/department';
 
 @Injectable({
@@ -11,12 +12,21 @@ export class DepartmentService {
 
   constructor(private http: HttpClient) {}
 
+  private normalizeDept(d: any): Department {
+    return {
+      id: d.id ?? d.Id,
+      title: d.title ?? d.Title
+    };
+  }
+
   /**
    * 1. Get all departments
    * GET /api/Department
    */
   getDepartments(): Observable<Department[]> {
-    return this.http.get<Department[]>(this.baseUrl);
+    return this.http.get<any[]>(this.baseUrl).pipe(
+      map(deps => deps.map(d => this.normalizeDept(d)))
+    );
   }
 
   /**

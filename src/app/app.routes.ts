@@ -11,6 +11,7 @@ import { RoleManagementComponent } from './features/role-management/role-managem
 import { UserManagementComponent } from './features/user-management/user-management.component';
 import { permissionGuard } from './core/guards/permission.guard';
 import { DepartmentManagementComponent } from './features/department-management/department-management.component';
+import { CourseViewComponent } from './features/course-management/course-view/course-view.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -45,6 +46,19 @@ export const routes: Routes = [
       },
       // مسار افتراضي عشان لما يفتح Dashboard متبقاش فاضية
       // { path: '', redirectTo: 'users', pathMatch: 'full' },
+
+      // ── Course Management — Cycle 1 ──────────────────────────────────
+      {
+        path: 'courses',
+        component: CourseViewComponent,
+        canActivate: [permissionGuard],
+        data: { permission: ['Course:read', 'Course:readAll'] },
+      },
+      // Redirect stubs — future cycles will replace these with real components
+      { path: 'courses/new/edit',         redirectTo: 'courses', pathMatch: 'full' },
+      { path: 'courses/:id/edit',         redirectTo: 'courses', pathMatch: 'full' },
+      { path: 'courses/:id/assessments',  redirectTo: 'courses', pathMatch: 'full' },
+      { path: 'courses/:id/enrollment',   redirectTo: 'courses', pathMatch: 'full' },
     ],
   },
   { path: '', component: LandingPageComponent },
