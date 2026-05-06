@@ -9,17 +9,19 @@ import { PermissionService } from '../../../core/services/permission.service';
 import { Course } from '../../../models/course';
 import { CourseAddEditComponent } from '../course-add-edit/course-add-edit.component';
 import { CourseAssessmentComponent } from '../course-assessment/course-assessment.component';
+import { CourseEnrollmentComponent } from '../course-enrollment/course-enrollment.component';
 
 @Component({
   selector: 'app-course-view',
   standalone: true,
-  imports: [CommonModule, FormsModule, CourseAddEditComponent, CourseAssessmentComponent],
+  imports: [CommonModule, FormsModule, CourseAddEditComponent, CourseAssessmentComponent, CourseEnrollmentComponent],
   templateUrl: './course-view.component.html',
   styleUrls: ['./course-view.component.css'],
 })
 export class CourseViewComponent implements OnInit {
   @ViewChild(CourseAddEditComponent) addEditComponent!: CourseAddEditComponent;
   @ViewChild(CourseAssessmentComponent) assessmentComponent!: CourseAssessmentComponent;
+  @ViewChild(CourseEnrollmentComponent) enrollmentComponent!: CourseEnrollmentComponent;
 
   // ── State ──────────────────────────────────────────────────────────────────
   courses: Course[] = [];
@@ -247,8 +249,18 @@ export class CourseViewComponent implements OnInit {
     }
   }
 
-  navigateToEnrollment(course: Course): void {
-    this.router.navigate(['/dashboard/courses', course.Id, 'enrollment']);
+  openEnrollmentModal(course: Course): void {
+    this.selectedCourse = course;
+    const el = document.getElementById('enrollmentModal');
+    if (!el) return;
+    let modal = (window as any).bootstrap.Modal.getInstance(el);
+    if (!modal) {
+      modal = new (window as any).bootstrap.Modal(el, { backdrop: 'static', keyboard: false });
+    }
+    modal.show();
+    if (this.enrollmentComponent) {
+      this.enrollmentComponent.open(course.Id, course.Title);
+    }
   }
 
   // ── Image Error Fallback (T013) ───────────────────────────────────────────

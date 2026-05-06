@@ -112,8 +112,10 @@
           </button>
 
           <!-- Enrollment -->
-          <button *ngIf="canEnrollCourse"
-            class="icon-btn icon-btn-primary" title="Manage Enrollment" (click)="navigateToEnrollment(course)">
+          <button *ngIf="canReadCourse"
+            class="icon-btn icon-btn-primary" title="Manage Enrollment"
+            (click)="openEnrollmentModal(course)"
+            id="btn-open-enrollment-{{course.Id}}">
             <i class="bi bi-person-plus"></i>
           </button>
 
@@ -176,6 +178,15 @@
           </app-course-assessment>
         </div>
 
+      </div>
+    </div>
+  </div>
+  <!-- ── Enrollment Modal Host ── -->
+  <div class="modal fade" id="enrollmentModal" tabindex="-1"
+       aria-labelledby="enrollmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content rounded-3 overflow-hidden shadow-lg">
+        <app-course-enrollment></app-course-enrollment>
       </div>
     </div>
   </div>

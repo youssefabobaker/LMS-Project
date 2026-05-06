@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Course } from '../../models/course';
 import { Assessment, AssessmentType } from '../../models/assessment';
+import { EnrolledUser } from '../../models/enrolled-user';
 
 @Injectable({
   providedIn: 'root',
@@ -151,6 +152,67 @@ export class CourseService {
     return this.http.put(
       `${this.baseUrl}/${courseId}/UpdateAssesment`,
       assessments,
+      { responseType: 'text' }
+    );
+  }
+
+  // ── Enrollment Endpoints ──────────────────────────────────────────────────
+
+  private normalizeEnrolledUser(u: any): EnrolledUser {
+    if (typeof u === 'string') {
+      return { id: u, firstName: '', lastName: '', email: '' };
+    }
+
+    // The API returns an enrollment record (userId, userName, userEmail)
+    const id = u.userId ?? u.UserId ?? u.id ?? u.Id;
+    
+    let firstName = u.firstName ?? u.FirstName ?? '';
+    let lastName = u.lastName ?? u.LastName ?? '';
+    
+    const fullName = u.userName ?? u.UserName ?? u.name ?? u.Name;
+    if (fullName && !firstName && !lastName) {
+      const parts = fullName.split(' ');
+      firstName = parts[0];
+      lastName = parts.slice(1).join(' ');
+    }
+    
+    const email = u.userEmail ?? u.UserEmail ?? u.email ?? u.Email ?? '';
+
+    return { id, firstName, lastName, email };
+  }
+
+  /**
+   * Get all instructors enrolled in a course.
+   * Permission: Course:read / Course:readAll
+   * GET /api/Course/{courseId}/users
+   */
+  getEnrolledUsers(courseId: number): Observable<EnrolledUser[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${courseId}/users`).pipe(
+      map(list => list.map(u => this.normalizeEnrolledUser(u)))
+    );
+  }
+
+  /**
+   * Enroll an instructor in a course.
+   * Permission: Course:enrollInstructor
+   * POST /api/Course/{courseId}/users
+   */
+  enrollUser(courseId: number, userId: string): Observable<any> {
+    return this.http.post(
+      `${this.baseUrl}/${courseId}/users`,
+      { userId },
+      { responseType: 'text' }
+    );
+  }
+
+  /**
+   * Unenroll an instructor from a course.
+   * Permission: Course:unenrollInstructor
+   * DELETE /api/Course/{courseId}/users/{userId}
+   */
+  unenrollUser(courseId: number, userId: string): Observable<any> {
+    return this.http.delete(
+      `${this.baseUrl}/${courseId}/users/${userId}`,
       { responseType: 'text' }
     );
   }
