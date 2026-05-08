@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { CourseService } from '../../../core/services/course.service';
@@ -14,7 +14,7 @@ import { CourseEnrollmentComponent } from '../course-enrollment/course-enrollmen
 @Component({
   selector: 'app-course-view',
   standalone: true,
-  imports: [CommonModule, FormsModule, CourseAddEditComponent, CourseAssessmentComponent, CourseEnrollmentComponent],
+  imports: [CommonModule, FormsModule, RouterModule, CourseAddEditComponent, CourseAssessmentComponent, CourseEnrollmentComponent],
   templateUrl: './course-view.component.html',
   styleUrls: ['./course-view.component.css'],
 })
@@ -272,6 +272,15 @@ export class CourseViewComponent implements OnInit {
     if (wrapper) {
       const placeholder = wrapper.querySelector('.img-placeholder') as HTMLElement;
       if (placeholder) placeholder.style.display = 'flex';
+    }
+  }
+  // ── Navigation ────────────────────────────────────────────────────────────
+
+  navigateToContent(course: Course): void {
+    if (this.canReadCourse) {
+      this.router.navigate(['/dashboard/courses', course.Id, 'content'], {
+        state: { courseDetails: course }
+      });
     }
   }
 }

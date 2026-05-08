@@ -12,6 +12,7 @@ import { UserManagementComponent } from './features/user-management/user-managem
 import { permissionGuard } from './core/guards/permission.guard';
 import { DepartmentManagementComponent } from './features/department-management/department-management.component';
 import { CourseViewComponent } from './features/course-management/course-view/course-view.component';
+import { ContentViewComponent } from './features/content/content-view/content-view.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -59,6 +60,14 @@ export const routes: Routes = [
       { path: 'courses/:id/edit',         redirectTo: 'courses', pathMatch: 'full' },
       { path: 'courses/:id/assessments',  redirectTo: 'courses', pathMatch: 'full' },
       { path: 'courses/:id/enrollment',   redirectTo: 'courses', pathMatch: 'full' },
+
+      // ── Content View — Cycle 4 ───────────────────────────────────────
+      {
+        path: 'courses/:courseId/content',
+        component: ContentViewComponent,
+        canActivate: [permissionGuard],
+        data: { permission: 'Content:read' },
+      },
     ],
   },
   { path: '', component: LandingPageComponent },

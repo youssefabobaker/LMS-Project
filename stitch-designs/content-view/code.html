@@ -1,0 +1,310 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Advanced Web Development | Lumina LMS</title>
+<!-- Tailwind for utilities -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Bootstrap 5 for layout -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Work+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#254776",
+                      "on-tertiary-fixed-variant": "#6a3b00",
+                      "surface-container-lowest": "#ffffff",
+                      "bg-light": "#F4F9FC",
+                      "surface": "#f6fafe",
+                      "on-primary-fixed-variant": "#004d67",
+                      "surface-container-low": "#f0f4f8",
+                      "error-red": "#FF4D4D",
+                      "lms-dark": "#002D5B",
+                      "secondary-fixed-dim": "#a7c8ff",
+                      "on-tertiary-fixed": "#2d1600",
+                      "on-primary-fixed": "#001e2b",
+                      "status-active": "#2A9D8F",
+                      "on-tertiary-container": "#5c3300",
+                      "surface-bright": "#f6fafe",
+                      "on-error": "#ffffff",
+                      "tertiary": "#8c5000",
+                      "primary-fixed": "#c1e8ff",
+                      "surface-variant": "#dfe3e7",
+                      "tertiary-fixed": "#ffdcbf",
+                      "primary": "#006687",
+                      "inverse-surface": "#2c3134",
+                      "tertiary-fixed-dim": "#ffb873",
+                      "on-background": "#171c1f",
+                      "surface-dim": "#d6dade",
+                      "secondary-container": "#a7c8ff",
+                      "on-secondary-fixed": "#001b3c",
+                      "on-primary": "#ffffff",
+                      "background": "#f6fafe",
+                      "primary-container": "#41b3e3",
+                      "surface-container-highest": "#dfe3e7",
+                      "tertiary-container": "#e8953c",
+                      "surface-tint": "#006687",
+                      "secondary": "#3e5f90",
+                      "on-tertiary": "#ffffff",
+                      "lms-hover": "#3599C4",
+                      "status-danger": "#E63946",
+                      "deepest-navy": "#001A33",
+                      "on-primary-container": "#004259",
+                      "secondary-fixed": "#d5e3ff",
+                      "surface-container": "#eaeef2",
+                      "error-container": "#ffdad6",
+                      "surface-container-high": "#e4e9ed",
+                      "text-muted": "#6C757D",
+                      "text-body": "#333333",
+                      "outline-variant": "#bdc8cf",
+                      "error": "#ba1a1a",
+                      "outline": "#6e797f",
+                      "inverse-primary": "#73d1ff",
+                      "on-secondary": "#ffffff",
+                      "on-surface-variant": "#3e484e",
+                      "lms-primary": "#41B3E3",
+                      "on-error-container": "#93000a",
+                      "inverse-on-surface": "#edf1f5",
+                      "on-surface": "#171c1f",
+                      "primary-fixed-dim": "#73d1ff",
+                      "glass-white": "rgba(255, 255, 255, 0.05)",
+                      "deepest-dark": "#001529",
+                      "on-secondary-container": "#325383"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sidebar-width": "270px",
+                      "content-padding": "1.5rem",
+                      "container-margin": "2rem",
+                      "card-gap": "1rem",
+                      "gutter": "1.5rem"
+              },
+              "fontFamily": {
+                      "page-title": ["Work Sans"],
+                      "table-header": ["Inter"],
+                      "body-main": ["Inter"],
+                      "helper-text": ["Inter"],
+                      "card-header": ["Work Sans"],
+                      "badge-label": ["Inter"]
+              },
+              "fontSize": {
+                      "page-title": ["2rem", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "table-header": ["1rem", {"lineHeight": "1.5", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                      "body-main": ["0.9rem", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "helper-text": ["0.85rem", {"lineHeight": "1.4", "fontWeight": "400"}],
+                      "card-header": ["1.25rem", {"lineHeight": "1.5", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                      "badge-label": ["0.82rem", {"lineHeight": "1", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #F4F9FC !important; /* Lumina's light background */
+            color: #333333; /* Text body color */
+        }
+        .glass-effect {
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #41B3E3;
+            border-radius: 10px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .gradient-btn {
+            background: linear-gradient(135deg, #41B3E3 0%, #006687 100%);
+            border: none;
+            color: white !important;
+        }
+        /* Updated Card Styles for Light Theme */
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #e4e9ed;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .text-lms-primary { color: #41B3E3; }
+        .bg-lms-light-surface { background-color: #ffffff; }
+        .bg-lms-accent-light { background-color: #f0f4f8; }
+    </style>
+</head>
+<body class="font-body-main selection:bg-lms-primary/30">
+<!-- Main Content Area - Centered standalone view -->
+<main class="py-12 px-4 flex justify-center items-start min-h-screen">
+<div class="container max-w-6xl">
+<!-- Course Header Section -->
+<section class="position-relative mb-5 rounded-4 overflow-hidden bg-white shadow-sm border border-slate-200 h-[400px] d-flex flex-column justify-content-end">
+<div class="position-absolute inset-0 z-0">
+<img class="w-100 h-100 object-cover opacity-90" src="https://lh3.googleusercontent.com/aida/ADBb0uh2w9BNwBR2ybL1BROlbCU7b4z6UArOZmyo3SL19sx4OqeEe_ZfEj2xarzlg10LQUUebTlWLwhfwIwVOc7cqEOruyuOZ-cI0d5hmjzBxTBdAmEodIbxu6YIAOLsafYwVD3OX4vKDtVYNIaG7llOO-aHPtRSqjUcrMVccqj8ItoWUv4nUnllzsMzVdFuNH044n0lRTT9Vk6Us0Xv74ehvTndgFkBjhHb2OFlcln0inG4oSg9yhcKYtg4rmKx">
+<div class="position-absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent"></div>
+</div>
+<div class="position-relative z-10 p-5 md:p-12">
+<nav class="d-flex align-items-center gap-2 text-lms-primary mb-3 text-sm font-semibold">
+<a class="text-decoration-none hover:underline" href="#"><br></a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-deepest-navy opacity-80"><br></span>
+</nav>
+<h1 class="font-page-title text-deepest-navy text-4xl md:text-5xl font-extrabold mb-3 tracking-tight">Course Title</h1>
+<p class="max-w-2xl text-lg text-body-main/90 leading-relaxed font-body-main text-slate-700">Course description&nbsp;&nbsp;</p><div class="">course learning outcomes</div><p class=""></p>
+<div class="d-flex flex-wrap gap-4 mt-4">
+<div class="d-flex align-items-center gap-2"><span class="material-symbols-outlined text-lms-primary">calendar_month</span><span class="text-deepest-navy text-sm font-medium">Fall&nbsp;</span></div>
+<div class="d-flex align-items-center gap-2"><span class="material-symbols-outlined text-lms-primary">book</span><span class="text-deepest-navy text-sm font-medium">3 Credit Hours</span></div>
+</div>
+</div>
+</section>
+<!-- Tabs Navigation -->
+<div class="d-flex align-items-center justify-content-between mb-5 border-bottom border-slate-200">
+<div class="d-flex gap-5">
+<button class="pb-3 text-lms-primary font-bold border-bottom border-2 border-lms-primary transition-all d-flex align-items-center gap-2 bg-transparent border-0">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">list_alt</span>
+                    Content
+                </button>
+<button class="pb-3 text-slate-500 font-medium hover:text-deepest-navy transition-all d-flex align-items-center gap-2 bg-transparent border-0">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+                    Assignments
+                </button>
+</div>
+</div>
+<div class="row g-4">
+<!-- Course Content List -->
+<div class="">
+<!-- Published Modules Header with Action -->
+<div class="d-flex align-items-center justify-content-between mb-4 ps-1">
+<h3 class="text-deepest-navy font-card-header mb-0">Published Contents</h3>
+<button class="gradient-btn d-flex align-items-center gap-2 px-4 py-2 rounded-lg font-bold hover:opacity-90 transition-all shadow-sm">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+        Add New Content</button>
+</div>
+<!-- Existing Modules List -->
+<div class="space-y-4">
+<!-- Module Card 1 -->
+<div class="bg-white rounded-xl border border-slate-200 overflow-hidden transition-all hover:border-lms-primary/40 group shadow-sm">
+<div class="p-5 d-flex align-items-center justify-content-between cursor-pointer">
+<div class="d-flex align-items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-slate-100 d-flex align-items-center justify-content-center text-lms-primary group-hover:bg-lms-primary group-hover:text-white transition-colors">
+<span class="font-bold">01</span>
+</div>
+<div>
+<h3 class="font-card-header text-deepest-navy text-lg mb-0">Content Title</h3><p class="text-sm text-slate-500 mt-1 mb-0">Content Body.</p>
+<p class="text-xs text-slate-400 mb-0">3 Videos • 1 Documents</p>
+</div>
+</div>
+<div class="d-flex align-items-center gap-3">
+<div class="d-flex gap-2">
+<button class="btn btn-link p-2 text-slate-300 hover:text-lms-primary transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="btn btn-link p-2 text-slate-300 hover:text-status-danger transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+<span class="material-symbols-outlined text-slate-300 text-lms-primary">expand_less</span>
+</div>
+</div>
+<div class="border-t border-slate-100 bg-slate-50/50">
+<div class="p-0">
+<div class="flex flex-col">
+<div class="flex justify-between p-4 px-12 hover:bg-white transition-colors cursor-pointer group/item items-start">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lms-primary text-[20px]">play_circle</span>
+<span class="text-sm font-medium text-deepest-navy">What is React?</span>
+</div>
+<span class="text-xs text-slate-400"><div class="flex items-center gap-3"><span class="text-xs text-slate-400">12:30</span><button class="text-slate-300 hover:text-status-danger transition-colors flex items-center justify-center p-1"><span class="material-symbols-outlined text-[18px]">delete</span></button></div></span>
+</div>
+<div class="flex justify-between p-4 px-12 hover:bg-white transition-colors cursor-pointer group/item items-start">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lms-primary text-[20px]">play_circle</span>
+<span class="text-sm font-medium text-deepest-navy">Setting up the Environment</span>
+</div>
+<span class="text-xs text-slate-400"><div class="flex items-center gap-3"><span class="text-xs text-slate-400">08:45</span><button class="text-slate-300 hover:text-status-danger transition-colors flex items-center justify-center p-1"><span class="material-symbols-outlined text-[18px]">delete</span></button></div></span>
+</div>
+<div class="flex justify-between p-4 px-12 hover:bg-white transition-colors cursor-pointer group/item items-start">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lms-primary text-[20px]">description</span>
+<span class="text-sm font-medium text-deepest-navy">JSX and Components</span>
+</div>
+<span class="text-xs text-slate-400"><div class="flex items-center gap-3"><span class="text-xs text-slate-400">Reading</span><button class="text-slate-300 hover:text-status-danger transition-colors flex items-center justify-center p-1"><span class="material-symbols-outlined text-[18px]">delete</span></button></div></span>
+</div>
+<div class="flex justify-between p-4 px-12 hover:bg-white transition-colors cursor-pointer group/item items-start">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lms-primary text-[20px]">play_circle</span>
+<span class="text-sm font-medium text-deepest-navy">Props vs State</span>
+</div>
+<span class="text-xs text-slate-400"><div class="flex items-center gap-3"><span class="text-xs text-slate-400">22:15</span><button class="text-slate-300 hover:text-status-danger transition-colors flex items-center justify-center p-1"><span class="material-symbols-outlined text-[18px]">delete</span></button></div></span>
+</div>
+</div>
+</div>
+</div></div>
+<!-- Module Card 2 -->
+<div class="bg-white rounded-xl border border-slate-200 overflow-hidden transition-all hover:border-lms-primary/40 group shadow-sm">
+<div class="p-5 d-flex align-items-center justify-content-between cursor-pointer">
+<div class="d-flex align-items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-slate-100 d-flex align-items-center justify-content-center text-lms-primary group-hover:bg-lms-primary group-hover:text-white transition-colors">
+<span class="font-bold">02</span>
+</div>
+<div>
+<h3 class="font-card-header text-deepest-navy text-lg mb-0">Advanced Hooks &amp; Context API</h3><p class="text-sm text-slate-500 mt-1 mb-0">Deep dive into state management and side-effects using modern React patterns.</p>
+<p class="text-xs text-slate-400 mb-0">2 Videos • 1 Document</p>
+</div>
+</div>
+<div class="d-flex align-items-center gap-3">
+<div class="d-flex gap-2">
+<button class="btn btn-link p-2 text-slate-300 hover:text-lms-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="btn btn-link p-2 text-slate-300 hover:text-status-danger transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<span class="material-symbols-outlined text-slate-300">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Module Card 3 -->
+<div class="bg-white rounded-xl border border-slate-200 overflow-hidden transition-all hover:border-lms-primary/40 group shadow-sm">
+<div class="p-5 d-flex align-items-center justify-content-between cursor-pointer">
+<div class="d-flex align-items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-slate-100 d-flex align-items-center justify-content-center text-lms-primary group-hover:bg-lms-primary group-hover:text-white transition-colors">
+<span class="font-bold">03</span>
+</div>
+<div>
+<h3 class="font-card-header text-deepest-navy text-lg mb-0">API Integration with Axios &amp; TanStack Query</h3><p class="text-sm text-slate-500 mt-1 mb-0">Master asynchronous data fetching and server state management in web applications.</p>
+<p class="text-xs text-slate-400 mb-0">5 Videos • 3 Documents</p>
+</div>
+</div>
+<div class="d-flex align-items-center gap-3">
+<div class="d-flex gap-2">
+<button class="btn btn-link p-2 text-slate-300 hover:text-lms-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="btn btn-link p-2 text-slate-300 hover:text-status-danger transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<span class="material-symbols-outlined text-slate-300">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Area -->
+</div>
+</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body></html>

@@ -344,6 +344,27 @@ button.status-badge:hover {
   color: #fff;
 }
 
+.btn-content {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border: 1.5px solid #41B3E3;
+  background: transparent;
+  color: #41B3E3;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn-content:hover {
+  background: #41B3E3;
+  color: #fff;
+}
+
 /* ── Assessment Modal Header ──────────────────────────────────────────── */
 .assessment-modal-header {
   background: linear-gradient(90deg, #001A33 0%, #002D5B 100%);

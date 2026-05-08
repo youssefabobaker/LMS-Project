@@ -46,7 +46,8 @@ export class AppComponent implements OnInit, OnDestroy {
           path === 'dashboard/roles' ||
           path === 'dashboard/users' ||
           path === 'dashboard/departments' ||
-          path === 'dashboard/courses'
+          path === 'dashboard/courses' ||
+          (path.startsWith('dashboard/courses/') && path.endsWith('/content'))
         );
         this.showNavbar = !(
           path === 'login' ||
@@ -58,7 +59,8 @@ export class AppComponent implements OnInit, OnDestroy {
           path === 'dashboard/roles' ||
           path === 'dashboard/users' ||
           path === 'dashboard/departments' ||
-          path === 'dashboard/courses'
+          path === 'dashboard/courses' ||
+          (path.startsWith('dashboard/courses/') && path.endsWith('/content'))
         );
       });
   }

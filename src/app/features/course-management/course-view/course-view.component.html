@@ -54,7 +54,10 @@
   <!-- ── Course Card Grid ── -->
   <div *ngIf="!isLoading && !loadFailed && filteredCourses.length > 0" class="course-grid">
 
-    <article *ngFor="let course of filteredCourses" class="course-card">
+    <article *ngFor="let course of filteredCourses" 
+             class="course-card" 
+             (click)="navigateToContent(course)"
+             style="cursor: pointer;">
 
       <!-- ── Image / Placeholder ── -->
       <div class="course-img-wrapper">
@@ -71,7 +74,7 @@
           <!-- Clickable for Course:update -->
           <button *ngIf="canUpdateCourse" class="status-badge"
             [class.badge-published]="course.IsPublished" [class.badge-draft]="!course.IsPublished"
-            (click)="toggleStatus(course)" [title]="course.IsPublished ? 'Click to set as Draft' : 'Click to Publish'">
+            (click)="toggleStatus(course); $event.stopPropagation()" [title]="course.IsPublished ? 'Click to set as Draft' : 'Click to Publish'">
             <span *ngIf="course.IsPublished" class="pulse-dot"></span>
             {{ course.IsPublished ? 'Published' : 'Draft' }}
           </button>
@@ -91,7 +94,7 @@
         <!-- Meta chips: Semester + Credits -->
         <div class="meta-row">
           <span class="meta-chip" [class.chip-published]="course.IsPublished" [class.chip-draft]="!course.IsPublished">
-            {{ course.semster }}
+           <i class="bi bi-calendar-event me-1"></i> {{ course.semster }}
           </span>
           <span class="meta-chip chip-neutral">
             <i class="bi bi-clock me-1"></i>{{ course.Credit_Hour }} Credits
@@ -107,28 +110,28 @@
         <div class="action-icons">
           <!-- Edit -->
           <button *ngIf="canUpdateCourse" class="icon-btn icon-btn-primary" title="Edit Course"
-            (click)="editCourse(course)">
+            (click)="editCourse(course); $event.stopPropagation()">
             <i class="bi bi-pencil-square"></i>
           </button>
 
           <!-- Enrollment -->
           <button *ngIf="canReadCourse"
             class="icon-btn icon-btn-primary" title="Manage Enrollment"
-            (click)="openEnrollmentModal(course)"
+            (click)="openEnrollmentModal(course); $event.stopPropagation()"
             id="btn-open-enrollment-{{course.Id}}">
             <i class="bi bi-person-plus"></i>
           </button>
 
           <!-- Delete -->
           <button *ngIf="canDeleteCourse" class="icon-btn icon-btn-danger" title="Delete Course"
-            (click)="removeCourse(course.Id)">
+            (click)="removeCourse(course.Id); $event.stopPropagation()">
             <i class="bi bi-trash3"></i>
           </button>
         </div>
 
         <!-- Assessments Button -->
         <button *ngIf="canReadCourse" class="btn-assessments" title="View Assessments"
-          (click)="openAssessmentModal(course)" id="btn-open-assessment-{{course.Id}}">
+          (click)="openAssessmentModal(course); $event.stopPropagation()" id="btn-open-assessment-{{course.Id}}">
           <i class="bi bi-bar-chart-fill me-1"></i>Assessments
         </button>
       </div>
