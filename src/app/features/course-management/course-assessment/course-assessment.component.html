@@ -103,7 +103,8 @@
   </div>
 
   <!-- Assessments Table / Bulk Form -->
-  <div class="table-container" *ngIf="assessments.length > 0 || isEditingMode">
+  <div class="table-responsive table-container" *ngIf="assessments.length > 0 || isEditingMode">
+
     <form [formGroup]="bulkForm">
       <table class="table table-hover align-middle mb-0">
         <thead>

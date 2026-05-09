@@ -4,17 +4,19 @@ import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { UserProfileService } from '../../core/services/user-profile.service';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { PermissionService } from '../../core/services/permission.service';
+import { NotificationComponent } from '../notification/notification.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, UserProfileComponent,RouterModule],
+  imports: [CommonModule, UserProfileComponent, RouterModule, NotificationComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent {
   userProfile: any;
-  isProfileOpen = false; // التحكم في ظهور البروفايل
+  isProfileOpen = false;   // controls profile drawer
+  isSidebarOpen = false;   // controls mobile sidebar drawer
 
   constructor(
     private userProfileService: UserProfileService,

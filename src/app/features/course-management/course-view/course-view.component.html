@@ -12,7 +12,7 @@
           <input type="text" class="form-control ps-5" placeholder="Search courses by title or ID..." [(ngModel)]="searchTerm" (input)="applyFilters()">
         </div>
         <!-- Filter Dropdown -->
-        <div class="position-relative" style="min-width: 180px;">
+        <div class="position-relative">
           <select class="form-select" [(ngModel)]="selectedSemester" (change)="applyFilters()">
             <option value="">Filter by Semester (all)</option>
             <option value="Fall">Fall</option>
@@ -130,9 +130,9 @@
         </div>
 
         <!-- Assessments Button -->
-        <button *ngIf="canReadCourse" class="btn-assessments" title="View Assessments"
+        <button *ngIf="canReadCourse" class="btn-assessments" title="View Grading Schema"
           (click)="openAssessmentModal(course); $event.stopPropagation()" id="btn-open-assessment-{{course.Id}}">
-          <i class="bi bi-bar-chart-fill me-1"></i>Assessments
+          <i class="bi bi-bar-chart-fill me-1"></i>Grading 
         </button>
       </div>
 
@@ -164,7 +164,7 @@
           <div>
             <h5 class="modal-title mb-0" id="assessmentModalLabel">
               <i class="bi bi-bar-chart-fill me-2"></i>
-              Manage Assessments
+              Manage Grading Schema
               <span *ngIf="selectedCourse" class="text-white-50 fw-normal"> — {{ selectedCourse.Title }}</span>
             </h5>
             <small class="text-white-50 mt-1 d-block">Configure weights and evaluation criteria for this course.</small>

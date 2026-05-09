@@ -85,10 +85,11 @@
   color: #fff;
 }
 
-/* ── Course Grid ──────────────────────────────────────────────────────── */
+/* ── Course Grid ──────────────────────────────────────────────── */
 .course-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* Cards go full-width on mobile, 2-col on MD, 3-col on LG */
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 1.5rem;
 }
 
@@ -288,13 +289,14 @@ button.status-badge:hover {
   gap: 6px;
 }
 
-/* ── Icon Buttons ────────────────────────────────────────────────────── */
+/* ── Icon Buttons ──────────────────────────────────────────────── */
 .icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  /* Meet 44×44 px touch target on mobile, shrink on desktop */
+  width: 40px;
+  height: 40px;
   border-radius: 5px;
   border: 1.5px solid transparent;
   background: transparent;
@@ -365,7 +367,7 @@ button.status-badge:hover {
   color: #fff;
 }
 
-/* ── Assessment Modal Header ──────────────────────────────────────────── */
+/* ── Assessment Modal Header ───────────────────────────────────── */
 .assessment-modal-header {
   background: linear-gradient(90deg, #001A33 0%, #002D5B 100%);
   border-bottom: 1px solid rgba(65, 179, 227, 0.3);
@@ -378,4 +380,32 @@ button.status-badge:hover {
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 0.3px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE WEB DESIGN — Course View
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Prevent horizontal scrolling ──────────────────────────────── */
+.course-view-container {
+  padding: 1.5rem;
+  min-height: 100%;
+  overflow-x: hidden; /* guard against overflow */
+}
+
+/* ── Responsive container padding (SM) ───────────────────────── */
+@media (max-width: 575.98px) {
+  .course-view-container {
+    padding: 1rem;
+  }
+  /* Filter select: allow wrapping on xs */
+  .page-header .form-select {
+    min-width: 0;
+    width: 100%;
+  }
+  /* Card footer: wrap actions on xs */
+  .card-footer-actions {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
 }

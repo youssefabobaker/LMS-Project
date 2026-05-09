@@ -210,3 +210,25 @@
   from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE WEB DESIGN — Assessment
+   ══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 575.98px) {
+  /* Add form: stack all 4 columns to full-width on XS */
+  .form-card .row.g-3 > [class*="col-md-"] {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  /* Inline input max-width: let them fill available space */
+  .table input[style*="max-width: 80px"] {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  /* Table container: tighten scroll area in modal */
+  .table-container {
+    max-height: 280px;
+  }
+}
+

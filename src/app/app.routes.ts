@@ -46,7 +46,7 @@ export const routes: Routes = [
         data: { permission: 'Department:read' },
       },
       // مسار افتراضي عشان لما يفتح Dashboard متبقاش فاضية
-      // { path: '', redirectTo: 'users', pathMatch: 'full' },
+      { path: '', redirectTo: 'courses', pathMatch: 'full' },
 
       // ── Course Management — Cycle 1 ──────────────────────────────────
       {

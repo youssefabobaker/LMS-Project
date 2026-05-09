@@ -6,6 +6,15 @@
 /* ── Course Header ─────────────────────────────────────────────────── */
 .course-header-section {
   border-color: #e4e9ed !important;
+  /* Responsive height: tall on desktop, compact on mobile */
+  min-height: 220px; /* mobile */
+}
+
+@media (min-width: 576px) {
+  .course-header-section { min-height: 300px; }
+}
+@media (min-width: 992px) {
+  .course-header-section { min-height: 400px; }
 }
 
 .header-back-link {
@@ -84,11 +93,13 @@
   font-size: 0.88rem;
   color: #6C757D;
   line-height: 1.5;
-  max-width: 600px;
+  /* Removed hard-coded max-width: 600px — let it fill available space */
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 
 .content-attachment-count {
   font-size: 0.8rem;
@@ -284,4 +295,44 @@
 /* ── Color utility ─────────────────────────────────────────────────── */
 .text-lms-primary {
   color: #41B3E3 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE WEB DESIGN — Content View
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Tabs: scrollable on mobile ───────────────────────────────────── */
+.tabs-nav-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+.tabs-nav-wrapper::-webkit-scrollbar { display: none; }
+
+/* Prevent tab buttons from shrinking below readable size */
+.tabs-nav-wrapper button {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Card header row: stack on very small screens ─────────────────── */
+@media (max-width: 575.98px) {
+  .card-header-row {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .card-header-row > div:last-child {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  /* Reduce container padding on xs */
+  .container-fluid.py-4.px-4 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* ── Video / PDF media: never overflow parent ───────────────────── */
+video, iframe, embed, object {
+  max-width: 100%;
 }

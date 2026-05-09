@@ -8,7 +8,8 @@
   <!-- ── Course Header Section ────────────────────────────────── -->
   <section
     class="course-header-section position-relative mb-5 rounded-4 overflow-hidden bg-white shadow-sm border border-secondary-subtle"
-    style="height: 400px; display: flex; flex-direction: column; justify-content: flex-end;">
+    style="display: flex; flex-direction: column; justify-content: flex-end;">
+
     <div class="position-absolute top-0 start-0 w-100 h-100" style="z-index: 0;">
       <img class="w-100 h-100 object-fit-cover" style="opacity: 0.9;"
         [src]="courseDetails?.ImageUrl || 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&q=80&w=2000'"
@@ -32,10 +33,10 @@
         {{ courseDetails?.Title || 'Loading Course...' }}
       </h1>
 
-      <p class="fs-5 text-secondary mb-2" style="max-width: 800px; line-height: 1.6;">
+      <p class="fs-5 text-secondary mb-2" style="max-width: 100%; line-height: 1.6;">
         {{ courseDetails?.Description || '' }}
       </p>
-      <div class="text-secondary mb-0" style="max-width: 800px; line-height: 1.6;">
+      <div class="text-secondary mb-0" style="max-width: 100%; line-height: 1.6;">
         Course Outcomes: {{ courseDetails?.LearningOutcomes || '' }}
       </div>
 
@@ -52,9 +53,10 @@
     </div>
   </section>
 
-  <!-- ── Tabs Navigation ────────────────────────────────────── -->
-  <div class="d-flex align-items-center justify-content-between mb-5 border-bottom border-secondary-subtle">
-    <div class="d-flex gap-5">
+  <!-- ── Tabs Navigation ───────────────────────────────────────────────── -->
+  <div class="tabs-nav-wrapper d-flex align-items-center justify-content-between mb-5 border-bottom border-secondary-subtle">
+    <div class="d-flex gap-4 overflow-x-auto flex-nowrap">
+
       <!-- Content Tab (Active) -->
       <button class="btn btn-link text-decoration-none pb-3 px-0 border-0 border-bottom border-2 text-lms-primary fw-bold d-flex align-items-center gap-2"
               style="border-color: #41B3E3 !important; border-radius: 0;">
@@ -71,8 +73,8 @@
     </div>
   </div>
 
-  <!-- ── Section Title & Add Button ─────────────────────────── -->
-  <div class="d-flex align-items-center justify-content-between mb-4 ps-1">
+  <!-- ── Section Title & Add Button ───────────────────────────────── -->
+  <div class="d-flex align-items-center justify-content-between mb-4 ps-1 flex-wrap gap-2">
     <h3 class="section-title mb-0">Published Contents</h3>
     <!-- Add New Content CTA -->
     <button *ngIf="canAdd" id="btn-add-content" class="btn btn-lumina-main d-flex align-items-center gap-2"
@@ -198,8 +200,9 @@
 
         <!-- Attachment rows -->
         <div *ngFor="let att of item.contentAttachments"
-          class="attachment-row d-flex align-items-center justify-content-between px-5 py-2"
+          class="attachment-row d-flex align-items-center justify-content-between px-3 px-md-5 py-2"
           [id]="'attachment-' + att.id">
+
 
           <!-- Icon + filename -->
           <div class="d-flex align-items-center gap-3 attachment-link" (click)="openAttachment(att.fileUrl)"

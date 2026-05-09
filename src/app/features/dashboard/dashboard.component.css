@@ -58,18 +58,58 @@
 
 /* السايد بار الجديد بلون لومينا */
 .sidebar {
-    /* تدرج لوني بين الكحلي الغامق والدرجة الأفتح شوية */
     background: linear-gradient(180deg, #001a33 0%, #002d5b 100%) !important;
     border-right: 1px solid rgba(65, 179, 227, 0.2);
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    
-    /* Make the sidebar sticky so it doesn't scroll with content */
+
+    /* Responsive width — use CSS variable so it's easy to override */
+    --sidebar-width: 270px;
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    flex-shrink: 0;
+
+    /* Make the sidebar sticky on desktop */
     position: sticky;
-    top: 66px; /* Exact height of the top navbar (49px image + 16px padding + 1px border) */
+    top: 66px;
     height: calc(100vh - 66px);
     overflow-y: auto;
 }
+
+/* Ensure close button has a large enough touch target */
+.sidebar .btn-close {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* ── Responsive: collapse sidebar to icon-rail on tablet (MD–LG) ───── */
+@media (max-width: 991.98px) {
+  .sidebar {
+    --sidebar-width: 220px;
+  }
+}
+
+/* ── Responsive: hide sidebar off-canvas on mobile (< 768 px) ────── */
+@media (max-width: 767.98px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1300;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    --sidebar-width: 260px;
+  }
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+  /* Content area takes full width when sidebar is hidden */
+  .dashboard-wrapper .flex-grow-1 {
+    width: 100%;
+  }
+}
+
 
 /* تنسيق العنوان (Lumina Panel) */
 .sidebar h4 {
@@ -117,3 +157,41 @@
 .nav-link:hover i {
     transform: scale(1.2) rotate(5deg);
 }
+
+/* ── Mobile sidebar toggle button ───────────────────────────────── */
+.sidebar-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #001a33;
+  font-size: 1.4rem;
+  padding: 0;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 767.98px) {
+  .sidebar-toggle {
+    display: inline-flex;
+  }
+
+  /* Overlay for mobile sidebar */
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1200;
+    backdrop-filter: blur(1px);
+  }
+}
+.sidebar-overlay { display: none; }
+
+/* ── Content area: ensure it never overflows horizontally ── */
+.content-area {
+  min-width: 0;
+  overflow-x: hidden;
+}

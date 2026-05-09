@@ -78,3 +78,59 @@
 
 .text-primary { color: #41B3E3 !important; }
 .bg-dark { background-color: #001529 !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL RESPONSIVE WEB DESIGN (RWD) UTILITIES
+   Breakpoints: 576px (SM) | 768px (MD) | 992px (LG) | 1200px (XL)
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Minimum Touch Target (44×44 px) for all interactive elements ── */
+.icon-btn,
+.btn-close-modal,
+.btn-create,
+.btn-retry,
+.btn-assessments,
+.btn-content,
+.btn-edit-action,
+.btn-status-action,
+.btn-to-disable,
+.btn-to-enable,
+.status-badge button {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Ensure icon-only buttons with explicit width/height still meet 44px ──
+   We bump their size on touch screens only */
+@media (max-width: 767.98px) {
+  .icon-btn {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  /* ── Modals: near-fullscreen on mobile ── */
+  .modal-dialog {
+    margin: 0.5rem auto !important;
+  }
+  .modal-dialog.modal-lg,
+  .modal-dialog.modal-xl {
+    max-width: calc(100vw - 1rem) !important;
+    width: calc(100vw - 1rem) !important;
+  }
+  .modal-content .modal-body {
+    max-height: 70vh !important; /* more room to type on mobile */
+  }
+
+  /* ── Prevent horizontal scroll on body ── */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* ── Buttons full-width on xs when stacked ── */
+  .btn-lumina-main,
+  .btn-lumina-outline,
+  .btn-cancel-modal,
+  .btn-save-modal {
+    min-height: 44px;
+  }
+}

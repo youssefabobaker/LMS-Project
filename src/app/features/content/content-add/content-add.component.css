@@ -224,3 +224,39 @@
   transform: translateY(-1px);
 }
 .btn-save-modal:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE WEB DESIGN — Content Add Modal
+   ══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767.98px) {
+  /* Modal body: allow more scroll room when keyboard is open */
+  .modal-body {
+    max-height: 60vh;
+    padding: 1rem !important;
+  }
+  /* Footer: stack buttons on xs */
+  .modal-footer {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+  .btn-cancel-modal,
+  .btn-save-modal {
+    width: 100%;
+    justify-content: center;
+  }
+  /* File rows: tighten padding */
+  .file-row {
+    padding: 0.5rem 0.75rem;
+  }
+  /* Upload zone: reduce padding */
+  .upload-zone {
+    padding: 1rem 0.75rem;
+  }
+  /* Header: tighter */
+  .content-add-header {
+    padding: 0.75rem 1rem;
+  }
+}
+
