@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,15 +11,18 @@ import { Content } from '../../../models/content';
 import { Course } from '../../../models/course';
 import { ContentAddComponent } from '../content-add/content-add.component';
 
+import { AssignmentsViewComponent } from '../../assignments/assignments-view/assignments-view.component';
+
 @Component({
   selector: 'app-content-view',
   standalone: true,
-  imports: [CommonModule, FormsModule, ContentAddComponent ],
+  imports: [CommonModule, FormsModule, ContentAddComponent, AssignmentsViewComponent],
   templateUrl: './content-view.component.html',
   styleUrls: ['./content-view.component.css'],
 })
 export class ContentViewComponent implements OnInit {
   courseId!: number;
+  activeTab: 'content' | 'assignments' = 'content';
   courseDetails?: Course;
   contentList: Content[] = [];
   isLoading = false;
@@ -272,8 +275,13 @@ export class ContentViewComponent implements OnInit {
   // ── Add Content Modal ─────────────────────────────────────────────────────
 
   private contentAddModalInstance: any = null;
+  @ViewChild(AssignmentsViewComponent) assignmentsView?: AssignmentsViewComponent;
 
   onAddContent(): void {
+    if (this.activeTab === 'assignments') {
+      this.assignmentsView?.openAddModal();
+      return;
+    }
     const el = document.getElementById('contentAddModal');
     if (el) {
       this.contentAddModalInstance = (window as any).bootstrap.Modal.getOrCreateInstance(el);

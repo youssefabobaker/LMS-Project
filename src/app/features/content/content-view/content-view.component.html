@@ -55,18 +55,20 @@
 
   <!-- ── Tabs Navigation ───────────────────────────────────────────────── -->
   <div class="tabs-nav-wrapper d-flex align-items-center justify-content-between mb-5 border-bottom border-secondary-subtle">
-    <div class="d-flex gap-4 overflow-x-auto flex-nowrap">
+    <div class="d-flex gap-4 flex-nowrap">
 
-      <!-- Content Tab (Active) -->
-      <button class="btn btn-link text-decoration-none pb-3 px-0 border-0 border-bottom border-2 text-lms-primary fw-bold d-flex align-items-center gap-2"
-              style="border-color: #41B3E3 !important; border-radius: 0;">
+      <!-- Content Tab -->
+      <button class="btn btn-link text-decoration-none pb-3 px-0 fw-bold d-flex align-items-center gap-2 tab-btn"
+              [class.active-tab]="activeTab === 'content'"
+              (click)="activeTab = 'content'">
         <i class="bi bi-layout-text-window-reverse fs-5"></i>
         Content
       </button>
 
-      <!-- Assignments Tab (Inactive) -->
-      <button class="btn btn-link text-decoration-none pb-3 px-0 border-0 text-secondary fw-medium d-flex align-items-center gap-2"
-              style="border-radius: 0;">
+      <!-- Assignments Tab -->
+      <button class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
+              [class.active-tab]="activeTab === 'assignments'"
+              (click)="activeTab = 'assignments'">
         <i class="bi bi-clipboard-check fs-5"></i>
         Assignments
       </button>
@@ -75,16 +77,17 @@
 
   <!-- ── Section Title & Add Button ───────────────────────────────── -->
   <div class="d-flex align-items-center justify-content-between mb-4 ps-1 flex-wrap gap-2">
-    <h3 class="section-title mb-0">Published Contents</h3>
-    <!-- Add New Content CTA -->
+    <h3 class="section-title mb-0">{{ activeTab === 'content' ? 'Published Contents' : 'Course Assignments' }}</h3>
+    <!-- Add New CTA -->
     <button *ngIf="canAdd" id="btn-add-content" class="btn btn-lumina-main d-flex align-items-center gap-2"
       (click)="onAddContent()">
       <i class="bi bi-plus-lg"></i>
-      Add New Content
+      {{ activeTab === 'content' ? 'Add New Content' : 'Add New Assignment' }}
     </button>
   </div>
 
-  <!-- ── Loading Spinner ────────────────────────────────────── -->
+  <ng-container *ngIf="activeTab === 'content'">
+    <!-- ── Loading Spinner ────────────────────────────────────── -->
   <div *ngIf="isLoading" class="text-center my-5 py-5" id="content-loading-spinner">
     <div class="spinner-border text-lms-primary" role="status" style="width:3rem;height:3rem;">
       <span class="visually-hidden">Loading...</span>
@@ -225,6 +228,11 @@
 
   </div>
   <!-- end content-list -->
+  </ng-container>
+
+  <ng-container *ngIf="activeTab === 'assignments'">
+    <app-assignments-view [courseId]="courseId"></app-assignments-view>
+  </ng-container>
 
   <!-- ── Add Content Modal Host ──────────────────────────────── -->
   <div class="modal fade" id="contentAddModal" tabindex="-1"

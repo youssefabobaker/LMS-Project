@@ -1,40 +1,3 @@
-/* =====================================================================
-   Content View Component Styles
-   Reference: stitch-designs/content-view/ + design.md
-   ===================================================================== */
-
-/* ── Course Header ─────────────────────────────────────────────────── */
-.course-header-section {
-  border-color: #e4e9ed !important;
-  /* Responsive height: tall on desktop, compact on mobile */
-  min-height: 220px; /* mobile */
-}
-
-@media (min-width: 576px) {
-  .course-header-section { min-height: 300px; }
-}
-@media (min-width: 992px) {
-  .course-header-section { min-height: 400px; }
-}
-
-.header-back-link {
-  transition: color 0.2s ease, text-decoration 0.2s ease;
-}
-
-.header-back-link:hover {
-  text-decoration: underline !important;
-  color: #3599C4 !important;
-}
-
-/* ── Section Title ─────────────────────────────────────────────────── */
-.section-title {
-  font-family: 'Work Sans', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #001A33;
-  letter-spacing: 0.3px;
-}
-
 /* ── Content Card ──────────────────────────────────────────────────── */
 .content-card {
   background: #ffffff;
@@ -50,12 +13,11 @@
   box-shadow: 0 6px 16px rgba(65, 179, 227, 0.1);
 }
 
-/* ── Card Header Row ───────────────────────────────────────────────── */
 .card-header-row {
   transition: background-color 0.2s ease;
 }
 
-.card-header-row:not(.is-editing):hover {
+.card-header-row:hover {
   background-color: rgba(65, 179, 227, 0.03);
 }
 
@@ -93,13 +55,11 @@
   font-size: 0.88rem;
   color: #6C757D;
   line-height: 1.5;
-  /* Removed hard-coded max-width: 600px — let it fill available space */
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
 
 .content-attachment-count {
   font-size: 0.8rem;
@@ -196,25 +156,6 @@
 }
 
 /* ── Buttons (Lumina system) ───────────────────────────────────────── */
-.btn-lumina-main {
-  background: linear-gradient(135deg, #41B3E3, #002D5B);
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  padding: 9px 18px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  box-shadow: 0 4px 12px rgba(65, 179, 227, 0.2);
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
-
-.btn-lumina-main:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(65, 179, 227, 0.35);
-  color: #ffffff;
-}
-
 .btn-lumina-outline {
   background: transparent;
   color: #002D5B;
@@ -278,75 +219,11 @@
   color: #adb5bd;
 }
 
-/* ── Custom Scrollbar ──────────────────────────────────────────────── */
-.content-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.content-list::-webkit-scrollbar-thumb {
-  background-color: #41B3E3;
-  border-radius: 10px;
-}
-
 /* ── Color utility ─────────────────────────────────────────────────── */
 .text-lms-primary {
   color: #41B3E3 !important;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   RESPONSIVE WEB DESIGN — Content View
-   ══════════════════════════════════════════════════════════════ */
-
-/* ── Tabs: scrollable on mobile ───────────────────────────────────── */
-.tab-btn {
-  border: none;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  color: #6c757d;
-  margin-bottom: -1px; /* Align with the container border */
-  transition: all 0.2s ease;
-}
-
-.tab-btn.active-tab {
-  color: #41B3E3 !important;
-  border-bottom: 2px solid #41B3E3 !important;
-}
-
-.tabs-nav-wrapper {
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-}
-
-.tabs-nav-wrapper::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
-}
-
-/* Prevent tab buttons from shrinking below readable size */
-.tabs-nav-wrapper button {
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-/* ── Card header row: stack on very small screens ─────────────────── */
-@media (max-width: 575.98px) {
-  .card-header-row {
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-  .card-header-row > div:last-child {
-    width: 100%;
-    justify-content: flex-start;
-  }
-  /* Reduce container padding on xs */
-  .container-fluid.py-4.px-4 {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
-}
-
-/* ── Video / PDF media: never overflow parent ───────────────────── */
-video, iframe, embed, object {
-  max-width: 100%;
+.text-danger {
+  color: #E63946 !important;
 }
