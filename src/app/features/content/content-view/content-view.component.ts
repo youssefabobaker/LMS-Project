@@ -13,6 +13,8 @@ import { ContentAddComponent } from '../content-add/content-add.component';
 
 import { AssignmentsViewComponent } from '../../assignments/assignments-view/assignments-view.component';
 
+import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-content-view',
   standalone: true,
@@ -39,9 +41,13 @@ export class ContentViewComponent implements OnInit {
   canDelete = false;
   canAdd    = false;
 
+  contentInitialized = false;
+  assignmentsInitialized = false;
+
   constructor(
     private route:             ActivatedRoute,
     private router:            Router,
+    private location:          Location,
     private contentService:    ContentService,
     private courseService:     CourseService,
     private permissionService: PermissionService,
@@ -49,23 +55,65 @@ export class ContentViewComponent implements OnInit {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state && navigation.extras.state['courseDetails']) {
       this.courseDetails = navigation.extras.state['courseDetails'];
+    } else {
+      const historyState = this.location.getState() as any;
+      if (historyState && historyState['courseDetails']) {
+        this.courseDetails = historyState['courseDetails'];
+      }
     }
   }
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   ngOnInit(): void {
-    this.courseId  = Number(this.route.snapshot.paramMap.get('courseId'));
     this.canRead   = this.permissionService.hasPermission('Content:read');
     this.canUpdate = this.permissionService.hasPermission('Content:update');
     this.canDelete = this.permissionService.hasPermission('Content:delete');
     this.canAdd    = this.permissionService.hasPermission('Content:add');
-    if (this.canRead) {
-      this.loadContent();
-      if (!this.courseDetails) {
-        this.loadCourseDetails();
+
+    this.route.paramMap.subscribe(params => {
+      const newCourseId = Number(params.get('courseId'));
+      if (this.courseId !== newCourseId) {
+        if (this.courseId !== undefined && this.courseId !== null) {
+          this.courseDetails = undefined;
+        }
+        this.courseId = newCourseId;
+        this.contentInitialized = false;
+        this.assignmentsInitialized = false;
+
+        const url = this.router.url;
+        if (url.includes('/assignments')) {
+          this.activeTab = 'assignments';
+          this.assignmentsInitialized = true;
+        } else {
+          this.activeTab = 'content';
+          this.contentInitialized = true;
+        }
+
+        if (this.canRead && this.contentInitialized) {
+          this.loadContent();
+        }
+        if (this.canRead && !this.courseDetails) {
+          this.loadCourseDetails();
+        }
       }
+    });
+  }
+
+  switchTab(tab: 'content' | 'assignments'): void {
+    this.activeTab = tab;
+    
+    if (tab === 'content' && !this.contentInitialized) {
+      this.contentInitialized = true;
+      if (this.canRead) {
+        this.loadContent();
+      }
+    } else if (tab === 'assignments' && !this.assignmentsInitialized) {
+      this.assignmentsInitialized = true;
     }
+
+    const path = tab === 'content' ? 'content' : 'assignments';
+    this.location.replaceState(`/dashboard/courses/${this.courseId}/${path}`, '', { courseDetails: this.courseDetails });
   }
 
   // ── Data Loading ──────────────────────────────────────────────────────────

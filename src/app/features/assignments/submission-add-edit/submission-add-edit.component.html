@@ -1,0 +1,90 @@
+<!-- ── Modal Header ─────────────────────────────────────────── -->
+<div class="modal-header submission-add-header">
+  <h5 class="modal-title mb-0" id="submissionModalLabel">
+    {{ existingSubmission ? 'Edit Submission' : 'Add Submission' }}
+  </h5>
+  <button type="button" class="btn-close-modal" aria-label="Close" (click)="cancel()" [disabled]="isSubmitting">
+    <i class="bi bi-x-lg"></i>
+  </button>
+</div>
+
+<!-- ── Modal Body ────────────────────────────────────────────── -->
+<div class="modal-body p-4">
+  <!-- Assignment Info Context -->
+  <div class="mb-4 p-3 bg-light rounded-3 border-start border-4 border-info">
+    <h6 class="fw-bold mb-1 text-dark">{{ assignment.title }}</h6>
+    <div class="text-muted small">
+      <i class="bi bi-clock me-1"></i> Due: {{ assignment.dueDate | date:'medium' }}
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="textSubmission" class="form-label field-label">YOUR ANSWER <span class="text-danger">*</span></label>
+    <textarea class="form-control rounded-3"
+              id="textSubmission"
+              name="textSubmission"
+              #textInput="ngModel"
+              required
+              [class.is-invalid]="textInput.invalid && (textInput.touched || submittedOnce)"
+              rows="5"
+              [(ngModel)]="textSubmission"
+              [disabled]="isSubmitting"
+              placeholder="Type your submission here..."></textarea>
+  </div>
+
+  <!-- File Upload Section -->
+  <div class="mb-3">
+    <label class="form-label field-label">ATTACHMENTS (OPTIONAL)</label>
+    
+    <!-- Hidden file input -->
+    <input type="file" #fileInput class="d-none" (change)="onFileSelected($event)" multiple>
+
+    <!-- Upload Zone -->
+    <div class="upload-zone"
+         role="button"
+         tabindex="0"
+         (click)="fileInput.click()"
+         (keydown.enter)="fileInput.click()"
+         [class.upload-zone-disabled]="isSubmitting">
+      <i class="bi bi-cloud-arrow-up upload-zone-icon"></i>
+      <div class="upload-zone-text">Click to upload or drag and drop</div>
+      <div class="upload-zone-hint">Max file size: 500 MB</div>
+    </div>
+
+    <!-- Staged Files List -->
+    <div class="file-list mt-3" *ngIf="selectedFiles.length > 0">
+      <div *ngFor="let file of selectedFiles; let i = index" class="file-row">
+        <i class="bi file-icon" [ngClass]="getFileIcon(file.type)"></i>
+        <span class="file-name text-truncate">{{ file.name }}</span>
+        <span class="file-size">{{ formatSize(file.size) }}</span>
+        <button type="button" class="btn btn-link btn-sm p-0 file-remove-btn" 
+                [attr.aria-label]="'Remove ' + file.name" (click)="removeFile(i)">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div *ngIf="isSubmitting" class="progress upload-progress mt-3">
+    <div class="progress-bar progress-bar-striped progress-bar-animated w-100"></div>
+  </div>
+
+  <!-- Error Alert -->
+  <div class="alert alert-danger d-flex align-items-center gap-2 mt-4" role="alert" *ngIf="submitError">
+    <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+    <div class="flex-grow-1 small">{{ submitError }}</div>
+    <button *ngIf="retryMode" type="button" class="btn btn-sm btn-outline-danger fw-bold ms-2" (click)="retrySubmit()">Retry</button>
+  </div>
+</div>
+
+<!-- ── Modal Footer ───────────────────────────────────────────── -->
+<div class="modal-footer border-top px-4 py-3 gap-2">
+  <button type="button" class="btn-cancel-modal" (click)="cancel()" [disabled]="isSubmitting">
+    Cancel
+  </button>
+  <button type="button" class="btn-save-modal" (click)="submit()" [disabled]="isSubmitting">
+    <span *ngIf="!isSubmitting">Save Submission</span>
+    <span *ngIf="isSubmitting"><i class="spinner-border spinner-border-sm me-1"></i>Saving…</span>
+  </button>
+</div>

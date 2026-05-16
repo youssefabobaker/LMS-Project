@@ -227,3 +227,25 @@
 .text-danger {
   color: #E63946 !important;
 }
+
+/* ── Grade & Feedback (US4) ────────────────────────────────────────── */
+.grade-panel {
+  border-color: #41B3E3 !important;
+  background-color: rgba(65, 179, 227, 0.05);
+}
+
+.grade-value {
+  color: #41B3E3;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.feedback-text {
+  color: #3e484e;
+  font-style: italic;
+}
+
+.badge-graded {
+  background-color: #28a745;
+  color: #fff;
+}

@@ -1,0 +1,120 @@
+<div class="submissions-view-container pb-5">
+
+  <div *ngIf="isLoading" class="text-center my-5 py-5">
+    <div class="spinner-border text-lms-primary" role="status" style="width:3rem;height:3rem;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="text-muted mt-3">Loading submissions…</p>
+  </div>
+
+  <div *ngIf="!isLoading && loadError" class="alert alert-danger mx-4 mt-4" role="alert">
+    {{ loadError }}
+    <button class="btn btn-link py-0" (click)="loadData()">Retry</button>
+  </div>
+
+  <ng-container *ngIf="!isLoading && assignment">
+    <!-- Modern Header Section -->
+    <div class="detail-header-modern p-4 p-md-5 mb-5 mx-4 mt-4">
+      <div class="position-relative" style="z-index: 10;">
+        <nav class="mb-4">
+          <button class="btn btn-link text-decoration-none header-back-btn p-0 d-flex align-items-center gap-2"
+            (click)="goBack()">
+            <i class="bi bi-chevron-left small"></i> Back to Assignments
+          </button>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h1 class="assignment-title-modern">{{ assignment.title }}</h1>
+            <p class="text-white opacity-75 mb-0 fw-medium">Student Submissions Review</p>
+          </div>
+          <div class="d-none d-md-block text-end">
+            <div class="text-white opacity-50 small text-uppercase fw-bold ls-1">Total Submissions</div>
+            <div class="display-6 fw-bold text-white">{{ submissions.length }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid px-4">
+      <!-- Empty State -->
+      <div *ngIf="submissions.length === 0" class="text-center my-5 py-5 bg-white rounded-4 shadow-sm border border-dashed">
+        <i class="bi bi-person-x fs-1 text-muted opacity-50"></i>
+        <h4 class="mt-3 fw-bold text-dark">No Submissions Yet</h4>
+        <p class="text-muted">Once students submit their work, they will appear here for grading.</p>
+      </div>
+
+      <!-- Submissions Table -->
+      <div *ngIf="submissions.length > 0" class="card submissions-card overflow-hidden">
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Submission Date</th>
+                <th>Status</th>
+                <th>Grade</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sub of submissions">
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="student-avatar">
+                      <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div>
+                      <div class="fw-bold text-dark" style="font-size: 0.95rem;">Student</div>
+                      <div class="text-muted small text-truncate" style="max-width: 150px;">ID: {{ sub.studentId }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-dark fw-medium">{{ sub.submittedAt | date:'MMM d, y' }}</div>
+                  <div class="text-muted small">{{ sub.submittedAt | date:'h:mm a' }}</div>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <span [class]="sub.grade !== null ? 'status-badge-graded' : 'status-badge-pending'">
+                      {{ sub.grade !== null ? 'Graded' : 'Pending Review' }}
+                    </span>
+                    <span *ngIf="isLate(sub)" class="late-tag">
+                      <i class="bi bi-exclamation-circle-fill me-1"></i>Late
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <div *ngIf="sub.grade !== null" class="fw-bold text-dark">
+                    {{ sub.grade }} <span class="text-muted fw-normal">/ {{ assignment.totalMarks }}</span>
+                  </div>
+                  <div *ngIf="sub.grade === null" class="text-muted opacity-50">—</div>
+                </td>
+                <td class="text-end">
+                  <button class="btn btn-grade-review" (click)="openGradeModal(sub)">
+                    <i class="bi bi-pencil-square me-2"></i>{{ sub.grade !== null ? 'Update Grade' : 'Grade / Review' }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Grade Modal Host -->
+<div class="modal fade" id="gradeSubmissionModal" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content rounded-4 overflow-hidden border-0 shadow-lg">
+      <app-grade-submission-modal 
+        *ngIf="selectedSubmission" 
+        [submission]="selectedSubmission"
+        [assignmentTotalMarks]="assignment?.totalMarks || 0"
+        (gradeSaved)="onGradeSaved($event)"
+        (modalDismissed)="closeGradeModal()">
+      </app-grade-submission-modal>
+    </div>
+  </div>
+</div>

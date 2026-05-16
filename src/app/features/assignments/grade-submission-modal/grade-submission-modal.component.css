@@ -1,0 +1,146 @@
+/* ── Modal Header ──────────────────────────────────────────── */
+.grade-header {
+  background: linear-gradient(90deg, #001A33 0%, #002D5B 100%);
+  color: #41B3E3;
+  border-bottom: 1px solid rgba(65, 179, 227, 0.3);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.grade-header .modal-title {
+  color: #41B3E3;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  color: #41B3E3;
+  font-size: 1.1rem;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+}
+
+.btn-close-modal:hover {
+  background: rgba(65, 179, 227, 0.1);
+}
+
+/* ── Modal Body ────────────────────────────────────────────── */
+.modal-body {
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748B;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.answer-box {
+  background: #F8FAFC;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  padding: 1.25rem;
+  color: #1E293B;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ── Attachment Rows ────────────────────────────────────────── */
+.attachment-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s;
+}
+
+.attachment-row:hover {
+  border-color: #41B3E3;
+  background: rgba(65, 179, 227, 0.02);
+}
+
+.attachment-link {
+  color: #001A33;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.attachment-link:hover {
+  color: #41B3E3;
+}
+
+/* ── Form Controls ─────────────────────────────────────────── */
+.form-control:focus {
+  border-color: #41B3E3;
+  box-shadow: 0 0 0 0.2rem rgba(65, 179, 227, 0.2);
+}
+
+/* ── Modal Footer ──────────────────────────────────────────── */
+.modal-footer {
+  background: #f6fafe;
+  padding: 1rem 1.5rem;
+}
+
+.btn-cancel-modal {
+  padding: 0.55rem 1.4rem;
+  border: 2px solid #002D5B;
+  background: transparent;
+  color: #002D5B;
+  border-radius: 8px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel-modal:hover {
+  background: #002D5B;
+  color: #fff;
+}
+
+.btn-save-grade {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.75rem;
+  background: linear-gradient(135deg, #41B3E3, #002D5B);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(65, 179, 227, 0.3);
+  transition: all 0.2s;
+}
+
+.btn-save-grade:hover:not(:disabled) {
+  box-shadow: 0 6px 16px rgba(65, 179, 227, 0.45);
+  transform: translateY(-1px);
+}

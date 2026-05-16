@@ -114,7 +114,6 @@
     <!-- Hidden file input -->
     <input type="file"
            #fileInput
-           accept=".pdf,.mp4"
            multiple
            class="d-none"
            id="assignment-file-input"
@@ -124,13 +123,13 @@
     <div class="upload-zone"
          role="button"
          tabindex="0"
-         aria-label="Click to select PDF or MP4 files"
+         aria-label="Click to select files"
          (click)="fileInput.click()"
          (keydown.enter)="fileInput.click()"
          [class.upload-zone-disabled]="isSubmitting">
       <i class="bi bi-cloud-upload upload-zone-icon"></i>
       <div class="upload-zone-text">Click to upload or drag and drop</div>
-      <div class="upload-zone-hint">PDF, MP4 (Max. 500MB)</div>
+      <div class="upload-zone-hint">Max file size: 500MB</div>
     </div>
 
     <!-- Staged Files List -->

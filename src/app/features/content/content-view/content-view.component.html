@@ -25,7 +25,7 @@
         <a class="text-decoration-none text-lms-primary header-back-link" href="javascript:void(0)"
           (click)="goBack()">Back to Courses</a>
         <i class="bi bi-chevron-right small text-dark opacity-50"></i>
-        <span class="text-dark opacity-75">Content</span>
+        <span class="text-dark opacity-75">{{ activeTab === 'content' ? 'Content' : 'Assignments' }}</span>
       </nav>
 
       <h1 class="display-5 fw-bolder mb-3 text-dark"
@@ -60,7 +60,7 @@
       <!-- Content Tab -->
       <button class="btn btn-link text-decoration-none pb-3 px-0 fw-bold d-flex align-items-center gap-2 tab-btn"
               [class.active-tab]="activeTab === 'content'"
-              (click)="activeTab = 'content'">
+              (click)="switchTab('content')">
         <i class="bi bi-layout-text-window-reverse fs-5"></i>
         Content
       </button>
@@ -68,7 +68,7 @@
       <!-- Assignments Tab -->
       <button class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
               [class.active-tab]="activeTab === 'assignments'"
-              (click)="activeTab = 'assignments'">
+              (click)="switchTab('assignments')">
         <i class="bi bi-clipboard-check fs-5"></i>
         Assignments
       </button>
@@ -86,7 +86,7 @@
     </button>
   </div>
 
-  <ng-container *ngIf="activeTab === 'content'">
+  <div [hidden]="activeTab !== 'content'">
     <!-- ── Loading Spinner ────────────────────────────────────── -->
   <div *ngIf="isLoading" class="text-center my-5 py-5" id="content-loading-spinner">
     <div class="spinner-border text-lms-primary" role="status" style="width:3rem;height:3rem;">
@@ -228,11 +228,11 @@
 
   </div>
   <!-- end content-list -->
-  </ng-container>
+  </div>
 
-  <ng-container *ngIf="activeTab === 'assignments'">
-    <app-assignments-view [courseId]="courseId"></app-assignments-view>
-  </ng-container>
+  <div [hidden]="activeTab !== 'assignments'">
+    <app-assignments-view *ngIf="assignmentsInitialized" [courseId]="courseId"></app-assignments-view>
+  </div>
 
   <!-- ── Add Content Modal Host ──────────────────────────────── -->
   <div class="modal fade" id="contentAddModal" tabindex="-1"

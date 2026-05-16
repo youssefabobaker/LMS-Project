@@ -1,0 +1,132 @@
+/* ── Modern Header Section (Sync with assignment-detail) ────────── */
+.detail-header-modern {
+  background: linear-gradient(135deg, #001A33 0%, #003366 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.detail-header-modern::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(65, 179, 227, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(100px, -100px);
+}
+
+.header-back-btn {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.header-back-btn:hover {
+  color: #41B3E3 !important;
+}
+
+.assignment-title-modern {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 2.25rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Table & Cards ────────────────────────────────────────────────── */
+.submissions-card {
+  border-radius: 16px;
+  border: none;
+  background: #ffffff;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.04);
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead th {
+  background-color: #F8FAFC;
+  color: #64748B;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.table tbody td {
+  padding: 1.25rem 1.5rem;
+  vertical-align: middle;
+  color: #1E293B;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.student-avatar {
+  width: 32px;
+  height: 32px;
+  background: #E2E8F0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748B;
+  font-weight: 600;
+}
+
+.status-badge-pending {
+  background: #FEF3C7;
+  color: #92400E;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+}
+
+.status-badge-graded {
+  background: #DCFCE7;
+  color: #166534;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+}
+
+.btn-grade-review {
+  background: linear-gradient(135deg, #41B3E3 0%, #002D5B 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  box-shadow: 0 4px 12px rgba(65, 179, 227, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-grade-review:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(65, 179, 227, 0.3);
+  color: white;
+}
+
+.late-tag {
+  color: #EF4444;
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+}

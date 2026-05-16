@@ -1,5 +1,5 @@
 <div class="content-list">
-  
+
   <!-- ── Loading Spinner ────────────────────────────────────── -->
   <div *ngIf="isLoading" class="text-center my-5 py-5" id="assignment-loading-spinner">
     <div class="spinner-border text-lms-primary" role="status" style="width:3rem;height:3rem;">
@@ -14,7 +14,7 @@
     <i class="bi bi-exclamation-triangle-fill fs-5"></i>
     <div>
       {{ loadError }}
-      <button class="btn btn-link btn-sm p-0 ms-2" (click)="loadAssignments()">Retry</button>
+      <button class="btn btn-link btn-sm p-0 ms-2" (click)="loadData()">Retry</button>
     </div>
   </div>
 
@@ -28,93 +28,86 @@
 
   <!-- ── Assignments List ───────────────────────────────────── -->
   <div *ngFor="let item of assignmentsList; let i = index" class="content-card mb-4" [id]="'assignment-' + item.id">
-    
+
     <!-- Card Header Row -->
-    <div class="card-header-row d-flex align-items-center justify-content-between p-4"
-         [class.is-editing]="editingIds.has(item.id)" (click)="!editingIds.has(item.id) && toggleExpand(item.id)"
-         [style.cursor]="editingIds.has(item.id) ? 'default' : 'pointer'">
-         
+    <div class="card-header-row d-flex align-items-center justify-content-between p-4 clickable-card"
+      [class.is-editing]="editingIds.has(item.id)" (click)="!editingIds.has(item.id) && navigateToDetail(item.id)"
+      [style.cursor]="editingIds.has(item.id) ? 'default' : 'pointer'">
+
       <!-- Left: Number + Title/Body -->
-      <div class="d-flex align-items-center gap-4 w-100 overflow-hidden">
-        
+      <div class="d-flex align-items-center gap-4 overflow-hidden">
+
         <!-- Number Badge -->
-        <div class="content-number-badge" [class.active]="isExpanded(item.id)">
+        <div class="content-number-badge">
           <span class="fw-bold">{{ (i + 1) | number: '2.0-0' }}</span>
         </div>
-        
+
         <!-- Assignment Info -->
         <div class="flex-grow-1 overflow-hidden">
           <h5 class="content-title mb-0 text-truncate" [title]="item.title">{{ item.title }}</h5>
-          
+
           <!-- Assignment Meta -->
-          <p class="content-attachment-count text-muted mb-0 mt-1 d-flex gap-3 flex-wrap" *ngIf="!editingIds.has(item.id)">
+          <p class="content-attachment-count text-muted mb-0 mt-1 d-flex gap-3 flex-wrap">
             <span><strong>Marks:</strong> {{ item.totalMarks }}</span>
-            <span [class.text-danger]="isMissed(item.dueDate) || isApproachingDeadline(item.dueDate)" 
-                  [class.fw-bold]="isMissed(item.dueDate) || isApproachingDeadline(item.dueDate)">
+            <span>
               <i class="bi bi-clock me-1"></i>
-              <ng-container *ngIf="isMissed(item.dueDate)">Missed - Due was:</ng-container>
-              <ng-container *ngIf="!isMissed(item.dueDate)">Due Before:</ng-container>
-              {{ item.dueDate | date:'MMM d, y, h:mm a' }}
+              Due: {{ item.dueDate | date:'MMM d, y, h:mm a' }}
             </span>
           </p>
-          <p class="content-attachment-count text-muted mb-0 mt-1" *ngIf="!editingIds.has(item.id)">
+          <p class="content-attachment-count text-muted mb-0 mt-1">
             <span *ngIf="item.assignmentAttachments && item.assignmentAttachments.length > 0">
               <i class="bi bi-paperclip me-1"></i>{{ item.assignmentAttachments.length }} file(s)
             </span>
-            <span *ngIf="!item.assignmentAttachments || item.assignmentAttachments.length === 0" class="text-muted fst-italic small">
+            <span *ngIf="!item.assignmentAttachments || item.assignmentAttachments.length === 0"
+              class="text-muted fst-italic small">
               No attachments
             </span>
           </p>
         </div>
       </div>
-      
+
       <!-- Action Icons -->
       <div class="d-flex align-items-center gap-2" (click)="$event.stopPropagation()">
-        
+
         <!-- Edit button -->
-        <button *ngIf="canAddOrUpdate && !editingIds.has(item.id)"
-          class="btn btn-edit-action d-flex align-items-center gap-1" [id]="'btn-edit-' + item.id"
-          [attr.aria-label]="'Edit assignment ' + item.title" (click)="startEdit(item)">
+        <button *ngIf="canAddOrUpdate" class="btn btn-edit-action d-flex align-items-center gap-1"
+          [id]="'btn-edit-' + item.id" [attr.aria-label]="'Edit assignment ' + item.title"
+          (click)="startEdit(item)">
           <i class="bi bi-pencil-square"></i>
           Edit
         </button>
 
         <!-- Delete button -->
-        <button *ngIf="canDelete && !editingIds.has(item.id)" class="btn btn-link btn-delete-card p-2"
-                (click)="deleteAssignment(item.id)"
-                [attr.aria-label]="'Delete assignment ' + item.title"
-                title="Delete Assignment">
+        <button *ngIf="canDelete" class="btn btn-link btn-delete-card p-2" (click)="deleteAssignment(item.id)"
+          [attr.aria-label]="'Delete assignment ' + item.title" title="Delete Assignment">
           <i class="bi bi-trash3 fs-5"></i>
         </button>
 
-        <i *ngIf="!editingIds.has(item.id)" class="bi expand-icon fs-5 ms-3" 
-           [ngClass]="isExpanded(item.id) ? 'bi-chevron-up' : 'bi-chevron-down'"
-           (click)="toggleExpand(item.id)" style="cursor: pointer;"></i>
       </div>
     </div>
-    
-    <!-- ── Inline Edit Form ───────────────────────────────────────── -->
-    <div *ngIf="editingIds.has(item.id)" class="inline-edit-form border-top p-3 p-md-4">
-      <div class="row">
-        <div class="col-md-12 mb-3">
-          <label [for]="'edit-title-' + item.id" class="form-label fw-bold">Title</label>
-          <input type="text" class="form-control" [id]="'edit-title-' + item.id"
-            [(ngModel)]="editFormData.get(item.id)!.title" placeholder="Assignment title">
-        </div>
-        <div class="col-md-6 mb-3">
-          <label [for]="'edit-marks-' + item.id" class="form-label fw-bold">Total Marks</label>
-          <input type="number" class="form-control" [id]="'edit-marks-' + item.id"
-            [(ngModel)]="editFormData.get(item.id)!.totalMarks" placeholder="100">
-        </div>
-        <div class="col-md-6 mb-3">
-          <label [for]="'edit-date-' + item.id" class="form-label fw-bold">Due Date</label>
-          <input type="datetime-local" class="form-control" [id]="'edit-date-' + item.id"
+
+    <!-- ── Inline Edit Form ──────────────────────────────── -->
+    <div *ngIf="editingIds.has(item.id)" class="inline-edit-form border-top p-4">
+      <div class="mb-3">
+        <label [for]="'edit-title-' + item.id" class="form-label fw-bold">Title</label>
+        <input type="text" class="form-control" [id]="'edit-title-' + item.id"
+          [(ngModel)]="editFormData.get(item.id)!.title" placeholder="Assignment title">
+      </div>
+      <div class="mb-3">
+        <label [for]="'edit-desc-' + item.id" class="form-label fw-bold">Description</label>
+        <textarea class="form-control" [id]="'edit-desc-' + item.id" rows="4"
+          [(ngModel)]="editFormData.get(item.id)!.description" placeholder="Assignment description"></textarea>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <label [for]="'edit-dueDate-' + item.id" class="form-label fw-bold">Due Date</label>
+          <input type="datetime-local" class="form-control" [id]="'edit-dueDate-' + item.id"
             [(ngModel)]="editFormData.get(item.id)!.dueDate">
         </div>
-        <div class="col-md-12 mb-4">
-          <label [for]="'edit-desc-' + item.id" class="form-label fw-bold">Description</label>
-          <textarea class="form-control" [id]="'edit-desc-' + item.id" rows="4"
-            [(ngModel)]="editFormData.get(item.id)!.description" placeholder="Assignment description"></textarea>
+        <div class="col-md-6">
+          <label [for]="'edit-marks-' + item.id" class="form-label fw-bold">Total Marks</label>
+          <input type="number" class="form-control" [id]="'edit-marks-' + item.id"
+            [(ngModel)]="editFormData.get(item.id)!.totalMarks" placeholder="Total marks">
         </div>
       </div>
       <div class="d-flex gap-2">
@@ -126,49 +119,14 @@
         </button>
       </div>
     </div>
-
-    <!-- ── Expanded Details ───────────────────────────────────────── -->
-    <div *ngIf="isExpanded(item.id) && !editingIds.has(item.id)" class="expanded-details border-top bg-light p-3 p-md-4">
-      <p class="content-body text-wrap mb-4">{{ item.description }}</p>
-
-      <!-- ── Attachment List ───────────────────── -->
-      <div class="attachment-list rounded border">
-        <!-- Empty attachments message -->
-        <div *ngIf="!item.assignmentAttachments || item.assignmentAttachments.length === 0"
-          class="attachment-empty py-3 px-4 text-muted small fst-italic">
-          No attachments for this assignment.
-        </div>
-
-        <!-- Attachment rows -->
-        <div *ngFor="let att of item.assignmentAttachments"
-          class="attachment-row d-flex align-items-center justify-content-between px-3 px-md-4 py-2">
-          
-          <div class="d-flex align-items-center gap-3 attachment-link" (click)="openAttachment(att.fileUrl)"
-            role="button" [attr.aria-label]="'Open attachment ' + att.fileName">
-            <i [class]="getAttachmentIcon(att.type) + ' fs-5 text-lms-primary'"></i>
-            <span class="attachment-name small fw-medium">{{ att.fileName }}</span>
-          </div>
-
-          <!-- Delete attachment button (canDelete) -->
-          <button *ngIf="canDelete" class="btn btn-link btn-sm btn-delete-attachment"
-            [id]="'btn-delete-att-' + att.id" [attr.aria-label]="'Remove attachment ' + att.fileName"
-            (click)="deleteAttachment(item.id, att.id)">
-            <i class="bi bi-trash3"></i>
-          </button>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- ── Add Assignment Modal Host ──────────────────────────────── -->
-  <div class="modal fade" id="assignmentAddModal" tabindex="-1"
-       data-bs-backdrop="static" data-bs-keyboard="false"
-       aria-labelledby="assignmentAddModalLabel" aria-hidden="true">
+  <div class="modal fade" id="assignmentAddModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+    aria-labelledby="assignmentAddModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content rounded-3 overflow-hidden shadow-lg">
-        <app-assignment-add
-          [courseId]="courseId"
-          (assignmentCreated)="onAssignmentCreated($event)"
+        <app-assignment-add [courseId]="courseId" (assignmentCreated)="onAssignmentCreated($event)"
           (modalDismissed)="closeAddModal()">
         </app-assignment-add>
       </div>

@@ -13,6 +13,8 @@ import { permissionGuard } from './core/guards/permission.guard';
 import { DepartmentManagementComponent } from './features/department-management/department-management.component';
 import { CourseViewComponent } from './features/course-management/course-view/course-view.component';
 import { ContentViewComponent } from './features/content/content-view/content-view.component';
+import { SubmissionsListComponent } from './features/assignments/submissions-list/submissions-list.component';
+import { AssignmentDetailComponent } from './features/assignments/assignment-detail/assignment-detail.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -56,10 +58,18 @@ export const routes: Routes = [
         data: { permission: ['Course:read', 'Course:readAll'] },
       },
       // Redirect stubs — future cycles will replace these with real components
-      { path: 'courses/new/edit',         redirectTo: 'courses', pathMatch: 'full' },
-      { path: 'courses/:id/edit',         redirectTo: 'courses', pathMatch: 'full' },
-      { path: 'courses/:id/assessments',  redirectTo: 'courses', pathMatch: 'full' },
-      { path: 'courses/:id/enrollment',   redirectTo: 'courses', pathMatch: 'full' },
+      { path: 'courses/new/edit', redirectTo: 'courses', pathMatch: 'full' },
+      { path: 'courses/:id/edit', redirectTo: 'courses', pathMatch: 'full' },
+      {
+        path: 'courses/:id/assessments',
+        redirectTo: 'courses',
+        pathMatch: 'full',
+      },
+      {
+        path: 'courses/:id/enrollment',
+        redirectTo: 'courses',
+        pathMatch: 'full',
+      },
 
       // ── Content View — Cycle 4 ───────────────────────────────────────
       {
@@ -67,6 +77,24 @@ export const routes: Routes = [
         component: ContentViewComponent,
         canActivate: [permissionGuard],
         data: { permission: 'Content:read' },
+      },
+      {
+        path: 'courses/:courseId/assignments',
+        component: ContentViewComponent,
+        canActivate: [permissionGuard],
+        data: { permission: 'Ass:read' },
+      },
+      {
+        path: 'courses/:courseId/assignments/:id',
+        component: AssignmentDetailComponent,
+        canActivate: [permissionGuard],
+        data: { permission: 'Ass:read' },
+      },
+      {
+        path: 'courses/:courseId/assignments/:id/submissions',
+        component: SubmissionsListComponent,
+        canActivate: [permissionGuard],
+        data: { permission: 'AssSubmission:readAll' },
       },
     ],
   },

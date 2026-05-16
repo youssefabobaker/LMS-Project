@@ -1,0 +1,207 @@
+.assignment-detail-container {
+  background-color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Modern Header Section ────────────────────────────────────────── */
+.detail-header-modern {
+  background: linear-gradient(135deg, #001A33 0%, #003366 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.detail-header-modern::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(65, 179, 227, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(100px, -100px);
+}
+
+.header-meta-badge {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-meta-badge i {
+  color: #41B3E3;
+}
+
+.header-back-btn {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.header-back-btn:hover {
+  color: #41B3E3 !important;
+}
+
+.assignment-title-modern {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 2.25rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.card {
+  background-color: #ffffff !important;
+  border: 1px solid #eef2f6 !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.04), 0 2px 8px -2px rgba(0, 0, 0, 0.02) !important;
+  border-radius: 16px !important;
+}
+
+.btn-lumina-cyan {
+  background: linear-gradient(135deg, #41B3E3 0%, #2b99c7 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(65, 179, 227, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-lumina-cyan:hover {
+  background: linear-gradient(135deg, #2b99c7 0%, #1a7fa8 100%);
+  color: white;
+  box-shadow: 0 6px 12px rgba(65, 179, 227, 0.3);
+  transform: translateY(-1px);
+}
+
+.badge-lumina-blue {
+  background-color: #41B3E3;
+  color: #ffffff;
+}
+
+.submission-preview-box {
+  background-color: #F1F5F9;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.back-btn {
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+  color: #41b3e3 !important;
+}
+
+.description-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.attachment-tile {
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.attachment-tile:hover {
+  background-color: #ffffff;
+  border-color: #41b3e3 !important;
+  box-shadow: 0 4px 6px -1px rgba(65, 179, 227, 0.15);
+  transform: translateY(-2px);
+}
+
+.attachment-icon-container {
+  background-color: #e0f2fe !important;
+}
+
+.attachment-tile .action-icon {
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+
+.attachment-tile:hover .action-icon {
+  color: #41b3e3;
+}
+
+.shadow-hover {
+  transition: box-shadow 0.3s ease;
+}
+
+.shadow-hover:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.btn-submit-add {
+  background-color: #41b3e3;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit-add:hover {
+  background-color: #2b99c7;
+  color: white;
+}
+
+.btn-submit-edit {
+  background-color: #e4e9ed;
+  color: #001a33;
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit-edit:hover {
+  background-color: #d1d8df;
+  color: #001a33;
+}
+
+/* ── Attachment List ───────────────────────────────────────────────── */
+.attachment-list {
+  background: rgba(240, 244, 248, 0.5);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.attachment-row {
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  min-height: 48px;
+}
+
+.attachment-row:last-child {
+  border-bottom: none;
+}
+
+.attachment-row:hover {
+  background-color: #ffffff;
+}
+
+.attachment-link {
+  cursor: pointer;
+  flex: 1;
+}
+
+.attachment-name {
+  color: #001A33;
+  font-size: 0.88rem;
+  transition: color 0.2s ease;
+}
+
+.attachment-link:hover .attachment-name {
+  color: #41B3E3;
+  text-decoration: underline;
+}

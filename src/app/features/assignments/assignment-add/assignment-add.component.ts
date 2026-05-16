@@ -47,17 +47,8 @@ export class AssignmentAddComponent {
     if (!input.files) return;
 
     Array.from(input.files).forEach(file => {
-      const allowed = file.type === 'application/pdf' || file.type === 'video/mp4';
       const withinSize = file.size <= 524_288_000; // 500 MB
 
-      if (!allowed) {
-        Swal.fire({
-          toast: true, position: 'bottom-end', icon: 'warning',
-          title: `"${file.name}" is not a supported file type (PDF or MP4 only).`,
-          showConfirmButton: false, timer: 4000,
-        });
-        return;
-      }
       if (!withinSize) {
         Swal.fire({
           toast: true, position: 'bottom-end', icon: 'warning',
@@ -83,8 +74,14 @@ export class AssignmentAddComponent {
   }
 
   getFileIcon(mimeType: string): string {
-    if (mimeType === 'application/pdf') return 'bi bi-file-earmark-pdf-fill file-icon-pdf';
-    if (mimeType === 'video/mp4')       return 'bi bi-play-circle-fill file-icon-video';
+    const ct = mimeType.toLowerCase();
+    if (ct.includes('pdf'))   return 'bi bi-file-earmark-pdf-fill file-icon-pdf';
+    if (ct.includes('video')) return 'bi bi-play-circle-fill file-icon-video';
+    if (ct.includes('image')) return 'bi bi-file-earmark-image-fill text-success';
+    if (ct.includes('audio')) return 'bi-file-earmark-music';
+    if (ct.includes('zip') || ct.includes('rar')) return 'bi-file-earmark-zip';
+    if (ct.includes('word') || ct.includes('officedocument.wordprocessingml')) return 'bi-file-earmark-word';
+    if (ct.includes('excel') || ct.includes('officedocument.spreadsheetml')) return 'bi-file-earmark-excel';
     return 'bi bi-file-earmark-fill';
   }
 
