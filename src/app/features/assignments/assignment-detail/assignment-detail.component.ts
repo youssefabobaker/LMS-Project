@@ -30,6 +30,10 @@ export class AssignmentDetailComponent implements OnInit {
 
   canSubmit: boolean = false;
   canReadAll: boolean = false;
+  canUpdate: boolean = false;
+  canAddOrUpdate: boolean = false;
+
+  isUploadingAttachment: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,6 +48,8 @@ export class AssignmentDetailComponent implements OnInit {
     this.canReadAll = this.permissionService.hasPermission(
       'AssSubmission:readAll',
     );
+    this.canUpdate = this.permissionService.hasPermission('Ass:delete');
+    this.canAddOrUpdate = this.permissionService.hasPermission('Ass:addOrUpdate');
 
     this.route.paramMap.subscribe((params) => {
       const idStr = params.get('id');
@@ -136,6 +142,77 @@ export class AssignmentDetailComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  removeAttachment(attId: string): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "This attachment will be permanently deleted.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#E63946',
+      cancelButtonColor: '#41B3E3',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.assignmentService.deleteAttachment(attId).subscribe({
+          next: () => {
+            // Remove from local array instead of reloading all data
+            if (this.assignment) {
+              this.assignment.assignmentAttachments = this.assignment.assignmentAttachments.filter(a => a.id !== attId);
+            }
+            
+            Swal.fire({
+              toast: true,
+              position: 'bottom-end',
+              icon: 'success',
+              title: 'Attachment deleted.',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+            });
+          },
+          error: () => {
+            Swal.fire('Error', 'Failed to delete attachment. Please try again.', 'error');
+          }
+        });
+      }
+    });
+  }
+
+  onAddAttachment(event: any): void {
+    const files: FileList = event.target.files;
+    if (files.length === 0) return;
+
+    this.isUploadingAttachment = true;
+    const filesArray = Array.from(files);
+
+    this.assignmentService.addAttachments(this.assignmentId, filesArray).subscribe({
+      next: (res) => {
+        if (this.assignment) {
+          // The endpoint adds the new attachments to the assignment and returns the updated assignment
+          // Or just update the local attachments from the response
+          this.assignment.assignmentAttachments = res.assignmentAttachments;
+        }
+        this.isUploadingAttachment = false;
+        event.target.value = ''; // Reset input
+
+        Swal.fire({
+          toast: true,
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Attachment(s) added successfully.',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      },
+      error: () => {
+        this.isUploadingAttachment = false;
+        event.target.value = ''; // Reset input
+        Swal.fire('Error', 'Failed to upload attachment(s). Please try again.', 'error');
+      }
+    });
   }
 
   getSubmissionState(): 'none' | 'submitted' | 'graded' {

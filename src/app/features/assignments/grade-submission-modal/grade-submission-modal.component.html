@@ -30,7 +30,7 @@
     </div>
 
     <!-- Attachments -->
-    <div *ngIf="submission.assignmentSubmissionAttachments?.length" class="mb-4">
+    <div *ngIf="submission.assignmentSubmissionAttachments.length" class="mb-4">
       <label class="section-label">ATTACHED FILES</label>
       <div class="d-flex flex-column gap-2">
         <div *ngFor="let att of submission.assignmentSubmissionAttachments" class="attachment-row">

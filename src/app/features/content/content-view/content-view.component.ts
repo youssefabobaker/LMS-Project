@@ -34,12 +34,14 @@ export class ContentViewComponent implements OnInit {
   expandedIds = new Set<number>();
   editingIds  = new Set<number>();
   editFormData = new Map<number, { title: string; body: string }>();
+  isUploadingAttachment = new Map<number, boolean>();
 
   // Permission flags
   canRead   = false;
   canUpdate = false;
   canDelete = false;
   canAdd    = false;
+  canAddAssignment = false;
 
   contentInitialized = false;
   assignmentsInitialized = false;
@@ -70,6 +72,7 @@ export class ContentViewComponent implements OnInit {
     this.canUpdate = this.permissionService.hasPermission('Content:update');
     this.canDelete = this.permissionService.hasPermission('Content:delete');
     this.canAdd    = this.permissionService.hasPermission('Content:add');
+    this.canAddAssignment = this.permissionService.hasPermission('Ass:addOrUpdate');
 
     this.route.paramMap.subscribe(params => {
       const newCourseId = Number(params.get('courseId'));
@@ -275,6 +278,41 @@ export class ContentViewComponent implements OnInit {
           confirmButtonColor: '#41B3E3',
         });
       },
+    });
+  }
+
+  onAddAttachment(event: any, contentId: number): void {
+    const files: FileList = event.target.files;
+    if (files.length === 0) return;
+
+    this.isUploadingAttachment.set(contentId, true);
+    const filesArray = Array.from(files);
+
+    this.contentService.addAttachments(contentId, filesArray).subscribe({
+      next: (res) => {
+        // Update local state
+        const idx = this.contentList.findIndex(c => c.id === contentId);
+        if (idx !== -1) {
+          this.contentList[idx] = res;
+        }
+        this.isUploadingAttachment.set(contentId, false);
+        event.target.value = ''; // Reset input
+
+        Swal.fire({
+          toast: true,
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Attachment(s) added successfully.',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      },
+      error: () => {
+        this.isUploadingAttachment.set(contentId, false);
+        event.target.value = ''; // Reset input
+        Swal.fire('Error', 'Failed to upload attachment(s). Please try again.', 'error');
+      }
     });
   }
 

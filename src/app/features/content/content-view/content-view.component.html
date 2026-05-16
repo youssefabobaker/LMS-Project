@@ -79,7 +79,7 @@
   <div class="d-flex align-items-center justify-content-between mb-4 ps-1 flex-wrap gap-2">
     <h3 class="section-title mb-0">{{ activeTab === 'content' ? 'Published Contents' : 'Course Assignments' }}</h3>
     <!-- Add New CTA -->
-    <button *ngIf="canAdd" id="btn-add-content" class="btn btn-lumina-main d-flex align-items-center gap-2"
+    <button *ngIf="(activeTab === 'content' && canAdd) || (activeTab === 'assignments' && canAddAssignment)" id="btn-add-content" class="btn btn-lumina-main d-flex align-items-center gap-2"
       (click)="onAddContent()">
       <i class="bi bi-plus-lg"></i>
       {{ activeTab === 'content' ? 'Add New Content' : 'Add New Assignment' }}
@@ -194,6 +194,18 @@
       <!-- ── Attachment List (expanded) ───────────────────── -->
       <div *ngIf="isExpanded(item.id) && !editingIds.has(item.id)" class="attachment-list border-top"
         [id]="'attachment-list-' + item.id">
+
+        <div *ngIf="canAdd" class="px-3 px-md-5 py-3 border-bottom d-flex justify-content-end bg-light-subtle">
+          <button type="button"
+                  class="btn btn-lumina-outline btn-sm d-flex align-items-center gap-2"
+                  (click)="contentFileInput.click()"
+                  [disabled]="isUploadingAttachment.get(item.id)">
+            <i *ngIf="!isUploadingAttachment.get(item.id)" class="bi bi-plus-lg"></i>
+            <span *ngIf="isUploadingAttachment.get(item.id)" class="spinner-border spinner-border-sm"></span>
+            {{ isUploadingAttachment.get(item.id) ? 'Uploading...' : 'Add Attachment' }}
+          </button>
+          <input type="file" #contentFileInput class="d-none" multiple (change)="onAddAttachment($event, item.id)">
+        </div>
 
         <!-- Empty attachments message -->
         <div *ngIf="item.contentAttachments.length === 0"
