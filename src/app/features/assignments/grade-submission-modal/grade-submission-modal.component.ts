@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AssignmentSubmissionService } from '../../../core/services/assignment-submission.service';
 import { AssignmentSubmissionResponseDto } from '../../../models/assignment.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-grade-submission-modal',
@@ -44,6 +45,17 @@ export class GradeSubmissionModalComponent implements OnChanges {
       next: (res) => {
         this.gradeSaved.emit(res);
         this.isSubmitting = false;
+        
+        Swal.fire({
+          toast: true,
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Grade published successfully.',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+
         this.reset();
       },
       error: (err) => {
