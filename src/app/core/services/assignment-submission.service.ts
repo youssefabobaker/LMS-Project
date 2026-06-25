@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AssignmentSubmissionResponseDto, AssignmentSubmissionAttachmentDto, GradeSubmissionDto } from '../../models/assignment.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignmentSubmissionService {
-  private apiUrl = `https://localhost:7289/api/AssignmentSubmission`;
+  private apiUrl = `${environment.apiUrl}/api/AssignmentSubmission`;
 
   constructor(private http: HttpClient) { }
 

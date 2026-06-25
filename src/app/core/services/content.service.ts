@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Content, ContentAttachment } from '../../models/content';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ContentService {
-  private baseUrl = 'https://localhost:7289/api/Content';
+  private baseUrl = `${environment.apiUrl}/api/Content`;
 
   constructor(private http: HttpClient) {}
 

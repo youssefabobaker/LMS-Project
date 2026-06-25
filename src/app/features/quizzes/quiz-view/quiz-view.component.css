@@ -1,0 +1,166 @@
+.quiz-code-modern {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: linear-gradient(145deg, #f8f9fa 0%, #e1f5fe 100%);
+  color: #004d6b;
+  border: 1px solid rgba(65, 179, 227, 0.3);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.quiz-code-modern:hover {
+  background: linear-gradient(145deg, #e1f5fe 0%, #d1f0fd 100%);
+  box-shadow: 0 4px 12px rgba(65, 179, 227, 0.15) !important;
+}
+
+.quiz-code-modern .tracking-wider {
+  letter-spacing: 0.15em;
+}
+
+.copy-icon {
+  cursor: pointer;
+  opacity: 0.6;
+  font-size: 0.95em;
+  transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.copy-icon:hover {
+  opacity: 1;
+  color: #002D5B;
+  transform: scale(1.1);
+}
+
+/* ── Content Card ──────────────────────────────────────────────────── */
+.content-card {
+  background: #ffffff;
+  border: 1px solid #e4e9ed;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-card:hover {
+  border-color: rgba(65, 179, 227, 0.4);
+  box-shadow: 0 6px 16px rgba(65, 179, 227, 0.1);
+  background-color: rgba(65, 179, 227, 0.03);
+}
+
+.card-header-row {
+  transition: background-color 0.2s ease;
+}
+
+.card-header-row:hover {
+  background-color: rgba(65, 179, 227, 0.03);
+}
+
+/* ── Number Badge ──────────────────────────────────────────────────── */
+.content-number-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: #f0f4f8;
+  color: #41B3E3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.content-number-badge.active {
+  background: #41B3E3;
+  color: #ffffff;
+}
+
+/* ── Content Title / Body ──────────────────────────────────────────── */
+.content-title {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #001A33;
+  line-height: 1.4;
+}
+
+.content-body {
+  font-size: 0.88rem;
+  color: #6C757D;
+  line-height: 1.5;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content-attachment-count {
+  font-size: 0.8rem;
+  color: #6C757D;
+}
+
+/* ── Delete Buttons ────────────────────────────────────────────────── */
+.btn-delete-card {
+  color: #adb5bd !important;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-delete-card:hover {
+  color: #E63946 !important;
+}
+
+.empty-state-card {
+  background: #ffffff;
+  border: 1px dashed #dee2e6;
+  border-radius: 12px;
+  padding: 3rem;
+}
+
+.empty-state-icon {
+  font-size: 3.5rem;
+  color: #adb5bd;
+}
+
+/* ── View Attempts Button (Lumina Style) ─────────────────────────────── */
+.btn-view-attempts {
+  background-color: rgba(65, 179, 227, 0.1);
+  color: #002D5B;
+  border: 1px solid rgba(65, 179, 227, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-view-attempts:hover {
+  background-color: #41B3E3;
+  color: #ffffff;
+  border-color: #41B3E3;
+  box-shadow: 0 4px 12px rgba(65, 179, 227, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-view-attempts i {
+  color: #41B3E3;
+  transition: color 0.3s ease;
+}
+
+.btn-view-attempts:hover i {
+  color: #ffffff;
+}
+
+/* ── Action Buttons ──────────────────────────────────────────────────── */
+.action-icon-btn {
+  color: #6c757d;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+}
+
+.action-icon-btn:hover {
+  background-color: rgba(65, 179, 227, 0.1);
+  color: #41B3E3 !important;
+}
+
+.action-icon-danger:hover {
+  background-color: rgba(230, 57, 70, 0.1);
+  color: #E63946 !important;
+}

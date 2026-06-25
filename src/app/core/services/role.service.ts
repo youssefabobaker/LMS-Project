@@ -3,13 +3,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Role, PermissionResponse } from '../../models/role';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoleService {
 
-  private baseUrl = 'https://localhost:7289/api/Roles'; // الـ Base URL حسب الـ PDF [cite: 3, 34]
+  private baseUrl = `${environment.apiUrl}/api/Roles`; // الـ Base URL حسب الـ PDF [cite: 3, 34]
 
   constructor(private http: HttpClient) { }
 

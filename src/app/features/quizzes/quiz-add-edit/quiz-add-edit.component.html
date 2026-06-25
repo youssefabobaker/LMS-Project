@@ -1,0 +1,77 @@
+<div class="modal-header text-white" style="background: linear-gradient(90deg, #001A33 0%, #002D5B 100%);">
+  <h5 class="modal-title fw-bold" id="quizAddEditModalLabel">
+    <i class="bi bi-card-checklist me-2"></i>
+    {{ quizData ? 'Edit Quiz' : 'Add New Quiz' }}
+  </h5>
+  <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="dismiss()"></button>
+</div>
+
+<div class="modal-body p-4">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Title <span class="text-danger">*</span></label>
+      <input type="text" class="form-control"
+        [class.is-invalid]="form.get('title')?.invalid && form.get('title')?.touched" formControlName="title"
+        placeholder="Quiz title">
+      <div class="invalid-feedback" *ngIf="form.get('title')?.hasError('required')">Title is required.</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Description <span class="text-danger">*</span></label>
+      <textarea class="form-control" rows="3"
+        [class.is-invalid]="form.get('description')?.invalid && form.get('description')?.touched"
+        formControlName="description" placeholder="Quiz description"></textarea>
+      <div class="invalid-feedback" *ngIf="form.get('description')?.hasError('required')">Description is required.</div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Scheduled Date <span class="text-danger">*</span></label>
+        <input type="datetime-local" class="form-control"
+          [class.is-invalid]="form.get('scheduledDate')?.invalid && form.get('scheduledDate')?.touched"
+          formControlName="scheduledDate">
+        <div class="invalid-feedback" *ngIf="form.get('scheduledDate')?.hasError('required')">Scheduled date is
+          required.</div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Duration (Minutes) <span class="text-danger">*</span></label>
+        <input type="number" class="form-control"
+          [class.is-invalid]="form.get('duration')?.invalid && form.get('duration')?.touched" formControlName="duration"
+          placeholder="e.g. 60">
+        <div class="invalid-feedback" *ngIf="form.get('duration')?.hasError('required')">Duration is required.</div>
+        <div class="invalid-feedback" *ngIf="form.get('duration')?.hasError('invalidDuration')">Must be a valid number
+          of minutes greater than 0.</div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Total Marks <span class="text-danger">*</span></label>
+        <input type="number" class="form-control"
+          [class.is-invalid]="form.get('totalMarks')?.invalid && form.get('totalMarks')?.touched"
+          formControlName="totalMarks" placeholder="e.g. 10">
+        <div class="invalid-feedback" *ngIf="form.get('totalMarks')?.hasError('required')">Total marks are required.
+        </div>
+        <div class="invalid-feedback" *ngIf="form.get('totalMarks')?.hasError('min')">Must be greater than 0.</div>
+      </div>
+      <div class="col-md-6 d-flex align-items-end mb-2">
+        <div class="form-check form-switch ms-1">
+          <input class="form-check-input" type="checkbox" formControlName="isActive" id="quizIsActive">
+          <label class="form-check-label fw-bold" for="quizIsActive">Active</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+      <button type="button" class="btn btn-light border fw-medium px-4" (click)="dismiss()">Cancel</button>
+      <button type="submit" class="btn btn-lumina-main fw-bold px-4 d-flex align-items-center gap-2"
+        [disabled]="form.invalid || isSubmitting">
+        <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <i *ngIf="!isSubmitting" class="bi bi-check-lg"></i>
+        {{ quizData ? 'Save Changes' : 'Create Quiz' }}
+      </button>
+    </div>
+
+  </form>
+</div>

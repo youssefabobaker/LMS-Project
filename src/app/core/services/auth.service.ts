@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'https://localhost:7289/api/Authuntication';
+  private baseUrl = `${environment.apiUrl}/api/Authuntication`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, {
@@ -25,7 +26,7 @@ export class AuthService {
 
   getDepartments(): Observable<any[]> {
     // الـ URL من الـ Swagger اللي بعته
-    return this.http.get<any[]>('https://localhost:7289/api/Department').pipe(
+    return this.http.get<any[]>(`${environment.apiUrl}/api/Department`).pipe(
       map(deps => deps.map(d => ({
         id: d.id ?? d.Id,
         title: d.title ?? d.Title

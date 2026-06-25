@@ -11,15 +11,14 @@
 .content-card:hover {
   border-color: rgba(65, 179, 227, 0.4);
   box-shadow: 0 6px 16px rgba(65, 179, 227, 0.1);
+  background-color: rgba(65, 179, 227, 0.03);
 }
 
 .card-header-row {
   transition: background-color 0.2s ease;
 }
 
-.card-header-row:hover {
-  background-color: rgba(65, 179, 227, 0.03);
-}
+.card-header-row:hover {}
 
 /* ── Number Badge ──────────────────────────────────────────────────── */
 .content-number-badge {

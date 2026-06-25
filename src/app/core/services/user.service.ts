@@ -3,13 +3,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../../models/user'; // تأكد من مسار الموديل عندك
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   // استبدل <host> بالدومين الفعلي الخاص بك كما هو موضح في صفحة 1 من الـ PDF
-  private baseUrl = 'https://localhost:7289/api/Users';
+  private baseUrl = `${environment.apiUrl}/api/Users`;
 
   constructor(private http: HttpClient) {}
 

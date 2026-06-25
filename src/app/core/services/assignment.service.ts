@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import {
   AssignmentResponseDto,
   AssignmentAttachmentDto,
@@ -11,7 +12,7 @@ import {
   providedIn: 'root',
 })
 export class AssignmentService {
-  private apiUrl = `https://localhost:7289/api/Assignment`;
+  private apiUrl = `${environment.apiUrl}/api/Assignment`;
 
   constructor(private http: HttpClient) {}
 

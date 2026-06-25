@@ -5,12 +5,13 @@ import { map } from 'rxjs/operators';
 import { Course } from '../../models/course';
 import { Assessment, AssessmentType } from '../../models/assessment';
 import { EnrolledUser } from '../../models/enrolled-user';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CourseService {
-  private baseUrl = 'https://localhost:7289/api/Course';
+  private baseUrl = `${environment.apiUrl}/api/Course`;
 
   constructor(private http: HttpClient) {}
 

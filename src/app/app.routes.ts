@@ -15,6 +15,8 @@ import { CourseViewComponent } from './features/course-management/course-view/co
 import { ContentViewComponent } from './features/content/content-view/content-view.component';
 import { SubmissionsListComponent } from './features/assignments/submissions-list/submissions-list.component';
 import { AssignmentDetailComponent } from './features/assignments/assignment-detail/assignment-detail.component';
+import { QuizDetailComponent } from './features/quizzes/quiz-detail/quiz-detail.component';
+import { QuizAttemptsComponent } from './features/quizzes/quiz-attempts/quiz-attempts.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -95,6 +97,27 @@ export const routes: Routes = [
         component: SubmissionsListComponent,
         canActivate: [permissionGuard],
         data: { permission: 'AssSubmission:readAll' },
+      },
+      // ── Quiz View — Cycle 1 ──────────────────────────────────────
+      {
+        path: 'courses/:courseId/quizzes',
+        component: ContentViewComponent,
+        canActivate: [permissionGuard],
+        data: { permission: 'Quiz:read' },
+      },
+      // ── Quiz Detail — Cycle 2 ────────────────────────────────────────
+      {
+        path: 'courses/:courseId/quizzes/:quizId',
+        component: QuizDetailComponent,
+        canActivate: [permissionGuard],
+        data: { permission: 'questions:read' },
+      },
+      // ── Quiz Attempts Dashboard ───────────────────────────────────────
+      {
+        path: 'courses/:courseId/quizzes/:quizId/attempts',
+        component: QuizAttemptsComponent,
+        canActivate: [permissionGuard],
+        data: { permission: 'Quiz:addOrUpdate' },
       },
     ],
   },

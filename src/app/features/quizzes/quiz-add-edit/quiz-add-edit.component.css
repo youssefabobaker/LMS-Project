@@ -1,0 +1,13 @@
+/* modal header gradient uses inline style, other overrides can go here */
+
+.btn-lumina-main {
+  background-color: #41B3E3;
+  color: white;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-lumina-main:hover:not(:disabled) {
+  background-color: #319FC9;
+  color: white;
+}

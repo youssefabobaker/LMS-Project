@@ -7,14 +7,20 @@
 .course-header-section {
   border-color: #e4e9ed !important;
   /* Responsive height: tall on desktop, compact on mobile */
-  min-height: 220px; /* mobile */
+  min-height: 220px;
+  /* mobile */
 }
 
 @media (min-width: 576px) {
-  .course-header-section { min-height: 300px; }
+  .course-header-section {
+    min-height: 300px;
+  }
 }
+
 @media (min-width: 992px) {
-  .course-header-section { min-height: 400px; }
+  .course-header-section {
+    min-height: 400px;
+  }
 }
 
 .header-back-link {
@@ -48,6 +54,7 @@
 .content-card:hover {
   border-color: rgba(65, 179, 227, 0.4);
   box-shadow: 0 6px 16px rgba(65, 179, 227, 0.1);
+  background-color: rgba(65, 179, 227, 0.03);
 }
 
 /* ── Card Header Row ───────────────────────────────────────────────── */
@@ -55,9 +62,7 @@
   transition: background-color 0.2s ease;
 }
 
-.card-header-row:not(.is-editing):hover {
-  background-color: rgba(65, 179, 227, 0.03);
-}
+.card-header-row:not(.is-editing):hover {}
 
 /* ── Number Badge ──────────────────────────────────────────────────── */
 .content-number-badge {
@@ -303,7 +308,8 @@
   border-bottom: 2px solid transparent;
   border-radius: 0;
   color: #6c757d;
-  margin-bottom: -1px; /* Align with the container border */
+  margin-bottom: -1px;
+  /* Align with the container border */
   transition: all 0.2s ease;
 }
 
@@ -316,11 +322,13 @@
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .tabs-nav-wrapper::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  display: none;
+  /* Safari and Chrome */
 }
 
 /* Prevent tab buttons from shrinking below readable size */
@@ -335,10 +343,12 @@
     flex-wrap: wrap;
     gap: 0.75rem;
   }
-  .card-header-row > div:last-child {
+
+  .card-header-row>div:last-child {
     width: 100%;
     justify-content: flex-start;
   }
+
   /* Reduce container padding on xs */
   .container-fluid.py-4.px-4 {
     padding-left: 1rem !important;
@@ -347,6 +357,9 @@
 }
 
 /* ── Video / PDF media: never overflow parent ───────────────────── */
-video, iframe, embed, object {
+video,
+iframe,
+embed,
+object {
   max-width: 100%;
 }

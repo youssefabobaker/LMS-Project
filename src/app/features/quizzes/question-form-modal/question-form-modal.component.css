@@ -1,0 +1,25 @@
+.modal-header {
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.custom-radio:checked {
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.choice-row {
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  background-color: #fff;
+}
+
+.choice-row.border-success {
+  background-color: rgba(40, 167, 69, 0.05) !important;
+  border-color: rgba(40, 167, 69, 0.5) !important;
+}
+
+input:disabled {
+  background-color: #e9ecef !important;
+  color: #495057;
+  font-weight: 500;
+  cursor: not-allowed;
+}

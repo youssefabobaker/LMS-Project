@@ -1,0 +1,98 @@
+<div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+  <div class="modal-content border-0 shadow">
+    
+    <div class="modal-header text-white" style="background: linear-gradient(90deg, #001A33 0%, #002D5B 100%);">
+      <h5 class="modal-title fw-bold">
+        {{ questionData ? 'Edit Question' : 'Add Question' }}
+      </h5>
+      <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="dismiss()"></button>
+    </div>
+
+    <div class="modal-body p-4 p-md-5">
+      <form [formGroup]="form">
+        
+        <!-- Question Text -->
+        <div class="mb-4">
+          <label class="form-label fw-bold text-dark">Question Text <span class="text-danger">*</span></label>
+          <textarea class="form-control" rows="3" formControlName="questionText" placeholder="Enter your question here..." [class.is-invalid]="form.get('questionText')?.invalid && form.get('questionText')?.touched"></textarea>
+          <div class="invalid-feedback">Question text is required.</div>
+        </div>
+
+        <div class="row mb-4">
+          <!-- Question Type -->
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label class="form-label fw-bold text-dark">Question Type</label>
+            <select class="form-select" formControlName="questionType">
+              <option [ngValue]="0">Multiple Choice</option>
+              <option [ngValue]="1">True or False</option>
+            </select>
+          </div>
+          
+          <!-- Marks -->
+          <div class="col-md-6">
+            <label class="form-label fw-bold text-dark">Marks <span class="text-danger">*</span></label>
+            <input type="number" step="0.01" class="form-control" formControlName="marks" [class.is-invalid]="form.get('marks')?.invalid && form.get('marks')?.touched">
+            <div class="invalid-feedback">A valid mark (> 0) is required.</div>
+          </div>
+        </div>
+
+        <!-- Allow Looking Down -->
+        <div class="mb-4 form-check">
+          <input type="checkbox" class="form-check-input" id="chkLookDown" formControlName="isAllowableToLookDown">
+          <label class="form-check-label fw-medium text-dark" for="chkLookDown">Allow Looking Down</label>
+        </div>
+
+        <!-- Answer Choices -->
+        <div class="mb-2">
+          <label class="form-label fw-bold text-dark d-flex align-items-center gap-2">
+            <i class="bi bi-list-check text-primary"></i> Answer Choices
+          </label>
+          <p class="text-muted small mb-3">Select the radio button next to the correct answer.</p>
+          
+          <div formArrayName="choices" class="d-flex flex-column gap-2">
+            <div *ngFor="let choiceCtrl of choicesArray.controls; let i = index" class="choice-row d-flex align-items-center gap-3 p-2 rounded-3 border" [class.border-success]="form.get('correctAnswerIndex')?.value === i">
+              
+              <div class="form-check m-0 d-flex align-items-center justify-content-center">
+                <input class="form-check-input mt-0 custom-radio" type="radio" name="correctAnswerIndex" 
+                       [checked]="form.get('correctAnswerIndex')?.value === i" 
+                       (change)="form.get('correctAnswerIndex')?.setValue(i)" 
+                       [value]="i" style="width: 1.25rem; height: 1.25rem; cursor: pointer;">
+              </div>
+              
+              <div class="choice-input flex-grow-1">
+                <input type="text" class="form-control" [formControlName]="i" placeholder="Enter choice text" [class.is-invalid]="choiceCtrl.invalid && choiceCtrl.touched">
+              </div>
+              
+              <button *ngIf="form.get('questionType')?.value !== 1 && choicesArray.length > 2" type="button" class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" (click)="removeChoice(i)" title="Remove Choice">
+                <i class="bi bi-x fs-5"></i>
+              </button>
+              <div *ngIf="form.get('questionType')?.value === 1 || choicesArray.length <= 2" style="width: 32px; height: 32px;"></div>
+            </div>
+          </div>
+
+          <div *ngIf="choicesValidationError" class="text-danger small mt-2 fw-medium">
+            <i class="bi bi-exclamation-circle-fill me-1"></i> At least 2 choices are required.
+          </div>
+
+          <div *ngIf="form.get('correctAnswerIndex')?.invalid && form.get('correctAnswerIndex')?.touched" class="text-danger small mt-2 fw-medium">
+            <i class="bi bi-exclamation-circle-fill me-1"></i> Please select the correct answer by clicking its radio button.
+          </div>
+        </div>
+
+        <!-- Add Choice Button -->
+        <button *ngIf="form.get('questionType')?.value !== 1" type="button" class="btn btn-link text-decoration-none p-0 mt-2 d-flex align-items-center gap-1" (click)="addChoice()">
+          <i class="bi bi-plus-circle-fill text-primary"></i> Add Choice
+        </button>
+
+      </form>
+    </div>
+
+    <div class="modal-footer bg-light border-top-0 rounded-bottom-3 py-3 px-4">
+      <button type="button" class="btn btn-outline-secondary px-4 fw-medium" (click)="dismiss()">Cancel</button>
+      <button type="button" class="btn btn-primary px-4 fw-bold d-flex align-items-center gap-2" [disabled]="isSubmitting" (click)="submit()">
+        <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span>Save Question</span>
+      </button>
+    </div>
+  </div>
+</div>

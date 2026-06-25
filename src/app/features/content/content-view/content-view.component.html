@@ -25,7 +25,7 @@
         <a class="text-decoration-none text-lms-primary header-back-link" href="javascript:void(0)"
           (click)="goBack()">Back to Courses</a>
         <i class="bi bi-chevron-right small text-dark opacity-50"></i>
-        <span class="text-dark opacity-75">{{ activeTab === 'content' ? 'Content' : 'Assignments' }}</span>
+        <span class="text-dark opacity-75">{{ activeTab === 'content' ? 'Content' : activeTab === 'assignments' ? 'Assignments' : 'Quizzes' }}</span>
       </nav>
 
       <h1 class="display-5 fw-bolder mb-3 text-dark"
@@ -72,17 +72,26 @@
         <i class="bi bi-clipboard-check fs-5"></i>
         Assignments
       </button>
+
+      <!-- Quizzes Tab -->
+      <button *ngIf="canReadQuiz"
+              class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
+              [class.active-tab]="activeTab === 'quizzes'"
+              (click)="switchTab('quizzes')">
+        <i class="bi bi-card-checklist fs-5"></i>
+        Quizzes
+      </button>
     </div>
   </div>
 
   <!-- ── Section Title & Add Button ───────────────────────────────── -->
   <div class="d-flex align-items-center justify-content-between mb-4 ps-1 flex-wrap gap-2">
-    <h3 class="section-title mb-0">{{ activeTab === 'content' ? 'Published Contents' : 'Course Assignments' }}</h3>
+    <h3 class="section-title mb-0">{{ activeTab === 'content' ? 'Published Contents' : activeTab === 'assignments' ? 'Course Assignments' : 'Course Quizzes' }}</h3>
     <!-- Add New CTA -->
-    <button *ngIf="(activeTab === 'content' && canAdd) || (activeTab === 'assignments' && canAddAssignment)" id="btn-add-content" class="btn btn-lumina-main d-flex align-items-center gap-2"
+    <button *ngIf="(activeTab === 'content' && canAdd) || (activeTab === 'assignments' && canAddAssignment) || (activeTab === 'quizzes' && canAddOrUpdateQuiz)" id="btn-add-content" class="btn btn-lumina-main d-flex align-items-center gap-2"
       (click)="onAddContent()">
       <i class="bi bi-plus-lg"></i>
-      {{ activeTab === 'content' ? 'Add New Content' : 'Add New Assignment' }}
+      {{ activeTab === 'content' ? 'Add New Content' : activeTab === 'assignments' ? 'Add New Assignment' : 'Add New Quiz' }}
     </button>
   </div>
 
@@ -244,6 +253,10 @@
 
   <div [hidden]="activeTab !== 'assignments'">
     <app-assignments-view *ngIf="assignmentsInitialized" [courseId]="courseId"></app-assignments-view>
+  </div>
+
+  <div [hidden]="activeTab !== 'quizzes'">
+    <app-quiz-view *ngIf="quizzesInitialized" [courseId]="courseId"></app-quiz-view>
   </div>
 
   <!-- ── Add Content Modal Host ──────────────────────────────── -->

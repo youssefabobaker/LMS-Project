@@ -1,0 +1,115 @@
+<div class="content-list">
+
+  <!-- ── Loading Spinner ────────────────────────────────────── -->
+  <div *ngIf="isLoading" class="text-center my-5 py-5" id="quiz-loading-spinner">
+    <div class="spinner-border text-lms-primary" role="status" style="width:3rem;height:3rem;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="text-muted mt-3">Loading quizzes…</p>
+  </div>
+
+  <!-- ── Load Error Banner ───────────────────────────────────── -->
+  <div *ngIf="!isLoading && loadError" class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+    <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+    <div>
+      {{ loadError }}
+      <button class="btn btn-link btn-sm p-0 ms-2" (click)="loadQuizzes()">Retry</button>
+    </div>
+  </div>
+
+  <!-- ── Empty State ────────────────────────────────────────── -->
+  <div *ngIf="!isLoading && !loadError && quizzesList.length === 0" class="empty-state-card text-center py-5">
+    <i class="bi bi-journal-x empty-state-icon text-muted" style="font-size: 3rem;"></i>
+    <h5 class="mt-3 text-muted">No Quizzes Yet</h5>
+    <p class="text-muted small">This course has no published quizzes.</p>
+  </div>
+
+  <!-- ── Quiz List ──────────────────────────────────────────── -->
+  <div *ngFor="let quiz of quizzesList; let i = index" 
+       class="content-card mb-4" 
+       [id]="'quiz-card-' + quiz.id"
+       [class.clickable-card]="canReadQuestions"
+       [style.cursor]="canReadQuestions ? 'pointer' : 'default'"
+       (click)="canReadQuestions && navigateToDetail(quiz.id)">
+       
+    <div class="card-header-row d-flex align-items-center justify-content-between p-4">
+      
+      <!-- Left: Number + Title/Description + Chips -->
+      <div class="d-flex align-items-center gap-4 overflow-hidden">
+        <div class="content-number-badge">
+          <span class="fw-bold">{{ (i + 1) | number: '2.0-0' }}</span>
+        </div>
+
+        <div class="flex-grow-1 overflow-hidden">
+          <h5 class="content-title mb-1 text-truncate fw-bolder" style="color: #002D5B;" [title]="quiz.title">{{ quiz.title }}</h5>
+          <p class="text-muted small mb-3 text-truncate" style="max-width: 95%;" [title]="quiz.description">{{ quiz.description }}</p>
+
+          <div class="d-flex align-items-center gap-3 flex-wrap">
+            <span class="badge bg-light text-secondary border fw-medium px-2 py-1 d-flex align-items-center gap-2 shadow-sm" style="font-size: 0.8rem;">
+              <i class="bi bi-calendar-event" style="color: #89CFF0;"></i>
+              {{ quiz.scheduledDate | date:'MMM d, y, h:mm a' }}
+            </span>
+            <span class="badge bg-light text-secondary border fw-medium px-2 py-1 d-flex align-items-center gap-2 shadow-sm" style="font-size: 0.8rem;">
+              <i class="bi bi-hourglass-split" style="color: #89CFF0;"></i>
+              {{ parseDurationToMinutes(quiz.duration) }}
+            </span>
+            <span class="badge bg-light text-secondary border fw-medium px-2 py-1 d-flex align-items-center gap-2 shadow-sm" style="font-size: 0.8rem;">
+              <i class="bi bi-award" style="color: #89CFF0;"></i>
+              {{ quiz.totalMarks }} Marks
+            </span>
+            <div class="quiz-code-modern ms-0 ms-md-auto d-flex align-items-center gap-2 shadow-sm" title="Quiz Code">
+              <span class="fw-medium opacity-75" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Code:</span>
+              <span class="fw-bold tracking-wider">{{ quiz.quizCode }}</span>
+              <i class="bi bi-copy ms-1 copy-icon" title="Copy Code" (click)="copyToClipboard($event, quiz.quizCode)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Action Buttons -->
+      <div class="d-flex align-items-center gap-2" (click)="$event.stopPropagation()">
+        
+        <!-- Primary Action -->
+        <button *ngIf="canAddOrUpdateQuiz" 
+                class="btn btn-view-attempts d-flex align-items-center gap-2 px-3 py-2 fw-bold shadow-sm"
+                title="View Student Attempts"
+                (click)="navigateToAttempts(quiz.id)"
+                style="border-radius: 8px; font-size: 0.85rem; letter-spacing: 0.02em;">
+          <i class="bi bi-people-fill fs-6"></i> View Attempts
+        </button>
+
+        <!-- Secondary Actions -->
+        <div class="d-flex align-items-center border-start ps-2 ms-2 gap-1" *ngIf="canAddOrUpdateQuiz || canDeleteQuiz">
+          <button *ngIf="canAddOrUpdateQuiz" 
+                  class="btn btn-link text-secondary p-2 action-icon-btn"
+                  title="Edit Quiz"
+                  (click)="openEditModal(quiz)">
+            <i class="bi bi-pencil-square fs-5"></i>
+          </button>
+
+          <button *ngIf="canDeleteQuiz" 
+                  class="btn btn-link text-secondary p-2 action-icon-btn action-icon-danger"
+                  title="Delete Quiz"
+                  (click)="deleteQuiz(quiz.id)">
+            <i class="bi bi-trash3 fs-5"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Add/Edit Modal Host ──────────────────────────────── -->
+  <div class="modal fade" id="quizAddEditModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content rounded-3 overflow-hidden shadow-lg">
+        <app-quiz-add-edit [courseId]="courseId" [quizData]="selectedQuiz"
+          (quizCreated)="onQuizCreated($event)"
+          (quizUpdated)="onQuizUpdated($event)"
+          (modalDismissed)="closeModal()">
+        </app-quiz-add-edit>
+      </div>
+    </div>
+  </div>
+
+</div>
