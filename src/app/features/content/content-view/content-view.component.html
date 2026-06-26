@@ -25,7 +25,8 @@
         <a class="text-decoration-none text-lms-primary header-back-link" href="javascript:void(0)"
           (click)="goBack()">Back to Courses</a>
         <i class="bi bi-chevron-right small text-dark opacity-50"></i>
-        <span class="text-dark opacity-75">{{ activeTab === 'content' ? 'Content' : activeTab === 'assignments' ? 'Assignments' : 'Quizzes' }}</span>
+        <span class="text-dark opacity-75">{{ activeTab === 'content' ? 'Content' : activeTab === 'assignments' ?
+          'Assignments' : 'Quizzes' }}</span>
       </nav>
 
       <h1 class="display-5 fw-bolder mb-3 text-dark"
@@ -54,224 +55,240 @@
   </section>
 
   <!-- ── Tabs Navigation ───────────────────────────────────────────────── -->
-  <div class="tabs-nav-wrapper d-flex align-items-center justify-content-between mb-5 border-bottom border-secondary-subtle">
+  <div
+    class="tabs-nav-wrapper d-flex align-items-center justify-content-between mb-5 border-bottom border-secondary-subtle">
     <div class="d-flex gap-4 flex-nowrap">
 
       <!-- Content Tab -->
-      <button class="btn btn-link text-decoration-none pb-3 px-0 fw-bold d-flex align-items-center gap-2 tab-btn"
-              [class.active-tab]="activeTab === 'content'"
-              (click)="switchTab('content')">
+      <button class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
+        [class.active-tab]="activeTab === 'content'" (click)="switchTab('content')">
         <i class="bi bi-layout-text-window-reverse fs-5"></i>
         Content
       </button>
 
       <!-- Assignments Tab -->
-      <button class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
-              [class.active-tab]="activeTab === 'assignments'"
-              (click)="switchTab('assignments')">
+      <button *ngIf="canReadAssignment"
+        class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
+        [class.active-tab]="activeTab === 'assignments'" (click)="switchTab('assignments')">
         <i class="bi bi-clipboard-check fs-5"></i>
         Assignments
       </button>
 
       <!-- Quizzes Tab -->
       <button *ngIf="canReadQuiz"
-              class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
-              [class.active-tab]="activeTab === 'quizzes'"
-              (click)="switchTab('quizzes')">
+        class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
+        [class.active-tab]="activeTab === 'quizzes'" (click)="switchTab('quizzes')">
         <i class="bi bi-card-checklist fs-5"></i>
         Quizzes
+      </button>
+
+      <!-- Live Classes Tab -->
+      <button *ngIf="canReadCourse"
+        class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
+        [class.active-tab]="activeTab === 'lectures'" (click)="switchTab('lectures')">
+        <i class="bi bi-camera-video fs-5"></i>
+        Live Classes
       </button>
     </div>
   </div>
 
   <!-- ── Section Title & Add Button ───────────────────────────────── -->
   <div class="d-flex align-items-center justify-content-between mb-4 ps-1 flex-wrap gap-2">
-    <h3 class="section-title mb-0">{{ activeTab === 'content' ? 'Published Contents' : activeTab === 'assignments' ? 'Course Assignments' : 'Course Quizzes' }}</h3>
+    <h3 class="section-title mb-0">{{ activeTab === 'content' ? 'Published Contents' : activeTab === 'assignments' ?
+      'Course Assignments' : activeTab === 'quizzes' ? 'Course Quizzes' : 'Live Classes' }}</h3>
     <!-- Add New CTA -->
-    <button *ngIf="(activeTab === 'content' && canAdd) || (activeTab === 'assignments' && canAddAssignment) || (activeTab === 'quizzes' && canAddOrUpdateQuiz)" id="btn-add-content" class="btn btn-lumina-main d-flex align-items-center gap-2"
-      (click)="onAddContent()">
+    <button
+      *ngIf="(activeTab === 'content' && canAdd) || (activeTab === 'assignments' && canAddAssignment) || (activeTab === 'quizzes' && canAddOrUpdateQuiz) || (activeTab === 'lectures' && canCreateLecture)"
+      id="btn-add-content" class="btn btn-lumina-main d-flex align-items-center gap-2" (click)="onAddContent()">
       <i class="bi bi-plus-lg"></i>
-      {{ activeTab === 'content' ? 'Add New Content' : activeTab === 'assignments' ? 'Add New Assignment' : 'Add New Quiz' }}
+      {{ activeTab === 'content' ? 'Add New Content' : activeTab === 'assignments' ? 'Add New Assignment' : activeTab
+      === 'quizzes' ? 'Add New Quiz' : 'Add New Live Class' }}
     </button>
   </div>
 
   <div [hidden]="activeTab !== 'content'">
     <!-- ── Loading Spinner ────────────────────────────────────── -->
-  <div *ngIf="isLoading" class="text-center my-5 py-5" id="content-loading-spinner">
-    <div class="spinner-border text-lms-primary" role="status" style="width:3rem;height:3rem;">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="text-muted mt-3">Loading course content…</p>
-  </div>
-
-  <!-- ── Load Error Banner ───────────────────────────────────── -->
-  <div *ngIf="!isLoading && loadError" class="alert alert-danger d-flex align-items-center gap-2"
-    id="content-load-error" role="alert">
-    <i class="bi bi-exclamation-triangle-fill fs-5"></i>
-    <div>
-      {{ loadError }}
-      <button class="btn btn-link btn-sm p-0 ms-2" (click)="loadContent()">Retry</button>
-    </div>
-  </div>
-
-  <!-- ── Empty State ────────────────────────────────────────── -->
-  <div *ngIf="!isLoading && !loadError && contentList.length === 0" class="empty-state-card text-center py-5"
-    id="content-empty-state">
-    <i class="bi bi-inbox empty-state-icon"></i>
-    <h5 class="mt-3 text-muted">No Content Yet</h5>
-    <p class="text-muted small">This course has no published content items.</p>
-  </div>
-
-  <!-- ── Content Card List ──────────────────────────────────── -->
-  <div *ngIf="!isLoading && !loadError && contentList.length > 0" class="content-list" id="content-list">
-
-    <div *ngFor="let item of contentList; let i = index" class="content-card mb-4" [id]="'content-card-' + item.id">
-
-      <!-- Card Header Row -->
-      <div class="card-header-row d-flex align-items-center justify-content-between p-4"
-        [class.is-editing]="editingIds.has(item.id)" (click)="!editingIds.has(item.id) && toggleExpand(item.id)"
-        [style.cursor]="editingIds.has(item.id) ? 'default' : 'pointer'">
-
-        <!-- Left: Number + Title/Body -->
-        <div class="d-flex align-items-center gap-4">
-          <div class="content-number-badge" [class.active]="isExpanded(item.id)">
-            <span class="fw-bold">{{ (i + 1) | number: '2.0-0' }}</span>
-          </div>
-          <div>
-            <h5 class="content-title mb-0" [id]="'content-title-' + item.id">{{ item.title }}</h5>
-            <p class="content-body text-muted small mt-1 mb-0" [id]="'content-body-' + item.id">{{ item.body }}</p>
-            <!-- Attachment count summary -->
-            <p class="content-attachment-count text-muted mb-0 mt-1" *ngIf="!editingIds.has(item.id)">
-              <span *ngIf="item.contentAttachments.length > 0">
-                <i class="bi bi-paperclip me-1"></i>{{ item.contentAttachments.length }} file(s)
-              </span>
-              <span *ngIf="item.contentAttachments.length === 0" class="text-muted fst-italic small">
-                No attachments
-              </span>
-            </p>
-          </div>
-        </div>
-
-        <!-- Right: Action buttons + expand icon -->
-        <div class="d-flex align-items-center gap-2" (click)="$event.stopPropagation()">
-
-          <!-- Edit button (canUpdate, not in edit mode) -->
-          <button *ngIf="canUpdate && !editingIds.has(item.id)"
-            class="btn btn-edit-action d-flex align-items-center gap-1" [id]="'btn-edit-' + item.id"
-            [attr.aria-label]="'Edit content ' + item.title" (click)="startEdit(item)">
-            <i class="bi bi-pencil-square"></i>
-            Edit
-          </button>
-
-          <!-- Delete button (canDelete, not in edit mode) -->
-          <button *ngIf="canDelete && !editingIds.has(item.id)" class="btn btn-link btn-delete-card text-danger p-2"
-            [id]="'btn-delete-' + item.id" [attr.aria-label]="'Delete content ' + item.title"
-            (click)="deleteContent(item.id)">
-            <i class="bi bi-trash3 fs-5"></i>
-          </button>
-
-          <!-- Expand toggle (not in edit mode) -->
-          <i *ngIf="!editingIds.has(item.id)" class="bi expand-icon"
-            [ngClass]="isExpanded(item.id) ? 'bi-chevron-up' : 'bi-chevron-down'"
-            (click)="toggleExpand(item.id)" style="cursor: pointer;">
-          </i>
-        </div>
+    <div *ngIf="isLoading" class="text-center my-5 py-5" id="content-loading-spinner">
+      <div class="spinner-border text-lms-primary" role="status" style="width:3rem;height:3rem;">
+        <span class="visually-hidden">Loading...</span>
       </div>
+      <p class="text-muted mt-3">Loading course content…</p>
+    </div>
 
-      <!-- ── Inline Edit Form ──────────────────────────────── -->
-      <div *ngIf="editingIds.has(item.id)" class="inline-edit-form border-top p-4">
-        <div class="mb-3">
-          <label [for]="'edit-title-' + item.id" class="form-label fw-bold">Title</label>
-          <input type="text" class="form-control" [id]="'edit-title-' + item.id"
-            [(ngModel)]="editFormData.get(item.id)!.title" placeholder="Content title">
-        </div>
-        <div class="mb-4">
-          <label [for]="'edit-body-' + item.id" class="form-label fw-bold">DESCRIPTION</label>
-          <textarea class="form-control" [id]="'edit-body-' + item.id" rows="4"
-            [(ngModel)]="editFormData.get(item.id)!.body" placeholder="Content description"></textarea>
-        </div>
-        <div class="d-flex gap-2">
-          <button class="btn btn-save-action" [id]="'btn-save-' + item.id" (click)="saveEdit(item.id)">
-            <i class="bi bi-check-lg me-1"></i>Save Changes
-          </button>
-          <button class="btn btn-lumina-outline btn-sm" [id]="'btn-cancel-' + item.id" (click)="cancelEdit(item.id)">
-            Cancel
-          </button>
-        </div>
+    <!-- ── Load Error Banner ───────────────────────────────────── -->
+    <div *ngIf="!isLoading && loadError" class="alert alert-danger d-flex align-items-center gap-2"
+      id="content-load-error" role="alert">
+      <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+      <div>
+        {{ loadError }}
+        <button class="btn btn-link btn-sm p-0 ms-2" (click)="loadContent()">Retry</button>
       </div>
+    </div>
 
-      <!-- ── Attachment List (expanded) ───────────────────── -->
-      <div *ngIf="isExpanded(item.id) && !editingIds.has(item.id)" class="attachment-list border-top"
-        [id]="'attachment-list-' + item.id">
+    <!-- ── Empty State ────────────────────────────────────────── -->
+    <div *ngIf="!isLoading && !loadError && contentList.length === 0" class="empty-state-card text-center py-5"
+      id="content-empty-state">
+      <i class="bi bi-inbox empty-state-icon"></i>
+      <h5 class="mt-3 text-muted">No Content Yet</h5>
+      <p class="text-muted small">This course has no published content items.</p>
+    </div>
 
-        <div *ngIf="canAdd" class="px-3 px-md-5 py-3 border-bottom d-flex justify-content-end bg-light-subtle">
-          <button type="button"
-                  class="btn btn-lumina-outline btn-sm d-flex align-items-center gap-2"
-                  (click)="contentFileInput.click()"
-                  [disabled]="isUploadingAttachment.get(item.id)">
-            <i *ngIf="!isUploadingAttachment.get(item.id)" class="bi bi-plus-lg"></i>
-            <span *ngIf="isUploadingAttachment.get(item.id)" class="spinner-border spinner-border-sm"></span>
-            {{ isUploadingAttachment.get(item.id) ? 'Uploading...' : 'Add Attachment' }}
-          </button>
-          <input type="file" #contentFileInput class="d-none" multiple (change)="onAddAttachment($event, item.id)">
-        </div>
+    <!-- ── Content Card List ──────────────────────────────────── -->
+    <div *ngIf="!isLoading && !loadError && contentList.length > 0" class="content-list" id="content-list">
 
-        <!-- Empty attachments message -->
-        <div *ngIf="item.contentAttachments.length === 0"
-          class="attachment-empty py-3 px-5 text-muted small fst-italic">
-          No attachments for this content item.
-        </div>
+      <div *ngFor="let item of contentList; let i = index" class="content-card mb-4" [id]="'content-card-' + item.id">
 
-        <!-- Attachment rows -->
-        <div *ngFor="let att of item.contentAttachments"
-          class="attachment-row d-flex align-items-center justify-content-between px-3 px-md-5 py-2"
-          [id]="'attachment-' + att.id">
+        <!-- Card Header Row -->
+        <div class="card-header-row d-flex align-items-center justify-content-between p-4"
+          [class.is-editing]="editingIds.has(item.id)" (click)="!editingIds.has(item.id) && toggleExpand(item.id)"
+          [style.cursor]="editingIds.has(item.id) ? 'default' : 'pointer'">
 
+          <!-- Left: Number + Title/Description + Chips -->
+          <div class="d-flex align-items-center gap-4 flex-grow-1">
+            <div class="content-number-badge" [class.active]="isExpanded(item.id)">
+              <span class="fw-bold">{{ (i + 1) | number: '2.0-0' }}</span>
+            </div>
 
-          <!-- Icon + filename -->
-          <div class="d-flex align-items-center gap-3 attachment-link" (click)="openAttachment(att.fileUrl)"
-            role="button" [attr.aria-label]="'Open attachment ' + att.fileName">
-            <i [class]="getAttachmentIcon(att.contentType) + ' fs-5 text-lms-primary'"></i>
-            <span class="attachment-name small fw-medium">{{ att.fileName }}</span>
+            <div class="flex-grow-1 overflow-hidden">
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <h5 class="content-title mb-0 text-truncate" [id]="'content-title-' + item.id" [title]="item.title">{{
+                  item.title }}</h5>
+              </div>
+
+              <p class="text-muted small mb-3 text-truncate" style="max-width: 95%;" [id]="'content-body-' + item.id"
+                [title]="item.body || ''">
+                {{ item.body || 'No description provided.' }}
+              </p>
+
+              <div class="d-flex align-items-center gap-3 flex-wrap" *ngIf="!editingIds.has(item.id)">
+                <span class="info-chip">
+                  <i class="bi bi-paperclip chip-icon"></i>
+                  {{ item.contentAttachments.length || 0 }} file(s)
+                </span>
+              </div>
+            </div>
           </div>
 
-          <!-- Delete attachment button (canDelete) -->
-          <button *ngIf="canDelete" class="btn btn-link btn-sm text-danger btn-delete-attachment"
-            [id]="'btn-delete-att-' + att.id" [attr.aria-label]="'Remove attachment ' + att.fileName"
-            (click)="deleteAttachment(item.id, att.id)">
-            <i class="bi bi-trash3"></i>
-          </button>
+          <!-- Right: Action buttons + expand icon -->
+          <div class="d-flex align-items-center border-start ps-2 ms-2 gap-1" (click)="$event.stopPropagation()">
+
+            <!-- Edit button (canUpdate, not in edit mode) -->
+            <button *ngIf="canUpdate && !editingIds.has(item.id)" class="btn action-icon-btn p-2 text-secondary"
+              [id]="'btn-edit-' + item.id" [attr.aria-label]="'Edit content ' + item.title" (click)="startEdit(item)"
+              title="Edit">
+              <i class="bi bi-pencil-square fs-5"></i>
+            </button>
+
+            <!-- Delete button (canDelete, not in edit mode) -->
+            <button *ngIf="canDelete && !editingIds.has(item.id)"
+              class="btn action-icon-btn btn-delete-card p-2 text-secondary" [id]="'btn-delete-' + item.id"
+              [attr.aria-label]="'Delete content ' + item.title" (click)="deleteContent(item.id)" title="Delete">
+              <i class="bi bi-trash3 fs-5"></i>
+            </button>
+
+            <!-- Expand toggle (not in edit mode) -->
+            <button *ngIf="!editingIds.has(item.id)" class="btn action-icon-btn p-2 text-secondary"
+              (click)="toggleExpand(item.id)" title="Expand/Collapse">
+              <i class="bi fs-5 expand-icon" [ngClass]="isExpanded(item.id) ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+            </button>
+          </div>
         </div>
+
+        <!-- ── Inline Edit Form ──────────────────────────────── -->
+        <div *ngIf="editingIds.has(item.id)" class="inline-edit-form border-top p-4">
+          <div class="mb-3">
+            <label [for]="'edit-title-' + item.id" class="form-label fw-bold">Title</label>
+            <input type="text" class="form-control" [id]="'edit-title-' + item.id"
+              [(ngModel)]="editFormData.get(item.id)!.title" placeholder="Content title">
+          </div>
+          <div class="mb-4">
+            <label [for]="'edit-body-' + item.id" class="form-label fw-bold">DESCRIPTION</label>
+            <textarea class="form-control" [id]="'edit-body-' + item.id" rows="4"
+              [(ngModel)]="editFormData.get(item.id)!.body" placeholder="Content description"></textarea>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-save-action" [id]="'btn-save-' + item.id" (click)="saveEdit(item.id)">
+              <i class="bi bi-check-lg me-1"></i>Save Changes
+            </button>
+            <button class="btn btn-lumina-outline btn-sm" [id]="'btn-cancel-' + item.id" (click)="cancelEdit(item.id)">
+              Cancel
+            </button>
+          </div>
+        </div>
+
+        <!-- ── Attachment List (expanded) ───────────────────── -->
+        <div *ngIf="isExpanded(item.id) && !editingIds.has(item.id)" class="attachment-list border-top"
+          [id]="'attachment-list-' + item.id">
+
+          <div *ngIf="canAdd" class="px-3 px-md-5 py-3 border-bottom d-flex justify-content-end bg-light-subtle">
+            <button type="button" class="btn btn-lumina-outline btn-sm d-flex align-items-center gap-2"
+              (click)="contentFileInput.click()" [disabled]="isUploadingAttachment.get(item.id)">
+              <i *ngIf="!isUploadingAttachment.get(item.id)" class="bi bi-plus-lg"></i>
+              <span *ngIf="isUploadingAttachment.get(item.id)" class="spinner-border spinner-border-sm"></span>
+              {{ isUploadingAttachment.get(item.id) ? 'Uploading...' : 'Add Attachment' }}
+            </button>
+            <input type="file" #contentFileInput class="d-none" multiple (change)="onAddAttachment($event, item.id)">
+          </div>
+
+          <!-- Empty attachments message -->
+          <div *ngIf="item.contentAttachments.length === 0"
+            class="attachment-empty py-3 px-5 text-muted small fst-italic">
+            No attachments for this content item.
+          </div>
+
+          <!-- Attachment rows -->
+          <div *ngFor="let att of item.contentAttachments"
+            class="attachment-row d-flex align-items-center justify-content-between px-3 px-md-5 py-2"
+            [id]="'attachment-' + att.id">
+
+
+            <!-- Icon + filename -->
+            <div class="d-flex align-items-center gap-3 attachment-link" (click)="openAttachment(att.fileUrl)"
+              role="button" [attr.aria-label]="'Open attachment ' + att.fileName">
+              <i [class]="getAttachmentIcon(att.contentType) + ' fs-5 text-lms-primary'"></i>
+              <span class="attachment-name small fw-medium">{{ att.fileName }}</span>
+            </div>
+
+            <!-- Delete attachment button (canDelete) -->
+            <button *ngIf="canDelete" class="btn action-icon-btn btn-delete-card p-2 text-secondary"
+              [id]="'btn-delete-att-' + att.id" [attr.aria-label]="'Remove attachment ' + att.fileName"
+              (click)="deleteAttachment(item.id, att.id)" title="Delete">
+              <i class="bi bi-trash3 "></i>
+            </button>
+          </div>
+        </div>
+
       </div>
+      <!-- end *ngFor content card -->
 
     </div>
-    <!-- end *ngFor content card -->
-
-  </div>
-  <!-- end content-list -->
+    <!-- end content-list -->
   </div>
 
   <div [hidden]="activeTab !== 'assignments'">
     <app-assignments-view *ngIf="assignmentsInitialized" [courseId]="courseId"></app-assignments-view>
   </div>
 
+  <!-- ── Quizzes Tab Content ────────────────────────────────────── -->
   <div [hidden]="activeTab !== 'quizzes'">
     <app-quiz-view *ngIf="quizzesInitialized" [courseId]="courseId"></app-quiz-view>
   </div>
 
-  <!-- ── Add Content Modal Host ──────────────────────────────── -->
-  <div class="modal fade" id="contentAddModal" tabindex="-1"
-       data-bs-backdrop="static" data-bs-keyboard="false"
-       aria-labelledby="contentAddModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content rounded-3 overflow-hidden shadow-lg">
-        <app-content-add
-          [courseId]="courseId"
-          (contentCreated)="onContentCreated($event)"
-          (modalDismissed)="closeContentModal()">
-        </app-content-add>
-      </div>
-    </div>
+  <!-- ── Lectures Tab Content ────────────────────────────────────── -->
+  <div [hidden]="activeTab !== 'lectures'">
+    <app-lectures *ngIf="lecturesInitialized" #lectureView [courseId]="courseId"></app-lectures>
   </div>
 
+</div>
+
+<!-- ── Modals ─────────────────────────────────────────────────── -->
+<div class="modal fade" id="contentAddModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+  aria-labelledby="contentAddModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content rounded-3 overflow-hidden shadow-lg">
+      <app-content-add [courseId]="courseId" (contentCreated)="onContentCreated($event)"
+        (modalDismissed)="closeContentModal()">
+      </app-content-add>
+    </div>
+  </div>
 </div>

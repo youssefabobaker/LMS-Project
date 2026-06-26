@@ -13,19 +13,20 @@ import { ContentAddComponent } from '../content-add/content-add.component';
 
 import { AssignmentsViewComponent } from '../../assignments/assignments-view/assignments-view.component';
 import { QuizViewComponent } from '../../quizzes/quiz-view/quiz-view.component';
+import { LecturesComponent } from '../../lectures/lectures.component';
 
 import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-content-view',
   standalone: true,
-  imports: [CommonModule, FormsModule, ContentAddComponent, AssignmentsViewComponent, QuizViewComponent],
+  imports: [CommonModule, FormsModule, ContentAddComponent, AssignmentsViewComponent, QuizViewComponent, LecturesComponent],
   templateUrl: './content-view.component.html',
   styleUrls: ['./content-view.component.css'],
 })
 export class ContentViewComponent implements OnInit {
   courseId!: number;
-  activeTab: 'content' | 'assignments' | 'quizzes' = 'content';
+  activeTab: 'content' | 'assignments' | 'quizzes' | 'lectures' = 'content';
   courseDetails?: Course;
   contentList: Content[] = [];
   isLoading = false;
@@ -43,12 +44,16 @@ export class ContentViewComponent implements OnInit {
   canDelete = false;
   canAdd    = false;
   canAddAssignment = false;
+  canReadAssignment = false;
 
   contentInitialized = false;
   assignmentsInitialized = false;
   quizzesInitialized = false;
+  lecturesInitialized = false;
   canReadQuiz = false;
   canAddOrUpdateQuiz = false;
+  canCreateLecture = false;
+  canReadCourse = false;
 
   constructor(
     private route:             ActivatedRoute,
@@ -77,8 +82,11 @@ export class ContentViewComponent implements OnInit {
     this.canDelete = this.permissionService.hasPermission('Content:delete');
     this.canAdd    = this.permissionService.hasPermission('Content:add');
     this.canAddAssignment = this.permissionService.hasPermission('Ass:addOrUpdate');
+    this.canReadAssignment = this.permissionService.hasPermission('Ass:read');
     this.canReadQuiz = this.permissionService.hasPermission('Quiz:read');
     this.canAddOrUpdateQuiz = this.permissionService.hasPermission('Quiz:addOrUpdate');
+    this.canCreateLecture = this.permissionService.hasPermission('Lecture:create');
+    this.canReadCourse = this.permissionService.hasPermission('Course:read');
 
     this.route.paramMap.subscribe(params => {
       const newCourseId = Number(params.get('courseId'));
@@ -97,6 +105,9 @@ export class ContentViewComponent implements OnInit {
         } else if (url.includes('/quizzes')) {
           this.activeTab = 'quizzes';
           this.quizzesInitialized = true;
+        } else if (url.includes('/lectures')) {
+          this.activeTab = 'lectures';
+          this.lecturesInitialized = true;
         } else {
           this.activeTab = 'content';
           this.contentInitialized = true;
@@ -112,7 +123,9 @@ export class ContentViewComponent implements OnInit {
     });
   }
 
-  switchTab(tab: 'content' | 'assignments' | 'quizzes'): void {
+  switchTab(tab: 'content' | 'assignments' | 'quizzes' | 'lectures'): void {
+    if (this.activeTab === tab) return;
+    
     this.activeTab = tab;
     
     if (tab === 'content' && !this.contentInitialized) {
@@ -124,6 +137,8 @@ export class ContentViewComponent implements OnInit {
       this.assignmentsInitialized = true;
     } else if (tab === 'quizzes' && !this.quizzesInitialized) {
       this.quizzesInitialized = true;
+    } else if (tab === 'lectures' && !this.lecturesInitialized) {
+      this.lecturesInitialized = true;
     }
 
     const path = tab === 'content' ? 'content' : tab;
@@ -374,6 +389,7 @@ export class ContentViewComponent implements OnInit {
   private contentAddModalInstance: any = null;
   @ViewChild(AssignmentsViewComponent) assignmentsView?: AssignmentsViewComponent;
   @ViewChild(QuizViewComponent) quizzesView?: QuizViewComponent;
+  @ViewChild(LecturesComponent) lectureView?: LecturesComponent;
 
   onAddContent(): void {
     if (this.activeTab === 'assignments') {
@@ -381,6 +397,9 @@ export class ContentViewComponent implements OnInit {
       return;
     } else if (this.activeTab === 'quizzes') {
       this.quizzesView?.openAddModal();
+      return;
+    } else if (this.activeTab === 'lectures') {
+      this.lectureView?.openModal();
       return;
     }
     const el = document.getElementById('contentAddModal');

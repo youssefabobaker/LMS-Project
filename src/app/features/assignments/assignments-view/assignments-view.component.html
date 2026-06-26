@@ -34,52 +34,52 @@
       [class.is-editing]="editingIds.has(item.id)" (click)="!editingIds.has(item.id) && navigateToDetail(item.id)"
       [style.cursor]="editingIds.has(item.id) ? 'default' : 'pointer'">
 
-      <!-- Left: Number + Title/Body -->
-      <div class="d-flex align-items-center gap-4 overflow-hidden">
+      <!-- Left: Number + Title/Description + Chips -->
+      <div class="d-flex align-items-center gap-4 flex-grow-1">
 
         <!-- Number Badge -->
         <div class="content-number-badge">
           <span class="fw-bold">{{ (i + 1) | number: '2.0-0' }}</span>
         </div>
 
-        <!-- Assignment Info -->
         <div class="flex-grow-1 overflow-hidden">
-          <h5 class="content-title mb-0 text-truncate" [title]="item.title">{{ item.title }}</h5>
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <h5 class="content-title mb-0 text-truncate" [title]="item.title">{{ item.title }}</h5>
+          </div>
 
-          <!-- Assignment Meta -->
-          <p class="content-attachment-count text-muted mb-0 mt-1 d-flex gap-3 flex-wrap">
-            <span><strong>Marks:</strong> {{ item.totalMarks }}</span>
-            <span>
-              <i class="bi bi-clock me-1"></i>
+          <p class="text-muted small mb-3 text-truncate" style="max-width: 95%;" [title]="item.description || ''">
+            {{ item.description || 'No description provided.' }}
+          </p>
+
+          <div class="d-flex align-items-center gap-3 flex-wrap">
+            <span class="info-chip">
+              <i class="bi bi-clock chip-icon"></i>
               Due: {{ item.dueDate | date:'MMM d, y, h:mm a' }}
             </span>
-          </p>
-          <p class="content-attachment-count text-muted mb-0 mt-1">
-            <span *ngIf="item.assignmentAttachments && item.assignmentAttachments.length > 0">
-              <i class="bi bi-paperclip me-1"></i>{{ item.assignmentAttachments.length }} file(s)
+            <span class="info-chip">
+              <i class="bi bi-award chip-icon"></i>
+              {{ item.totalMarks }} Marks
             </span>
-            <span *ngIf="!item.assignmentAttachments || item.assignmentAttachments.length === 0"
-              class="text-muted fst-italic small">
-              No attachments
+            <span class="info-chip">
+              <i class="bi bi-paperclip chip-icon"></i>
+              {{ item.assignmentAttachments.length || 0 }} file(s)
             </span>
-          </p>
+          </div>
         </div>
       </div>
 
       <!-- Action Icons -->
-      <div class="d-flex align-items-center gap-2" (click)="$event.stopPropagation()">
+      <div class="d-flex align-items-center border-start ps-2 ms-2 gap-1" (click)="$event.stopPropagation()">
 
         <!-- Edit button -->
-        <button *ngIf="canAddOrUpdate" class="btn btn-edit-action d-flex align-items-center gap-1"
-          [id]="'btn-edit-' + item.id" [attr.aria-label]="'Edit assignment ' + item.title"
-          (click)="startEdit(item)">
-          <i class="bi bi-pencil-square"></i>
-          Edit
+        <button *ngIf="canAddOrUpdate" class="btn action-icon-btn p-2 text-secondary" [id]="'btn-edit-' + item.id"
+          [attr.aria-label]="'Edit assignment ' + item.title" (click)="startEdit(item)" title="Edit">
+          <i class="bi bi-pencil-square fs-5"></i>
         </button>
 
         <!-- Delete button -->
-        <button *ngIf="canDelete" class="btn btn-link btn-delete-card p-2" (click)="deleteAssignment(item.id)"
-          [attr.aria-label]="'Delete assignment ' + item.title" title="Delete Assignment">
+        <button *ngIf="canDelete" class="btn action-icon-btn btn-delete-card p-2 text-secondary"
+          (click)="deleteAssignment(item.id)" [attr.aria-label]="'Delete assignment ' + item.title" title="Delete">
           <i class="bi bi-trash3 fs-5"></i>
         </button>
 

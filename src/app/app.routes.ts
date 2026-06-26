@@ -105,6 +105,7 @@ export const routes: Routes = [
         canActivate: [permissionGuard],
         data: { permission: 'Quiz:read' },
       },
+
       // ── Quiz Detail — Cycle 2 ────────────────────────────────────────
       {
         path: 'courses/:courseId/quizzes/:quizId',
@@ -118,6 +119,13 @@ export const routes: Routes = [
         component: QuizAttemptsComponent,
         canActivate: [permissionGuard],
         data: { permission: 'Quiz:addOrUpdate' },
+      },
+      // ── Lectures View ────────────────────────────────────────────
+      {
+        path: 'courses/:courseId/lectures',
+        component: ContentViewComponent,
+        canActivate: [permissionGuard],
+        data: { permission: 'Course:read' },
       },
     ],
   },
