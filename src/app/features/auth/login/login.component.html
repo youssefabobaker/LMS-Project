@@ -38,8 +38,14 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-login-grad w-100 py-3 mb-4 mt-3">
-        Sign In <i class="bi bi-arrow-right ms-2"></i>
+      <button type="submit" class="btn btn-login-grad w-100 py-3 mb-4 mt-3" [disabled]="isLoading">
+        <ng-container *ngIf="!isLoading">
+          Sign In <i class="bi bi-arrow-right ms-2"></i>
+        </ng-container>
+        <ng-container *ngIf="isLoading">
+          <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          Signing In...
+        </ng-container>
       </button>
 
       <div class="text-center">

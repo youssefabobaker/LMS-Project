@@ -4,6 +4,7 @@ import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -18,9 +19,10 @@ export class AppComponent implements OnInit, OnDestroy {
   showFooter = true;
   showNavbar = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private themeService: ThemeService) { }
 
   ngOnInit(): void {
+    this.themeService.initTheme();
     this.sub = this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe((e: any) => {

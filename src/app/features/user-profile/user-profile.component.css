@@ -194,40 +194,228 @@ h4.text-white {
 
 /* تنسيق زرار الـ Logout الجديد */
 /* تنسيق جديد Slim لزرار الـ Logout */
-.btn-logout-drawer {
+.icon-box i {
+  color: #41b3e3;
+  font-size: 1.1rem;
+}
+
+/* ── Settings Page Full Screen Styles ───────────────────────── */
+.settings-page-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+}
+
+:host-context(body.dark-mode) .settings-page-card {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Adjustments for large screens */
+@media (min-width: 992px) {
+  .settings-page-card .action-section .btn {
+    padding: 20px !important;
+    font-size: 1.05rem;
+  }
+}
+
+/* ── Drawer Mode Styles ───────────────────────── */
+.drawer-mode .glass-card {
+  box-shadow: none !important;
+  border: none !important;
   background: transparent !important;
-  border: 1px solid #ddd !important; /* border خفيف جداً */
-  color: #888 !important; /* لون نص هادي */
-  border-radius: 30px !important; /* مدور أكتر */
-  font-weight: 500;
-  font-size: 0.9rem;
-  padding: 8px 20px !important; /* padding صغير */
+  padding: 24px 10px 0 !important; /* Added top padding */
+}
+
+.drawer-mode .btn-outline-info {
+  border-color: rgba(65, 179, 227, 0.2) !important;
+  background: rgba(65, 179, 227, 0.05) !important;
+  color: #002d5b !important;
+  font-weight: 600;
+}
+
+.drawer-mode .btn-outline-info span,
+.drawer-mode .btn-outline-info i {
+  color: #002d5b !important; /* Force dark blue text */
+}
+
+.drawer-mode .btn-outline-info:hover {
+  background: rgba(65, 179, 227, 0.2) !important;
+  transform: translateX(4px);
+}
+
+.drawer-mode .btn-outline-info:hover span,
+.drawer-mode .btn-outline-info:hover i {
+  color: #002d5b !important; /* Keep dark text on light background hover */
+}
+
+.drawer-mode .btn-outline-danger {
+  border-color: rgba(255, 75, 43, 0.2) !important;
+  background: rgba(255, 75, 43, 0.05) !important;
+  color: #ff4b2b !important;
+  font-weight: 600;
+}
+
+.drawer-mode .btn-outline-danger span,
+.drawer-mode .btn-outline-danger i {
+  color: #ff4b2b !important;
+}
+
+.drawer-mode .btn-outline-danger:hover {
+  background: rgba(255, 75, 43, 0.15) !important;
+  transform: translateX(4px);
+}
+
+.drawer-mode .btn-outline-danger:hover span,
+.drawer-mode .btn-outline-danger:hover i {
+  color: #ff4b2b !important;
+}
+
+.drawer-mode .action-section {
+  margin-bottom: 0.8rem !important;
+}
+
+.drawer-mode .btn {
+  border-radius: 12px !important;
+}
+
+/* ── Dark Mode Adjustments for Drawer ───────────────────────── */
+:host-context(body.dark-mode) h4.text-white,
+:host-context(body.dark-mode) .header-title {
+  color: #ffffff !important;
+}
+
+:host-context(body.dark-mode) .text-white-50 {
+  color: #cccccc !important;
+}
+
+:host-context(body.dark-mode) .drawer-mode .btn-outline-info {
+  border-color: rgba(65, 179, 227, 0.3) !important;
+  background: rgba(65, 179, 227, 0.1) !important;
+}
+
+:host-context(body.dark-mode) .drawer-mode .btn-outline-info span,
+:host-context(body.dark-mode) .drawer-mode .btn-outline-info i {
+  color: #41b3e3 !important; /* Bright blue text for dark mode */
+}
+
+:host-context(body.dark-mode) .drawer-mode .btn-outline-info:hover {
+  background: rgba(65, 179, 227, 0.2) !important;
+}
+
+:host-context(body.dark-mode) .drawer-mode .btn-outline-danger {
+  border-color: rgba(255, 75, 43, 0.3) !important;
+  background: rgba(255, 75, 43, 0.1) !important;
+}
+
+:host-context(body.dark-mode) .drawer-mode .btn-outline-danger span,
+:host-context(body.dark-mode) .drawer-mode .btn-outline-danger i {
+  color: #ff4b2b !important; /* Bright red text for dark mode */
+}
+
+:host-context(body.dark-mode) .drawer-mode .btn-outline-danger:hover {
+  background: rgba(255, 75, 43, 0.2) !important;
+}
+
+/* ── Premium Settings Page Styles (Full View Only) ───────────────────────── */
+.settings-page .page-header {
+  border-bottom: 2px solid rgba(65, 179, 227, 0.1);
+  padding-bottom: 1rem;
+}
+
+.settings-page .header-title {
+  color: #002d5b;
+}
+
+body.dark-mode .settings-page .header-title {
+  color: #ffffff;
+}
+
+.settings-page .glass-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid rgba(65, 179, 227, 0.15);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+body.dark-mode .settings-page .glass-card {
+  background: #1e222d;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Enhance the accordion buttons in Settings Page */
+.settings-page .btn-outline-info {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid rgba(65, 179, 227, 0.2);
+  color: #002d5b;
+  font-weight: 600;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
   transition: all 0.3s ease;
-  width: auto !important; /* مش واخد العرض كله */
-  margin: 0 auto; /* في النص */
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.btn-logout-drawer:hover {
-    background: rgba(255, 75, 43, 0.1) !important; /* خلفية حمراء خفيفة جداً */
-    border-color: #ff4b2b !important;
-    color: #ff4b2b !important; /* لون النص أحمر */
-    transform: translateY(-1px);
-    box-shadow: none !important;
+body.dark-mode .settings-page .btn-outline-info {
+  background: #252a36;
+  border-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
 }
 
-/* السطر ده هو اللي هيمنع الأيقونة إنها تقلب أبيض */
-.btn-logout-drawer:hover i {
-    color: #ff4b2b !important; 
+.settings-page .btn-outline-info:hover {
+  border-color: #41b3e3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(65, 179, 227, 0.15);
 }
 
-/* حاوية للزرار عشان تظبط مكانه */
-.logout-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 30px;
-  margin-bottom: 20px;
+body.dark-mode .settings-page .btn-outline-info:hover {
+  background: rgba(65, 179, 227, 0.1);
+}
+
+.settings-page .btn-outline-info i {
+  color: #41b3e3;
+}
+
+.settings-page .expand-content {
+  border: 1px solid rgba(65, 179, 227, 0.1);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  background: rgba(65, 179, 227, 0.02);
+  margin-top: -5px; /* Overlap slightly with button */
+  position: relative;
+  z-index: 0;
+}
+
+.settings-page .btn-outline-info.btn-info-active {
+  z-index: 1;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-color: #41b3e3;
+}
+
+body.dark-mode .settings-page .expand-content {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Glass input fields in settings page */
+.settings-page .glass-input {
+  border: 1px solid rgba(0, 45, 91, 0.1);
+  background: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.settings-page .glass-input:focus {
+  border-color: #41b3e3;
+  box-shadow: 0 0 0 4px rgba(65, 179, 227, 0.1);
+}
+
+body.dark-mode .settings-page .glass-input {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }

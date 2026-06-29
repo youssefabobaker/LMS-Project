@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { Department } from '../../models/department';
 import { environment } from '../../../environments/environment';
 
@@ -20,13 +20,23 @@ export class DepartmentService {
     };
   }
 
+  private cachedDepartments: Department[] | null = null;
+
+  clearCache(): void {
+    this.cachedDepartments = null;
+  }
+
   /**
    * 1. Get all departments
    * GET /api/Department
    */
   getDepartments(): Observable<Department[]> {
+    if (this.cachedDepartments) {
+      return of(this.cachedDepartments);
+    }
     return this.http.get<any[]>(this.baseUrl).pipe(
-      map(deps => deps.map(d => this.normalizeDept(d)))
+      map(deps => deps.map(d => this.normalizeDept(d))),
+      tap(deps => this.cachedDepartments = deps)
     );
   }
 
@@ -35,6 +45,7 @@ export class DepartmentService {
    * POST /api/Department
    */
   createDepartment(data: { title: string }): Observable<Department> {
+    this.clearCache();
     return this.http.post<Department>(this.baseUrl, data);
   }
 
@@ -43,6 +54,7 @@ export class DepartmentService {
    * PUT /api/Department/{id}
    */
   updateDepartment(id: number, data: { title: string }): Observable<void> {
+    this.clearCache();
     return this.http.put<void>(`${this.baseUrl}/${id}`, data);
   }
 
@@ -51,6 +63,7 @@ export class DepartmentService {
    * DELETE /api/Department/{id}
    */
   deleteDepartment(id: number): Observable<void> {
+    this.clearCache();
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

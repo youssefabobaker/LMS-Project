@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import { Role, PermissionResponse } from '../../models/role';
 import { environment } from '../../../environments/environment';
 
@@ -11,6 +11,9 @@ import { environment } from '../../../environments/environment';
 export class RoleService {
 
   private baseUrl = `${environment.apiUrl}/api/Roles`; // الـ Base URL حسب الـ PDF [cite: 3, 34]
+  private rolesCache$: Observable<Role[]> | null = null;
+  private allRolesCache$: Observable<Role[]> | null = null;
+  private permissionsCache$: Observable<PermissionResponse> | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -24,12 +27,32 @@ export class RoleService {
     };
   }
 
+  clearCache(): void {
+    this.rolesCache$ = null;
+    this.allRolesCache$ = null;
+  }
+
   // 1. جلب كل الأدوار [cite: 35]
   getRoles(includeDisabled: boolean = false): Observable<Role[]> {
-    const params = new HttpParams().set('includeDisabled', includeDisabled.toString());
-    return this.http.get<any[]>(this.baseUrl, { params }).pipe(
-      map(roles => roles.map(r => this.normalizeRole(r)))
-    );
+    if (includeDisabled) {
+      if (!this.allRolesCache$) {
+        const params = new HttpParams().set('includeDisabled', 'true');
+        this.allRolesCache$ = this.http.get<any[]>(this.baseUrl, { params }).pipe(
+          map(roles => roles.map(r => this.normalizeRole(r))),
+          shareReplay(1)
+        );
+      }
+      return this.allRolesCache$;
+    }
+
+    if (!this.rolesCache$) {
+      const params = new HttpParams().set('includeDisabled', 'false');
+      this.rolesCache$ = this.http.get<any[]>(this.baseUrl, { params }).pipe(
+        map(roles => roles.map(r => this.normalizeRole(r))),
+        shareReplay(1)
+      );
+    }
+    return this.rolesCache$;
   }
 
   // 2. جلب دور محدد ببياناته وصلاحياته [cite: 66, 67]
@@ -41,21 +64,26 @@ export class RoleService {
 
   // 3. إنشاء دور جديد [cite: 106]
   createRole(roleData: { name: string, isEnrollable: boolean, permissions: string[] }): Observable<Role> {
-    return this.http.post<Role>(this.baseUrl, roleData); // [cite: 110]
+    return this.http.post<Role>(this.baseUrl, roleData).pipe(tap(() => this.clearCache())); // [cite: 110]
   }
 
   // 4. تحديث دور موجود [cite: 123]
   updateRole(id: string, roleData: any): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}`, roleData); // [cite: 122]
+    return this.http.put<void>(`${this.baseUrl}/${id}`, roleData).pipe(tap(() => this.clearCache())); // [cite: 122]
   }
 
   // 5. تبديل حالة الدور (تفعيل/تعطيل) [cite: 144]
   toggleRoleStatus(id: string): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}/toggle-status`, {}); // [cite: 143]
+    return this.http.put<void>(`${this.baseUrl}/${id}/toggle-status`, {}).pipe(tap(() => this.clearCache())); // [cite: 143]
   }
 
   // 6. جلب كل الـ Permissions المتاحة في السيستم [cite: 160]
   getAllPermissions(): Observable<PermissionResponse> {
-    return this.http.get<PermissionResponse>(`${this.baseUrl}/permissions/all`); // [cite: 159]
+    if (!this.permissionsCache$) {
+      this.permissionsCache$ = this.http.get<PermissionResponse>(`${this.baseUrl}/permissions/all`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.permissionsCache$;
   }
 }

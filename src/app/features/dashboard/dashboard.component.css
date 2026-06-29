@@ -1,3 +1,41 @@
+/* ── Profile hamburger button (replaces logo) ───────────────────── */
+nav.navbar {
+  height: 66px; /* Lock height to perfectly match the sidebar's sticky top offset */
+}
+
+.profile-hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 6px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.profile-hamburger:hover {
+  background: rgba(65, 179, 227, 0.1);
+}
+
+.hamburger-bar {
+  display: block;
+  width: 22px;
+  height: 2.5px;
+  background: #001a33;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.2s ease, background 0.2s;
+}
+
+.profile-hamburger:hover .hamburger-bar {
+  background: #41B3E3;
+}
+
 /* تنسيق حاوية الصورة في النافبار */
 .profile-trigger {
   display: flex;
@@ -5,21 +43,72 @@
   justify-content: center;
   cursor: pointer;
   padding: 2px;
-  border-radius: 50%;
-  transition: background 0.3s;
+  transition: opacity 0.3s;
 }
 
 .profile-trigger:hover {
-  background: rgba(65, 179, 227, 0.1); /* تأثير خفيف عند الوقوف عليها */
+  opacity: 0.8;
 }
+
+/* Dark mode: navbar */
+:host-context(body.dark-mode) nav.navbar {
+  background: #13161f !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+:host-context(body.dark-mode) .hamburger-bar {
+  background: #e2e8f0;
+}
+
+:host-context(body.dark-mode) .profile-hamburger:hover .hamburger-bar {
+  background: #41B3E3;
+}
+
+/* Dark mode: LUMINA text */
+:host-context(body.dark-mode) .fw-bold .text-dark {
+  color: #e2e8f0 !important;
+}
+
+/* Dark mode: profile drawer */
+:host-context(body.dark-mode) .profile-drawer {
+  background: #1a1f2e !important;
+  box-shadow: 10px 0 40px rgba(0, 0, 0, 0.5);
+}
+
+:host-context(body.dark-mode) .profile-drawer .p-3 {
+  background: #242938 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+:host-context(body.dark-mode) .profile-drawer h5 {
+  color: #e2e8f0 !important;
+}
+
+/* Dark mode: vertical divider */
+:host-context(body.dark-mode) .vr {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Dark mode: user name / role in header */
+:host-context(body.dark-mode) .fw-bold.text-dark {
+  color: #e2e8f0 !important;
+}
+
+:host-context(body.dark-mode) .text-secondary {
+  color: #94a3b8 !important;
+}
+
 
 /* صورة البروفايل المدورة */
 .nav-profile-img {
   width: 45px;
   height: 45px;
-  border-radius: 50% !important; /* لضمان التدوير الكامل */
-  object-fit: cover; /* لمنع تمطيط الصورة */
-  border: 2px solid #41B3E3; /* إطار متناسق مع لون لومينا */
+  border-radius: 50% !important;
+  /* لضمان التدوير الكامل */
+  object-fit: cover;
+  /* لمنع تمطيط الصورة */
+  border: 2px solid #41B3E3;
+  /* إطار متناسق مع لون لومينا */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -31,15 +120,19 @@
   width: 400px;
   height: 100vh;
   background: #ffffff;
-  z-index: 2000; /* لضمان الظهور فوق محتوى الداشبورد */
-  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15);
-  transform: translateX(-100%); /* مخفي بره الشاشة */
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2000;
+  /* لضمان الظهور فوق محتوى الداشبورد */
+  box-shadow: none; /* Remove shadow to prevent bleeding when closed */
+  transform: translateX(-100%);
+  /* مخفي بره الشاشة */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
   overflow-y: auto;
 }
 
 .profile-drawer.open {
-  transform: translateX(0); /* يظهر عند النقر على الصورة */
+  transform: translateX(0);
+  /* يظهر عند النقر على الصورة */
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15); /* Show shadow only when open */
 }
 
 /* خلفية التعتيم */
@@ -50,7 +143,8 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(1px); /* تأثير بلر خفيف للمحتوى الخلفي */
+  backdrop-filter: blur(1px);
+  /* تأثير بلر خفيف للمحتوى الخلفي */
   z-index: 1500;
 }
 
@@ -58,22 +152,31 @@
 
 /* السايد بار الجديد بلون لومينا */
 .sidebar {
-    background: linear-gradient(180deg, #001a33 0%, #002d5b 100%) !important;
-    border-right: 1px solid rgba(65, 179, 227, 0.2);
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+  background: linear-gradient(180deg, #001a33 0%, #002d5b 100%) !important;
+  border-right: 1px solid rgba(65, 179, 227, 0.2);
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 
-    /* Responsive width — use CSS variable so it's easy to override */
-    --sidebar-width: 270px;
-    width: var(--sidebar-width);
-    min-width: var(--sidebar-width);
-    flex-shrink: 0;
+  /* Responsive width — use CSS variable so it's easy to override */
+  --sidebar-width: 270px;
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  flex-shrink: 0;
 
-    /* Make the sidebar sticky on desktop */
-    position: sticky;
-    top: 66px;
-    height: calc(100vh - 66px);
-    overflow-y: auto;
+  /* Make the sidebar sticky on desktop */
+  position: sticky;
+  top: 66px;
+  height: calc(100vh - 66px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  /* Hide scrollbar visually but keep functionality */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Webkit */
 }
 
 /* Ensure close button has a large enough touch target */
@@ -82,15 +185,8 @@
   min-height: 44px;
 }
 
-/* ── Responsive: collapse sidebar to icon-rail on tablet (MD–LG) ───── */
-@media (max-width: 991.98px) {
-  .sidebar {
-    --sidebar-width: 220px;
-  }
-}
-
-/* ── Responsive: hide sidebar off-canvas on mobile (< 768 px) ────── */
-@media (max-width: 767.98px) {
+/* ── Responsive: hide sidebar off-canvas on tablet & mobile (< 1024 px) ────── */
+@media (max-width: 1023.98px) {
   .sidebar {
     position: fixed;
     top: 0;
@@ -98,13 +194,17 @@
     height: 100vh;
     z-index: 1300;
     transform: translateX(-100%);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    --sidebar-width: 260px;
+    box-shadow: none; /* Remove shadow to prevent bleeding into screen */
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease;
+    --sidebar-width: 270px; /* Kept default width for the drawer */
   }
+
   .sidebar.sidebar-open {
     transform: translateX(0);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1); /* Show shadow when open */
   }
-  /* Content area takes full width when sidebar is hidden */
+
+  /* Content area takes full width when sidebar is hidden/off-canvas */
   .dashboard-wrapper .flex-grow-1 {
     width: 100%;
   }
@@ -113,49 +213,53 @@
 
 /* تنسيق العنوان (Lumina Panel) */
 .sidebar h4 {
-    color: #41B3E3 !important; /* اللون السماوي بتاعك */
-    font-size: 1.15rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 20px;
-    margin-bottom: 25px !important;
+  color: #41B3E3 !important;
+  /* اللون السماوي بتاعك */
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+  margin-bottom: 25px !important;
 }
 
 /* تنسيق اللينكات */
 .nav-link {
-    color: rgba(255, 255, 255, 0.7) !important;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    padding: 12px 15px !important;
-    transition: all 0.3s ease !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  padding: 12px 15px !important;
+  transition: all 0.3s ease !important;
 }
 
 /* لما تقف بالماوس على اللينك */
 .nav-link:hover {
-    background: rgba(65, 179, 227, 0.15) !important;
-    color: #41B3E3 !important;
-    transform: translateX(8px); /* حركة خفيفة لليمين */
+  background: rgba(65, 179, 227, 0.15) !important;
+  color: #41B3E3 !important;
+  transform: translateX(8px);
+  /* حركة خفيفة لليمين */
 }
 
 /* شكل اللينك لما يكون هو اللي شغال (Active) */
 .active-link {
-    background: #41B3E3 !important; /* اللون السماوي */
-    color: #001a33 !important; /* نص كحلي غامق عشان الوضوح */
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(65, 179, 227, 0.4);
+  background: #41B3E3 !important;
+  /* اللون السماوي */
+  color: #001a33 !important;
+  /* نص كحلي غامق عشان الوضوح */
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(65, 179, 227, 0.4);
 }
 
 /* تنسيق الأيقونات */
 .nav-link i {
-    font-size: 1.2rem;
-    margin-right: 12px;
-    transition: transform 0.3s ease;
+  font-size: 1.2rem;
+  margin-right: 12px;
+  transition: transform 0.3s ease;
 }
 
 .nav-link:hover i {
-    transform: scale(1.2) rotate(5deg);
+  transform: scale(1.2) rotate(5deg);
 }
 
 /* ── Mobile sidebar toggle button ───────────────────────────────── */
@@ -173,12 +277,16 @@
   justify-content: center;
 }
 
-@media (max-width: 767.98px) {
+.sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 1023.98px) {
   .sidebar-toggle {
     display: inline-flex;
   }
 
-  /* Overlay for mobile sidebar */
+  /* Overlay for tablet/mobile sidebar */
   .sidebar-overlay {
     display: block;
     position: fixed;
@@ -188,10 +296,165 @@
     backdrop-filter: blur(1px);
   }
 }
-.sidebar-overlay { display: none; }
 
 /* ── Content area: ensure it never overflows horizontally ── */
 .content-area {
   min-width: 0;
   overflow-x: hidden;
-}
+}
+
+/* ═══════════════════════════════════════════
+   COURSES EXPANDABLE SUB-MENU
+═══════════════════════════════════════════ */
+
+/* Parent tab: keep chevron right-aligned */
+.courses-parent-link {
+  user-select: none;
+}
+
+.chevron-icon {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  transition: transform 0.3s ease, opacity 0.2s;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.courses-parent-link:hover .chevron-icon {
+  opacity: 1;
+}
+
+/* Sub-menu slide wrapper */
+.courses-submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease;
+  opacity: 0;
+}
+
+.courses-submenu.expanded {
+  max-height: 200px;
+  opacity: 1;
+  overflow-y: auto;
+}
+
+.courses-submenu::-webkit-scrollbar {
+  width: 4px;
+}
+.courses-submenu::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+.courses-submenu::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+.courses-submenu::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Inner padding */
+.submenu-inner {
+  padding: 4px 10px 8px 12px; /* Added 10px right padding to push buttons away from the scrollbar */
+}
+
+/* Category label */
+.submenu-category-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: rgba(65, 179, 227, 0.5);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  padding-left: 12px;
+}
+
+/* Each course shortcut row */
+.submenu-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  font-weight: 400;
+  transition: background 0.2s ease, color 0.2s ease;
+  margin-bottom: 2px;
+  cursor: pointer;
+}
+
+.submenu-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+/* Hide dot indicator for a cleaner look */
+.submenu-dot {
+  display: none;
+}
+
+/* Active course item */
+.submenu-item-active {
+  color: #ffffff !important;
+  font-weight: 500;
+  background: rgba(65, 179, 227, 0.15) !important;
+}
+
+/* Truncate long course titles */
+.submenu-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 170px;
+}
+
+/* Empty state */
+.submenu-empty {
+  display: block;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  padding: 4px 12px 8px;
+  font-style: italic;
+}
+
+/* Browse-all row */
+.submenu-browse-all {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  padding: 6px 12px;
+  border-radius: 7px;
+  border: 1px dashed rgba(65, 179, 227, 0.3);
+  color: rgba(65, 179, 227, 0.7);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  letter-spacing: 0.3px;
+}
+
+.submenu-browse-all:hover {
+  background: rgba(65, 179, 227, 0.1);
+  border-color: #41B3E3;
+  color: #41B3E3;
+}
+
+/* ── Bottom Sidebar Links ───────────────────────── */
+.bottom-nav-link {
+  font-size: 0.85rem !important;
+  opacity: 0.65;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  transition: all 0.3s ease;
+}
+
+.bottom-nav-link:hover {
+  opacity: 1;
+}
+
+.bottom-nav-link i {
+  font-size: 1.1rem !important;
+}

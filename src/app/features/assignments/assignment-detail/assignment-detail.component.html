@@ -43,7 +43,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex gap-3 align-self-lg-end">
+                    <div class="d-flex gap-3 align-self-lg-end header-actions-wrapper">
                         <!-- Submission Action for Student (Only if not missed) -->
                         <button *ngIf="canSubmit && getSubmissionState() === 'none' && !isMissed(assignment.dueDate)" 
                             class="btn btn-lumina-cyan fw-bold px-4 py-2 shadow-sm"
@@ -80,7 +80,7 @@
 
                     <div class="card shadow-sm border-0 rounded-4">
                         <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
-                            <h5 class="fw-bold mb-0"><i class="bi bi-paperclip me-2 text-lms-primary" style="color: #41B3E3;"></i>Attachments</h5>
+                            <h5 class="fw-bold mb-0 d-flex align-items-center gap-2 text-nowrap"><i class="bi bi-paperclip text-lms-primary" style="color: #41B3E3;"></i>Attachments</h5>
                             
                             <!-- Add Attachment Button (Teacher/Admin only) -->
                             <div *ngIf="canAddOrUpdate">
@@ -105,10 +105,10 @@
                                 <div *ngFor="let att of assignment.assignmentAttachments"
                                     class="attachment-row d-flex align-items-center justify-content-between px-3 py-2">
                                     <div class="d-flex align-items-center justify-content-between w-100 attachment-row-content">
-                                        <div class="d-flex align-items-center gap-3 attachment-link" (click)="openAttachment(att.fileUrl)"
+                                        <div class="d-flex align-items-center gap-3 attachment-link overflow-hidden" (click)="openAttachment(att.fileUrl)"
                                             role="button">
-                                            <i [class]="getAttachmentIcon(att.type) + ' fs-5 text-lms-primary'" style="color: #41B3E3;"></i>
-                                            <span class="attachment-name fw-medium">{{ att.fileName }}</span>
+                                            <i [class]="getAttachmentIcon(att.type) + ' fs-5 text-lms-primary flex-shrink-0'" style="color: #41B3E3;"></i>
+                                            <span class="attachment-name fw-medium text-truncate">{{ att.fileName }}</span>
                                         </div>
                                         
                                         <button *ngIf="canUpdate" 

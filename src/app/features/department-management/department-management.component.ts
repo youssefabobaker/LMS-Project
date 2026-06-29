@@ -30,7 +30,7 @@ export class DepartmentManagementComponent implements OnInit {
     private deptService: DepartmentService,
     private fb: FormBuilder,
     private permissionService: PermissionService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();

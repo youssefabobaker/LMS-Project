@@ -62,6 +62,12 @@
   line-height: 1.6;
 }
 
+:host-context(body.dark-mode) .answer-box {
+  background: #1e222d !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+  color: #e2e8f0 !important;
+}
+
 /* ── Attachment Rows ────────────────────────────────────────── */
 .attachment-row {
   display: flex;
@@ -75,9 +81,18 @@
   transition: all 0.2s;
 }
 
+:host-context(body.dark-mode) .attachment-row {
+  background: #1e222d !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
 .attachment-row:hover {
   border-color: #41B3E3;
   background: rgba(65, 179, 227, 0.02);
+}
+
+:host-context(body.dark-mode) .attachment-row:hover {
+  background: rgba(65, 179, 227, 0.05) !important;
 }
 
 .attachment-link {
@@ -88,6 +103,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+:host-context(body.dark-mode) .attachment-link {
+  color: #e2e8f0 !important;
 }
 
 .attachment-link:hover {
@@ -143,4 +162,14 @@
 .btn-save-grade:hover:not(:disabled) {
   box-shadow: 0 6px 16px rgba(65, 179, 227, 0.45);
   transform: translateY(-1px);
+}
+
+@media (max-width: 575.98px) {
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+  .btn-cancel-modal, .btn-save-grade {
+    width: 100%;
+    justify-content: center;
+  }
 }

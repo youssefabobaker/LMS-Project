@@ -48,7 +48,8 @@
   <!-- ── Empty State ── -->
   <div *ngIf="!isLoading && !loadFailed && filteredCourses.length === 0" class="state-container">
     <i class="bi bi-journal-x fs-1" style="color: #41B3E3;"></i>
-    <p class="state-message mt-3">No courses found matching your criteria.</p>
+    <p class="state-message mt-3" *ngIf="courses.length === 0">There are currently no courses available for your department and academic year.</p>
+    <p class="state-message mt-3" *ngIf="courses.length > 0">No courses found matching your criteria.</p>
   </div>
 
   <!-- ── Course Card Grid ── -->

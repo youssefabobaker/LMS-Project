@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode'; // التأكد من وجود المكت
   providedIn: 'root',
 })
 export class PermissionService {
-  constructor() {}
+  constructor() { }
 
   private decodeToken() {
     const token = localStorage.getItem('token');
@@ -30,6 +30,21 @@ export class PermissionService {
     // لاحظ إننا استخدمنا 'Permissions' بالـ P كابيتال زي ما هي طالعة عندك في الـ Console
     // console.log(decoded.Permissions)
     return decoded?.Permissions || [];
+  }
+
+  getRole(): string {
+    const decoded: any = this.decodeToken();
+    if (!decoded) return '';
+
+    // As seen in the token console log, the key is 'Roles' and it's an array
+    const roles = decoded.Roles || [];
+
+    if (Array.isArray(roles) && roles.length > 0) {
+      return roles.join(', ');
+    }
+
+    // Fallbacks just in case
+    return decoded.Role || decoded.role || decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || '';
   }
 
   /**

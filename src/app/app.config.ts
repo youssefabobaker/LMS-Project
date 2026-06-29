@@ -10,7 +10,7 @@ import { TokenInterceptor } from './core/interceptors/token.interceptor'; // ت�
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes,),
     provideHttpClient(withInterceptorsFromDi()), // عشان نشغل الـ Class-based interceptors
     {
       provide: HTTP_INTERCEPTORS,

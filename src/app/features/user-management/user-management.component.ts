@@ -10,9 +10,10 @@ import { UserService } from '../../core/services/user.service';
 import { RoleService } from '../../core/services/role.service';
 import { User } from '../../models/user';
 import { Role } from '../../models/role';
-import { AuthService } from '../../core/services/auth.service';
 import Swal from 'sweetalert2';
 import { PermissionService } from '../../core/services/permission.service';
+import { Department } from '../../models/department';
+import { DepartmentService } from '../../core/services/department.service';
 
 @Component({
   selector: 'app-user-management',
@@ -28,7 +29,7 @@ export class UserManagementComponent implements OnInit {
   isLoading: boolean = false;
   showForm: boolean = false;
   editingUserId: string | null = null;
-  departments: any[] = [];
+  departments: Department[] = [];
   academicYears = [
     { label: 'None', value: 'Default' },
     { label: 'First', value: 'First' },
@@ -42,9 +43,9 @@ export class UserManagementComponent implements OnInit {
     private userService: UserService,
     private roleService: RoleService,
     private fb: FormBuilder,
-    private authService: AuthService,
     private permissionService: PermissionService,
-  ) {}
+    private deptService: DepartmentService,
+  ) { }
 
   ngOnInit(): void {
     this.loadUsers();
@@ -54,13 +55,11 @@ export class UserManagementComponent implements OnInit {
   }
 
   loadDepartments() {
-    this.authService.getDepartments().subscribe({
+    this.deptService.getDepartments().subscribe({
       next: (data) => {
         this.departments = data; // تخزين البيانات اللي جاية من الباكيند
-        console.log('Departments loaded:', this.departments);
       },
       error: (err) => {
-        console.error('Error fetching departments:', err);
       },
     });
   }
@@ -89,7 +88,7 @@ export class UserManagementComponent implements OnInit {
 
   loadUsers(): void {
     this.isLoading = true;
-    this.userService.getUsers(true,true).subscribe({
+    this.userService.getUsers(true, true).subscribe({
       next: (data) => {
         this.users = data;
         this.isLoading = false;

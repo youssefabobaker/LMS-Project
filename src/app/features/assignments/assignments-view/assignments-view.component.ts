@@ -39,7 +39,7 @@ export class AssignmentsViewComponent implements OnInit {
     private permissionService: PermissionService,
     private submissionService: AssignmentSubmissionService,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.canAddOrUpdate =

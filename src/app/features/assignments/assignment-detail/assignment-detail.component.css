@@ -97,6 +97,16 @@
   border-radius: 8px;
 }
 
+:host-context(body.dark-mode) .submission-preview-box {
+  background-color: #1e222d !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+  color: #e2e8f0 !important;
+}
+
+:host-context(body.dark-mode) .text-dark {
+  color: #ffffff !important;
+}
+
 .back-btn {
   transition: color 0.2s ease;
 }
@@ -231,4 +241,32 @@
 .btn-lumina-outline:hover {
   background: #002D5B;
   color: #ffffff;
+}
+
+.btn-lumina-outline.btn-sm {
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+  .header-actions-wrapper {
+    flex-direction: column !important;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  .header-actions-wrapper .btn {
+    width: 100%;
+  }
+
+  .btn-lumina-outline.btn-sm {
+    padding: 2px 8px;
+    font-size: 0.75rem;
+  }
+  
+  /* Make card header padding smaller on mobile to give more room */
+  .card-header.px-4 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
 }

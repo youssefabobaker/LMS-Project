@@ -9,7 +9,8 @@
   </div>
 
   <!-- ── Error Banner ─────────────────────────────────────────────── -->
-  <div *ngIf="!isLoading && loadError" class="alert alert-danger d-flex align-items-center gap-2 mx-4 mt-4" role="alert">
+  <div *ngIf="!isLoading && loadError" class="alert alert-danger d-flex align-items-center gap-2 mx-4 mt-4"
+    role="alert">
     <i class="bi bi-exclamation-triangle-fill fs-5"></i>
     <div>
       {{ loadError }}
@@ -24,12 +25,13 @@
     <div class="detail-header-modern p-4 p-md-5 mb-5 mx-4 mt-4">
       <div class="position-relative" style="z-index: 10;">
         <nav class="mb-4">
-          <button class="btn btn-link text-decoration-none header-back-btn p-0 d-flex align-items-center gap-2" (click)="goBack()">
+          <button class="btn btn-link text-decoration-none header-back-btn p-0 d-flex align-items-center gap-2"
+            (click)="goBack()">
             <i class="bi bi-arrow-left small"></i> Back to Quizzes
           </button>
         </nav>
 
-        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+        <div class="d-flex justify-content-between align-items-start flex-column flex-sm-row gap-3">
           <div>
             <h1 class="attempts-title-modern">
               <i class="bi bi-people-fill me-2 opacity-75" style="font-size: 1.8rem;"></i>Student Attempts
@@ -38,8 +40,9 @@
               {{ quiz?.title || 'Quiz' }} &mdash; Submissions Review
             </p>
           </div>
-          <div class="d-none d-md-block text-end">
-            <div class="text-white opacity-50 small text-uppercase fw-bold" style="letter-spacing: 0.08em;">Total Submissions</div>
+          <div class="text-sm-end">
+            <div class="text-white opacity-50 small text-uppercase fw-bold" style="letter-spacing: 0.08em;">Total
+              Submissions</div>
             <div class="display-5 fw-bold text-white">{{ attempts.length }}</div>
           </div>
         </div>
@@ -99,7 +102,7 @@
 
                 <!-- Final Score -->
                 <td>
-                  <div class="d-flex align-items-center gap-2">
+                  <div class="d-flex align-items-center flex-nowrap gap-2">
                     <ng-container *ngIf="!attempt.isEditingScore; else editScoreTpl">
                       <span class="score-value fw-bold" [ngClass]="scoreClass(attempt)">
                         {{ attempt.score }}
@@ -108,16 +111,20 @@
                       <span class="attempt-score-badge ms-1" [ngClass]="scoreBadgeClass(attempt)">
                         {{ scorePercent(attempt) }}%
                       </span>
-                      <button *ngIf="canUpdateScoreAdmin" class="btn btn-sm btn-link text-secondary p-0 ms-1" (click)="startEditScore(attempt)" title="Override Score">
+                      <button *ngIf="canUpdateScoreAdmin" class="btn btn-sm btn-link text-secondary p-0 ms-1"
+                        (click)="startEditScore(attempt)" title="Override Score">
                         <i class="bi bi-pencil-square"></i>
                       </button>
                     </ng-container>
                     <ng-template #editScoreTpl>
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" style="width: 60px;" [(ngModel)]="attempt.draftScore" min="0" />
-                      <button class="btn btn-sm btn-success p-1 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px;" (click)="saveAdminScore(attempt)" title="Save">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" style="width: 60px;"
+                        [(ngModel)]="attempt.draftScore" min="0" />
+                      <button class="btn btn-sm btn-success p-1 d-flex align-items-center justify-content-center"
+                        style="width: 28px; height: 28px;" (click)="saveAdminScore(attempt)" title="Save">
                         <i class="bi bi-check-lg"></i>
                       </button>
-                      <button class="btn btn-sm btn-light border p-1 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px;" (click)="cancelEditScore(attempt)" title="Cancel">
+                      <button class="btn btn-sm btn-light border p-1 d-flex align-items-center justify-content-center"
+                        style="width: 28px; height: 28px;" (click)="cancelEditScore(attempt)" title="Cancel">
                         <i class="bi bi-x-lg"></i>
                       </button>
                     </ng-template>
@@ -143,7 +150,8 @@
                     <span *ngSwitchCase="'safe'" class="badge safe-badge">
                       <i class="bi bi-shield-check me-1"></i> Clean Session
                     </span>
-                    <button *ngSwitchCase="'review'" class="btn btn-sm btn-review-violations" (click)="openProctoringModal(attempt)">
+                    <button *ngSwitchCase="'review'" class="btn btn-sm btn-review-violations"
+                      (click)="openProctoringModal(attempt)">
                       <i class="bi bi-shield-exclamation me-1"></i> Review Violations ({{ attempt.violationsCount }})
                     </button>
                   </ng-container>
@@ -193,7 +201,8 @@
         </div>
 
         <!-- Right side: Close btn -->
-        <button type="button" class="btn-close btn-close-white ms-auto" (click)="closeReviewModal()" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white ms-auto" (click)="closeReviewModal()"
+          aria-label="Close"></button>
       </div>
 
       <!-- Stats Bar -->
@@ -209,7 +218,8 @@
           <span class="stat-dot stat-incorrect"></span>
           <span class="small fw-medium text-muted">
             Incorrect:
-            <strong class="text-danger">{{ selectedAttempt.studentAnswers.length - (selectedAttempt.studentAnswers | correctCount) }}</strong>
+            <strong class="text-danger">{{ selectedAttempt.studentAnswers.length - (selectedAttempt.studentAnswers |
+              correctCount) }}</strong>
           </span>
         </div>
         <div class="ms-auto small text-muted">
@@ -222,7 +232,7 @@
         <div class="d-flex flex-column gap-4">
 
           <div *ngFor="let answer of selectedAttempt.studentAnswers; let qi = index"
-               class="answer-card bg-white rounded-4 p-4 shadow-sm">
+            class="answer-card bg-white rounded-4 p-4 shadow-sm">
 
             <!-- Question Header -->
             <div class="d-flex align-items-start gap-3 mb-3">
@@ -241,8 +251,7 @@
               <div class="answer-label mb-1">
                 <i class="bi bi-person-fill me-1"></i> Student's Answer
               </div>
-              <div class="answer-choice-pill"
-                   [ngClass]="answer.isCorrect ? 'choice-correct' : 'choice-incorrect'">
+              <div class="answer-choice-pill" [ngClass]="answer.isCorrect ? 'choice-correct' : 'choice-incorrect'">
                 <i class="me-2" [ngClass]="answer.isCorrect ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'"></i>
                 {{ answer.studentChoice }}
               </div>
@@ -281,44 +290,60 @@
     <div class="modal-content rounded-4 overflow-hidden border-0 shadow-lg" *ngIf="selectedProctoringAttempt">
 
       <!-- Modal Header -->
-      <div class="modal-header proctoring-modal-header py-4 px-4 align-items-center text-white" style="background: linear-gradient(135deg, #111827 0%, #1f2937 100%); border-bottom: 3px solid #f59e0b;">
+      <div class="modal-header proctoring-modal-header py-4 px-4 text-white d-flex flex-wrap gap-3"
+        style="background: linear-gradient(135deg, #111827 0%, #1f2937 100%); border-bottom: 3px solid #f59e0b;">
         <div class="d-flex align-items-center gap-3">
-          <div class="bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 48px; height: 48px;">
-             <i class="bi bi-shield-lock-fill fs-4"></i>
+          <div
+            class="bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center shadow-sm flex-shrink-0"
+            style="width: 48px; height: 48px;">
+            <i class="bi bi-shield-lock-fill fs-4"></i>
           </div>
           <div>
-            <h5 class="modal-title fw-bold mb-0" style="font-size: 1.25rem;">
+            <h5 class="modal-title fw-bold mb-0 text-wrap" style="font-size: 1.25rem; line-height: 1.3;">
               Proctoring & AI Risk Assessment
             </h5>
             <div class="opacity-75 small fw-medium mt-1">Student: {{ selectedProctoringAttempt.studentFullName }}</div>
           </div>
         </div>
-        <div class="ms-auto d-flex align-items-center gap-3">
-          
-          <!-- Instructor Finalize Score Section -->
-          <div *ngIf="canFinalizeScore" class="d-flex align-items-center bg-white bg-opacity-10 rounded-pill px-3 py-1 border border-white border-opacity-25 shadow-sm">
-            <label class="small fw-bold text-white-50 me-2 mb-0 text-uppercase" style="letter-spacing: 0.5px;">Grade:</label>
-            <input type="number" class="form-control form-control-sm text-center fw-bold text-dark border-0 rounded-pill me-2" 
-                   style="width: 70px;" 
-                   [(ngModel)]="selectedProctoringAttempt.draftScore" 
-                   [disabled]="!!selectedProctoringAttempt.isScoreLocked" min="0">
-            <button class="btn btn-sm rounded-pill fw-bold transition-all" 
-                    [ngClass]="selectedProctoringAttempt.isScoreLocked ? 'btn-secondary text-white-50 border-secondary' : 'btn-success'" 
-                    [disabled]="!!selectedProctoringAttempt.isScoreLocked" 
-                    (click)="finalizeGrade(selectedProctoringAttempt)">
-              <i class="bi me-1" [ngClass]="selectedProctoringAttempt.isScoreLocked ? 'bi-lock-fill' : 'bi-check-circle-fill'"></i>
-              {{ selectedProctoringAttempt.isScoreLocked ? 'Grade Locked' : 'Finalize Grade' }}
+        <div
+          class="ms-md-auto d-flex flex-wrap align-items-center gap-2 gap-sm-3 w-100 w-md-auto justify-content-between justify-content-md-end mt-2 mt-md-0">
+
+          <div class="d-flex align-items-center gap-2 gap-sm-3 flex-wrap">
+            <!-- Instructor Finalize Score Section -->
+            <div *ngIf="canFinalizeScore"
+              class="d-flex align-items-center bg-white bg-opacity-10 rounded-pill px-3 py-1 border border-white border-opacity-25 shadow-sm">
+              <label class="small fw-bold text-white-50 me-2 mb-0 text-uppercase d-none d-sm-block"
+                style="letter-spacing: 0.5px;">Grade:</label>
+              <input type="number"
+                class="form-control form-control-sm text-center fw-bold text-dark border-0 rounded-pill me-2"
+                style="width: 70px;" [(ngModel)]="selectedProctoringAttempt.draftScore"
+                [disabled]="!!selectedProctoringAttempt.isScoreLocked" min="0">
+              <button class="btn btn-sm rounded-pill fw-bold transition-all"
+                [ngClass]="selectedProctoringAttempt.isScoreLocked ? 'btn-secondary text-white-50 border-secondary' : 'btn-success'"
+                [disabled]="!!selectedProctoringAttempt.isScoreLocked"
+                (click)="finalizeGrade(selectedProctoringAttempt)">
+                <i class="bi me-1"
+                  [ngClass]="selectedProctoringAttempt.isScoreLocked ? 'bi-lock-fill' : 'bi-check-circle-fill'"></i>
+                <span class="d-none d-sm-inline">{{ selectedProctoringAttempt.isScoreLocked ? 'Grade Locked' : 'Finalize
+                  Grade' }}</span>
+                <span class="d-inline d-sm-none">{{ selectedProctoringAttempt.isScoreLocked ? 'Locked' : 'Finalize'
+                  }}</span>
+              </button>
+            </div>
+
+            <!-- Divider if both actions are visible -->
+            <div *ngIf="canFinalizeScore && (canDeleteProctoring && cheatingReport)"
+              class="vr text-white-50 mx-1 d-none d-sm-block"></div>
+
+            <button *ngIf="canDeleteProctoring && cheatingReport" type="button"
+              class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold bg-opacity-10 bg-white"
+              (click)="deleteCheatingReport(cheatingReport.id)">
+              <i class="bi bi-trash-fill d-sm-me-1"></i> <span class="d-none d-sm-inline">Delete Report</span>
             </button>
           </div>
 
-          <!-- Divider if both actions are visible -->
-          <div *ngIf="canFinalizeScore && (canDeleteProctoring && cheatingReport)" class="vr text-white-50 mx-1"></div>
-
-          <button *ngIf="canDeleteProctoring && cheatingReport" type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold bg-opacity-10 bg-white" (click)="deleteCheatingReport(cheatingReport.id)">
-            <i class="bi bi-trash-fill me-1"></i> Delete Report
-          </button>
-          
-          <button type="button" class="btn-close btn-close-white ms-2" (click)="closeProctoringModal()" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white ms-2" (click)="closeProctoringModal()"
+            aria-label="Close"></button>
         </div>
       </div>
 
@@ -326,16 +351,14 @@
       <div class="bg-light px-4 pt-3 border-bottom shadow-sm z-1 position-relative">
         <ul class="nav nav-tabs border-0 custom-tabs gap-2">
           <li class="nav-item">
-            <button class="nav-link fw-medium d-flex align-items-center px-4 py-3 border-0 rounded-top" 
-                    [class.active]="activeProctoringTab === 'logs'" 
-                    (click)="switchProctoringTab('logs')">
+            <button class="nav-link fw-medium d-flex align-items-center px-4 py-3 border-0 rounded-top"
+              [class.active]="activeProctoringTab === 'logs'" (click)="switchProctoringTab('logs')">
               <i class="bi bi-card-list me-2 fs-5"></i>Logs & Evidence
             </button>
           </li>
           <li class="nav-item">
-            <button class="nav-link fw-medium d-flex align-items-center px-4 py-3 border-0 rounded-top" 
-                    [class.active]="activeProctoringTab === 'ai'" 
-                    (click)="switchProctoringTab('ai')">
+            <button class="nav-link fw-medium d-flex align-items-center px-4 py-3 border-0 rounded-top"
+              [class.active]="activeProctoringTab === 'ai'" (click)="switchProctoringTab('ai')">
               <i class="bi bi-robot me-2 fs-5"></i>AI Analysis
             </button>
           </li>
@@ -344,59 +367,76 @@
 
       <!-- Modal Body -->
       <div class="modal-body p-4 bg-white" style="min-height: 400px;">
-        
+
         <!-- Tab 1: Logs & Evidence -->
         <div *ngIf="activeProctoringTab === 'logs'">
-           <div *ngIf="!cheatingReport" class="text-center py-5 my-5">
-             <div class="spinner-border text-danger" role="status" style="width: 3rem; height: 3rem;"></div>
-             <p class="text-muted mt-3 fw-medium">Loading proctoring logs...</p>
-           </div>
-           
-           <div *ngIf="cheatingReport" class="container-fluid px-0">
-             <div *ngIf="cheatingReport.violations.length === 0" class="text-center py-5 my-5 text-muted bg-light rounded-4 border border-light-subtle">
-               <i class="bi bi-shield-check fs-1 text-success mb-3 d-block"></i>
-               <h5 class="fw-bold text-dark">No Violations Found</h5>
-               <p>This session appears to be clean based on current logs.</p>
-             </div>
+          <div *ngIf="!cheatingReport" class="text-center py-5 my-5">
+            <div class="spinner-border text-danger" role="status" style="width: 3rem; height: 3rem;"></div>
+            <p class="text-muted mt-3 fw-medium">Loading proctoring logs...</p>
+          </div>
 
-             <div class="d-flex flex-column gap-3" *ngIf="cheatingReport.violations.length > 0">
-               <div *ngFor="let violation of cheatingReport.violations" class="violation-card border-0 shadow-sm rounded-4 p-3 d-flex align-items-center gap-3 bg-white" style="border-left: 4px solid #ef4444 !important;">
-                 <div class="violation-icon bg-danger-subtle text-danger rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px;">
-                   <i class="bi bi-exclamation-triangle-fill fs-5"></i>
-                 </div>
-                 <div class="flex-grow-1">
-                   <h6 class="fw-bold mb-1" style="color: #1e293b;">{{ violation.description }}</h6>
-                   <div class="text-muted small fw-medium">
-                     <i class="bi bi-clock me-1 text-secondary"></i>{{ violation.timestamp | date:'MMM d, y · h:mm a' }}
-                   </div>
-                 </div>
-                 <div class="d-flex gap-2 flex-shrink-0">
-                   <button class="btn btn-outline-primary btn-sm d-flex align-items-center px-3 fw-medium rounded-pill transition-all" (click)="openEvidence(violation.evidenceUrl)">
-                     <i class="bi bi-box-arrow-up-right me-2"></i>Evidence
-                   </button>
-                   <button *ngIf="canDeleteProctoring" class="btn btn-outline-danger btn-sm rounded-pill px-3 transition-all" (click)="deleteViolation(violation.id)" title="Delete Violation">
-                     <i class="bi bi-trash"></i>
-                   </button>
-                 </div>
-               </div>
-             </div>
-           </div>
+          <div *ngIf="cheatingReport" class="container-fluid px-0">
+            <div *ngIf="cheatingReport.violations.length === 0"
+              class="text-center py-5 my-5 text-muted bg-light rounded-4 border border-light-subtle">
+              <i class="bi bi-shield-check fs-1 text-success mb-3 d-block"></i>
+              <h5 class="fw-bold text-dark">No Violations Found</h5>
+              <p>This session appears to be clean based on current logs.</p>
+            </div>
+
+            <div class="d-flex flex-column gap-3" *ngIf="cheatingReport.violations.length > 0">
+              <div *ngFor="let violation of cheatingReport.violations"
+                class="violation-card border-0 shadow-sm rounded-4 p-3 d-flex flex-column flex-md-row align-items-md-center gap-3 bg-white"
+                style="border-left: 4px solid #ef4444 !important;">
+
+                <div class="d-flex align-items-start align-items-md-center gap-3 flex-grow-1">
+                  <div
+                    class="violation-icon bg-danger-subtle text-danger rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0"
+                    style="width: 48px; height: 48px;">
+                    <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-1" style="color: #1e293b;">{{ violation.description }}</h6>
+                    <div class="text-muted small fw-medium">
+                      <i class="bi bi-clock me-1 text-secondary"></i>{{ violation.timestamp | date:'MMM d, y · h:mm a'
+                      }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="d-flex gap-2 flex-shrink-0 align-self-end align-self-md-center">
+                  <button
+                    class="btn btn-outline-primary btn-sm d-flex align-items-center px-3 fw-medium rounded-pill transition-all"
+                    (click)="openEvidence(violation.evidenceUrl)">
+                    <i class="bi bi-box-arrow-up-right me-2"></i>Evidence
+                  </button>
+                  <button *ngIf="canDeleteProctoring"
+                    class="btn btn-outline-danger btn-sm rounded-pill px-3 transition-all"
+                    (click)="deleteViolation(violation.id)" title="Delete Violation">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Tab 2: AI Analysis -->
         <div *ngIf="activeProctoringTab === 'ai'">
-          <div *ngIf="isRiskAssessmentLoading" class="text-center py-5 my-5 d-flex flex-column align-items-center justify-content-center">
-             <div class="spinner-grow text-primary mb-4" role="status" style="width: 4rem; height: 4rem;"></div>
-             <h5 class="fw-bold text-dark mb-2">AI Analysis is spinning up...</h5>
-             <p class="text-muted">The models are analyzing behavior patterns. Please check back in a moment.</p>
+          <div *ngIf="isRiskAssessmentLoading"
+            class="text-center py-5 my-5 d-flex flex-column align-items-center justify-content-center">
+            <div class="spinner-grow text-primary mb-4" role="status" style="width: 4rem; height: 4rem;"></div>
+            <h5 class="fw-bold text-dark mb-2">AI Analysis is spinning up...</h5>
+            <p class="text-muted">The models are analyzing behavior patterns. Please check back in a moment.</p>
           </div>
 
-          <div *ngIf="riskAssessmentNotFound && !isRiskAssessmentLoading" class="text-center py-5 my-5 d-flex flex-column align-items-center justify-content-center bg-light rounded-4 border border-light-subtle">
-             <div class="bg-white rounded-circle p-4 shadow-sm mb-4">
-                <i class="bi bi-robot" style="font-size: 3rem; color: #94a3b8;"></i>
-             </div>
-             <h5 class="fw-bold text-dark mb-2">AI Analysis Pending</h5>
-             <p class="text-muted max-w-md mx-auto">The background job is still processing the video feed, or no report data exists yet.</p>
+          <div *ngIf="riskAssessmentNotFound && !isRiskAssessmentLoading"
+            class="text-center py-5 my-5 d-flex flex-column align-items-center justify-content-center bg-light rounded-4 border border-light-subtle">
+            <div class="bg-white rounded-circle p-4 shadow-sm mb-4">
+              <i class="bi bi-robot" style="font-size: 3rem; color: #94a3b8;"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">AI Analysis Pending</h5>
+            <p class="text-muted max-w-md mx-auto">The background job is still processing the video feed, or no report
+              data exists yet.</p>
           </div>
 
           <div *ngIf="riskAssessment && !isRiskAssessmentLoading" class="animation-fade-in">
@@ -404,31 +444,43 @@
             <div class="row g-4 mb-4">
               <!-- Gauge Card -->
               <div class="col-md-6">
-                <div class="card bg-white border border-light-subtle shadow-sm rounded-4 h-100 text-center p-4 position-relative overflow-hidden">
-                  <div class="position-absolute top-0 start-0 w-100" style="height: 4px; background: linear-gradient(90deg, #f8fafc, #e2e8f0, #f8fafc);"></div>
-                  <h6 class="text-muted text-uppercase fw-bold mb-4 d-flex align-items-center justify-content-center gap-2" style="letter-spacing: 1px; font-size: 0.85rem;">
+                <div
+                  class="card bg-white border border-light-subtle shadow-sm rounded-4 h-100 text-center p-4 position-relative overflow-hidden">
+                  <div class="position-absolute top-0 start-0 w-100"
+                    style="height: 4px; background: linear-gradient(90deg, #f8fafc, #e2e8f0, #f8fafc);"></div>
+                  <h6
+                    class="text-muted text-uppercase fw-bold mb-4 d-flex align-items-center justify-content-center gap-2"
+                    style="letter-spacing: 1px; font-size: 0.85rem;">
                     <i class="bi bi-speedometer2 text-primary"></i> Overall Session Risk
                   </h6>
-                  
-                  <div class="risk-gauge mx-auto my-3" [ngClass]="getRiskScoreClass(riskAssessment.overallSessionRiskScore)">
-                     <div class="risk-gauge-circle d-flex flex-column align-items-center justify-content-center shadow-inner">
-                       <span class="fs-1 fw-bold text-dark lh-1 mb-1">{{ riskAssessment.overallSessionRiskScore | percent:'1.0-0' }}</span>
-                       <span class="small fw-medium text-muted">Risk</span>
-                     </div>
+
+                  <div class="risk-gauge mx-auto my-3"
+                    [ngClass]="getRiskScoreClass(riskAssessment.overallSessionRiskScore)">
+                    <div
+                      class="risk-gauge-circle d-flex flex-column align-items-center justify-content-center shadow-inner">
+                      <span class="fs-1 fw-bold text-dark lh-1 mb-1 ai-stat-number">{{
+                        riskAssessment.overallSessionRiskScore | percent:'1.0-0' }}</span>
+                      <span class="small fw-medium text-muted">Risk</span>
+                    </div>
                   </div>
-                  
+
                   <div class="fw-medium text-secondary mt-2 small">AI calculated probability of anomalous behavior</div>
                 </div>
               </div>
-              
+
               <!-- Violation Rate Card -->
               <div class="col-md-6">
-                <div class="card bg-white border border-light-subtle shadow-sm rounded-4 h-100 text-center p-4 position-relative overflow-hidden d-flex flex-column justify-content-center">
-                  <div class="position-absolute top-0 start-0 w-100" style="height: 4px; background: linear-gradient(90deg, #f8fafc, #e2e8f0, #f8fafc);"></div>
-                  <h6 class="text-muted text-uppercase fw-bold mb-4 d-flex align-items-center justify-content-center gap-2" style="letter-spacing: 1px; font-size: 0.85rem;">
+                <div
+                  class="card bg-white border border-light-subtle shadow-sm rounded-4 h-100 text-center p-4 position-relative overflow-hidden d-flex flex-column justify-content-center">
+                  <div class="position-absolute top-0 start-0 w-100"
+                    style="height: 4px; background: linear-gradient(90deg, #f8fafc, #e2e8f0, #f8fafc);"></div>
+                  <h6
+                    class="text-muted text-uppercase fw-bold mb-4 d-flex align-items-center justify-content-center gap-2"
+                    style="letter-spacing: 1px; font-size: 0.85rem;">
                     <i class="bi bi-exclamation-octagon text-danger"></i> Violation Rate
                   </h6>
-                  <div class="display-3 fw-bold mb-2" style="color: #0f172a; text-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                  <div class="display-3 fw-bold mb-2 ai-stat-number"
+                    style="color: #0f172a; text-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     {{ riskAssessment.sessionViolationRate | percent:'1.0-0' }}
                   </div>
                   <div class="text-muted fw-medium small">of total session time flagged as suspicious</div>
@@ -440,13 +492,14 @@
             <div class="card border border-light-subtle shadow-sm rounded-4 p-4 mt-2">
               <div class="d-flex align-items-center justify-content-between mb-4">
                 <h6 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2">
-                  <div class="bg-primary bg-opacity-10 text-primary rounded p-2 d-flex align-items-center justify-content-center">
+                  <div
+                    class="bg-primary bg-opacity-10 text-primary rounded p-2 d-flex align-items-center justify-content-center">
                     <i class="bi bi-bar-chart-fill"></i>
                   </div>
                   Risk per Question vs. Cohort Average
                 </h6>
               </div>
-              
+
               <div class="custom-bar-chart-container mt-2 mb-4 pb-2">
                 <div class="chart-y-axis text-muted small fw-medium">
                   <span>100%</span>
@@ -455,7 +508,7 @@
                   <span>25%</span>
                   <span>0%</span>
                 </div>
-                
+
                 <div class="chart-plot-area">
                   <!-- Grid lines -->
                   <div class="chart-grid">
@@ -465,25 +518,25 @@
                     <div class="grid-line"></div>
                     <div class="grid-line border-bottom border-secondary opacity-25"></div>
                   </div>
-                  
+
                   <!-- Bars -->
                   <div class="chart-bars">
-                    <div *ngFor="let q of riskAssessment.questions; let idx = index" class="bar-group position-relative">
+                    <div *ngFor="let q of riskAssessment.questions; let idx = index"
+                      class="bar-group position-relative">
                       <div class="bars">
                         <!-- Student Bar -->
-                        <div class="bar bar-student shadow-sm" 
-                             [style.height.%]="q.studentRiskScore * 100" 
-                             [title]="'Student: ' + (q.studentRiskScore | percent)">
-                           <div class="bar-tooltip">{{ q.studentRiskScore | percent:'1.0-0' }}</div>
+                        <div class="bar bar-student shadow-sm" [style.height.%]="q.studentRiskScore * 100"
+                          [title]="'Student: ' + (q.studentRiskScore | percent)">
+                          <div class="bar-tooltip">{{ q.studentRiskScore | percent:'1.0-0' }}</div>
                         </div>
                         <!-- Cohort Bar -->
-                        <div class="bar bar-cohort shadow-sm" 
-                             [style.height.%]="q.cohortAvgRiskScore * 100" 
-                             [title]="'Cohort: ' + (q.cohortAvgRiskScore | percent)">
-                           <div class="bar-tooltip">{{ q.cohortAvgRiskScore | percent:'1.0-0' }}</div>
+                        <div class="bar bar-cohort shadow-sm" [style.height.%]="q.cohortAvgRiskScore * 100"
+                          [title]="'Cohort: ' + (q.cohortAvgRiskScore | percent)">
+                          <div class="bar-tooltip">{{ q.cohortAvgRiskScore | percent:'1.0-0' }}</div>
                         </div>
                       </div>
-                      <div class="bar-label fw-bold text-secondary position-absolute w-100 text-center" style="bottom: -28px;">Q{{ idx + 1 }}</div>
+                      <div class="bar-label fw-bold text-secondary position-absolute w-100 text-center"
+                        style="bottom: -28px;">Q{{ idx + 1 }}</div>
                     </div>
                   </div>
                 </div>

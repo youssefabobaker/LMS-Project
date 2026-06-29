@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Course } from '../../models/course';
 import { Assessment, AssessmentType } from '../../models/assessment';
@@ -12,8 +12,9 @@ import { environment } from '../../../environments/environment';
 })
 export class CourseService {
   private baseUrl = `${environment.apiUrl}/api/Course`;
+  public courseListUpdated$ = new Subject<void>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * 1. Get courses scoped to the user's department.
@@ -166,17 +167,17 @@ export class CourseService {
 
     // The API returns an enrollment record (userId, userName, userEmail)
     const id = u.userId ?? u.UserId ?? u.id ?? u.Id;
-    
+
     let firstName = u.firstName ?? u.FirstName ?? '';
     let lastName = u.lastName ?? u.LastName ?? '';
-    
+
     const fullName = u.userName ?? u.UserName ?? u.name ?? u.Name;
     if (fullName && !firstName && !lastName) {
       const parts = fullName.split(' ');
       firstName = parts[0];
       lastName = parts.slice(1).join(' ');
     }
-    
+
     const email = u.userEmail ?? u.UserEmail ?? u.email ?? u.Email ?? '';
 
     return { id, firstName, lastName, email };

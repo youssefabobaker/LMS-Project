@@ -55,11 +55,11 @@
   </section>
 
   <!-- ── Tabs Navigation ───────────────────────────────────────────────── -->
-  <div
-    class="tabs-nav-wrapper d-flex align-items-center justify-content-between mb-5 border-bottom border-secondary-subtle">
-    <div class="d-flex gap-4 flex-nowrap">
+  <div class="tabs-outer-wrapper mb-5 border-bottom border-secondary-subtle">
+    <div class="tabs-nav-wrapper" style="margin-bottom: -1px;">
+      <div class="d-flex gap-4 flex-nowrap h-100">
 
-      <!-- Content Tab -->
+        <!-- Content Tab -->
       <button class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
         [class.active-tab]="activeTab === 'content'" (click)="switchTab('content')">
         <i class="bi bi-layout-text-window-reverse fs-5"></i>
@@ -91,6 +91,7 @@
       </button>
     </div>
   </div>
+</div>
 
   <!-- ── Section Title & Add Button ───────────────────────────────── -->
   <div class="d-flex align-items-center justify-content-between mb-4 ps-1 flex-wrap gap-2">

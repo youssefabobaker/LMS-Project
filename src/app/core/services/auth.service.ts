@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -22,16 +22,6 @@ export class AuthService {
   register(formData: FormData): Observable<any> {
     // الـ Endpoint حسب الـ Documentation هو /register
     return this.http.post(`${this.baseUrl}/register`, formData);
-  }
-
-  getDepartments(): Observable<any[]> {
-    // الـ URL من الـ Swagger اللي بعته
-    return this.http.get<any[]>(`${environment.apiUrl}/api/Department`).pipe(
-      map(deps => deps.map(d => ({
-        id: d.id ?? d.Id,
-        title: d.title ?? d.Title
-      })))
-    );
   }
 
   confirmEmail(userId: string, code: string): Observable<any> {

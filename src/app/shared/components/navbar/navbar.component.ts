@@ -7,6 +7,7 @@ import {
   RouterLink,
 } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -22,7 +23,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+    public themeService: ThemeService
+  ) { }
 
   ngOnInit(): void {
     // When navigation ends, if there's a fragment, scroll to it

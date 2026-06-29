@@ -34,11 +34,11 @@
       <label class="section-label">ATTACHED FILES</label>
       <div class="d-flex flex-column gap-2">
         <div *ngFor="let att of submission.assignmentSubmissionAttachments" class="attachment-row">
-          <a [href]="att.fileUrl" target="_blank" class="attachment-link">
-            <i class="bi bi-file-earmark-text-fill fs-5 text-primary"></i>
-            <span>{{ att.fileName }}</span>
+          <a [href]="att.fileUrl" target="_blank" class="attachment-link overflow-hidden">
+            <i class="bi bi-file-earmark-text-fill fs-5 text-primary flex-shrink-0"></i>
+            <span class="text-truncate">{{ att.fileName }}</span>
           </a>
-          <a [href]="att.fileUrl" target="_blank" class="btn btn-sm btn-link text-primary text-decoration-none fw-bold">
+          <a [href]="att.fileUrl" target="_blank" class="btn btn-sm btn-link text-primary text-decoration-none fw-bold flex-shrink-0">
             <i class="bi bi-eye me-1"></i>View
           </a>
         </div>

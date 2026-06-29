@@ -272,3 +272,35 @@
     font-size: 0.9rem;
     border-bottom: 1px solid #eee !important;
 }
+
+/* ── XS (<576px): stack form columns, tighten padding ────────────── */
+@media (max-width: 575.98px) {
+  /* Form card full-width inputs */
+  .card-body .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  /* Header row: stack title + button */
+  .d-flex.justify-content-between.align-items-center.mb-4 {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.75rem;
+  }
+  /* CTA button: full width on xs */
+  .btn-lumina-main,
+  .btn-lumina-outline {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  /* Reduce table font-size to avoid cell overflow */
+  .table tbody td,
+  .table thead th {
+    font-size: 0.78rem !important;
+    padding: 8px 6px !important;
+  }
+  .status-toggle-btn, .btn-status-action {
+    min-width: 70px;
+    padding: 3px 8px !important;
+  }
+}

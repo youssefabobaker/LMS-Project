@@ -4,7 +4,8 @@
 
 .notification-bell-btn {
   padding: 0.5rem;
-  color: #001A33;
+  color: #64748b;
+  /* A nice grey-blue color instead of black */
   border-radius: 9999px;
   transition: background-color 0.2s;
   background: transparent;
@@ -16,6 +17,15 @@
 
 .notification-bell-btn:hover {
   background-color: #e4e9ed;
+}
+
+:host-context(body.dark-mode) .notification-bell-btn {
+  color: #94a3b8;
+}
+
+:host-context(body.dark-mode) .notification-bell-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
 }
 
 .notification-badge {
@@ -40,7 +50,8 @@
   position: absolute;
   right: 0;
   margin-top: 0.5rem;
-  width: 24rem; /* 384px */
+  width: 24rem;
+  /* 384px */
   background-color: #001A33;
   border-radius: 0.75rem;
   border: 1px solid rgba(65, 179, 227, 0.3);
@@ -91,9 +102,11 @@
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
   background: #001A33;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #41B3E3;
   border-radius: 10px;
@@ -184,6 +197,7 @@
 .notification-message.collapsed {
   display: -webkit-box;
   -webkit-line-clamp: 1;
+  line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -223,4 +237,16 @@
 
 .empty-text {
   font-size: 0.875rem;
+}
+
+/* ── Mobile Responsive Override ── */
+@media (max-width: 575.98px) {
+  .notification-dropdown {
+    position: fixed;
+    top: 66px; /* Below the sticky navbar */
+    right: 10px;
+    left: 10px;
+    width: auto;
+    max-width: none;
+  }
 }

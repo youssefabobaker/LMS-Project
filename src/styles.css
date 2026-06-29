@@ -1,45 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* src/styles.css */
+@import './_theme.css';
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
 
 :root {
-  /* درجة الأزرق السماوي من اللوجو */
-  --lms-primary: #41B3E3;      /* الدرجة الفاتحة والزاهية اللي في اللوجو */
-  --lms-dark: #003366;         /* الكحلي الغامق للعنوان الرئيسي */
-  --lms-hover: #3599C4;        /* درجة أغمق سنة للـ Hover */
-  --lms-bg-light: #F4F9FC;     /* خلفية مريحة مايلة للأزرق الفاتح جداً */
+  --lms-primary: #41B3E3;
+  --lms-dark: #003366;
+  --lms-hover: #3599C4;
+  --lms-bg-light: #F4F9FC;
   --lms-transition: all 0.3s ease;
 }
 
-/* تعديل الزرار ليكون مطابق للوجو */
 .btn-primary {
   background-color: var(--lms-primary) !important;
   border: none !important;
   color: white !important;
   padding: 12px 30px !important;
-  border-radius: 50px !important; 
+  border-radius: 50px !important;
   font-weight: 600 !important;
   transition: var(--lms-transition) !important;
   box-shadow: 0 4px 15px rgba(65, 179, 227, 0.3) !important;
 }
 
-/* تأثير الـ Hover باللون الجديد */
 .btn-primary:hover {
   background-color: var(--lms-hover) !important;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(65, 179, 227, 0.4) !important;
+  transform: scale(1.02) translateY(-2px);
+  box-shadow: 0 10px 28px rgba(65, 179, 227, 0.5) !important;
 }
 
-/* تعديل لون النص اللي واخد كلاس text-lms-main */
 .text-lms-main {
   color: var(--lms-primary) !important;
 }
 
-/* تنسيق زرار Learn More */
-/* تنسيق زرار Learn More الاحترافي */
 .btn-outline-primary {
-  color: var(--lms-dark) !important; /* خلي الكلام بالكحلي الغامق عشان يبقى واضح */
-  border: 2px solid var(--lms-primary) !important; /* البوردر بلون اللوجو اللبني وسميك سنة */
+  color: var(--lms-dark) !important;
+  border: 2px solid var(--lms-primary) !important;
   background-color: transparent !important;
   padding: 12px 30px !important;
   border-radius: 50px !important;
@@ -47,44 +50,42 @@
   transition: all 0.3s ease-in-out !important;
 }
 
-/* تأثير الـ Hover */
 .btn-outline-primary:hover {
-  background-color: var(--lms-primary) !important; /* يملى لبني لما تقف عليه */
-  color: white !important; /* الكلام يقلب أبيض */
+  background-color: var(--lms-primary) !important;
+  color: white !important;
   border-color: var(--lms-primary) !important;
-  transform: translateY(-3px); /* نفس حركة الرفع بتاعة الزرار الأول */
-  box-shadow: 0 6px 15px rgba(65, 179, 227, 0.2) !important;
+  transform: scale(1.02) translateY(-2px);
+  box-shadow: 0 10px 28px rgba(65, 179, 227, 0.35) !important;
 }
 
-/* About Cards Style */
 .proctor-card {
-    background: #fff;
-    border-radius: 20px;
-    border: 1px solid rgba(0,0,0,0.05);
-    transition: 0.3s;
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: 0.3s;
 }
+
 .proctor-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(65, 179, 227, 0.2);
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(65, 179, 227, 0.2);
 }
 
-/* Contact Glass Style */
 .contact-glass {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.text-primary { color: #41B3E3 !important; }
-.bg-dark { background-color: #001529 !important; }
+.text-primary {
+  color: #41B3E3 !important;
+}
 
-/* ══════════════════════════════════════════════════════════════
-   GLOBAL RESPONSIVE WEB DESIGN (RWD) UTILITIES
-   Breakpoints: 576px (SM) | 768px (MD) | 992px (LG) | 1200px (XL)
-   ══════════════════════════════════════════════════════════════ */
+.bg-dark {
+  background-color: #001529 !important;
+}
 
-/* ── Minimum Touch Target (44×44 px) for all interactive elements ── */
+
 .icon-btn,
 .btn-close-modal,
 .btn-create,
@@ -100,37 +101,59 @@
   min-height: 44px;
 }
 
-/* Ensure icon-only buttons with explicit width/height still meet 44px ──
-   We bump their size on touch screens only */
+
 @media (max-width: 767.98px) {
   .icon-btn {
     width: 44px !important;
     height: 44px !important;
   }
 
-  /* ── Modals: near-fullscreen on mobile ── */
   .modal-dialog {
-    margin: 0.5rem auto !important;
-  }
-  .modal-dialog.modal-lg,
-  .modal-dialog.modal-xl {
-    max-width: calc(100vw - 1rem) !important;
-    width: calc(100vw - 1rem) !important;
-  }
-  .modal-content .modal-body {
-    max-height: 70vh !important; /* more room to type on mobile */
+    margin: 1rem !important;
   }
 
-  /* ── Prevent horizontal scroll on body ── */
+  .modal-dialog.modal-lg,
+  .modal-dialog.modal-xl {
+    max-width: calc(100vw - 2rem) !important;
+    width: auto !important;
+  }
+
+  .modal-content .modal-body {
+    max-height: 75vh !important;
+    padding: 1rem !important; /* Save space on mobile forms */
+  }
+
   body {
     overflow-x: hidden;
   }
 
-  /* ── Buttons full-width on xs when stacked ── */
+  /* Ensure buttons are highly tap-able and full-width in stacked forms on mobile */
   .btn-lumina-main,
   .btn-lumina-outline,
   .btn-cancel-modal,
   .btn-save-modal {
     min-height: 44px;
+    width: 100%;
+    margin-top: 0.5rem;
   }
-}
+
+  /* Typography Scaling to prevent horizontal overflow */
+  h1, .h1, .hero-headline { font-size: 2.25rem !important; line-height: 1.2 !important; }
+  h2, .h2 { font-size: 1.8rem !important; line-height: 1.3 !important; }
+  h3, .h3 { font-size: 1.5rem !important; }
+  
+  .fs-1 { font-size: 2rem !important; }
+  .fs-2 { font-size: 1.75rem !important; }
+  .fs-3 { font-size: 1.5rem !important; }
+
+  /* Reduce overall padding on generic cards */
+  .card-body, .proctor-card, .feature-card {
+    padding: 1.25rem !important;
+  }
+
+  /* Force page headers and toolbars to stack */
+  .page-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+}

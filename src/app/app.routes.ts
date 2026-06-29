@@ -6,6 +6,7 @@ import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-
 import { EmailConfirmationComponent } from './features/auth/email-confirmation/email-confirmation.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
+import { UserProfileComponent } from './features/user-profile/user-profile.component';
 import { authGuard } from './core/guards/auth.guard';
 import { RoleManagementComponent } from './features/role-management/role-management.component';
 import { UserManagementComponent } from './features/user-management/user-management.component';
@@ -48,6 +49,10 @@ export const routes: Routes = [
         component: DepartmentManagementComponent,
         canActivate: [permissionGuard],
         data: { permission: 'Department:read' },
+      },
+      {
+        path: 'settings',
+        component: UserProfileComponent,
       },
       // مسار افتراضي عشان لما يفتح Dashboard متبقاش فاضية
       { path: '', redirectTo: 'courses', pathMatch: 'full' },

@@ -299,7 +299,7 @@ export class QuizAttemptsComponent implements OnInit {
     if (attempt.draftScore === undefined || attempt.draftScore < 0) {
       Swal.fire({
         toast: true,
-        position: 'top-end',
+        position: 'bottom-end',
         icon: 'warning',
         title: 'Please enter a valid non-negative score',
         showConfirmButton: false,
@@ -314,7 +314,7 @@ export class QuizAttemptsComponent implements OnInit {
         attempt.isScoreLocked = true;
         Swal.fire({
           toast: true,
-          position: 'top-end',
+          position: 'bottom-end',
           icon: 'success',
           title: 'Score Finalized & Locked',
           showConfirmButton: false,
@@ -326,7 +326,7 @@ export class QuizAttemptsComponent implements OnInit {
           attempt.isScoreLocked = true;
           Swal.fire({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             icon: 'error',
             title: err.error?.message || 'Score is already finalized and locked.',
             showConfirmButton: false,
@@ -335,7 +335,7 @@ export class QuizAttemptsComponent implements OnInit {
         } else {
           Swal.fire({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             icon: 'error',
             title: err.error?.message || 'Failed to finalize score.',
             showConfirmButton: false,
@@ -360,7 +360,7 @@ export class QuizAttemptsComponent implements OnInit {
     if (attempt.draftScore === undefined || attempt.draftScore < 0) {
       Swal.fire({
         toast: true,
-        position: 'top-end',
+        position: 'bottom-end',
         icon: 'warning',
         title: 'Please enter a valid non-negative score',
         showConfirmButton: false,
@@ -376,7 +376,7 @@ export class QuizAttemptsComponent implements OnInit {
         attempt.draftScore = undefined;
         Swal.fire({
           toast: true,
-          position: 'top-end',
+          position: 'bottom-end',
           icon: 'success',
           title: 'Score Overridden Successfully',
           showConfirmButton: false,
@@ -386,7 +386,7 @@ export class QuizAttemptsComponent implements OnInit {
       error: (err) => {
         Swal.fire({
           toast: true,
-          position: 'top-end',
+          position: 'bottom-end',
           icon: 'error',
           title: err.error?.message || 'Failed to update score.',
           showConfirmButton: false,

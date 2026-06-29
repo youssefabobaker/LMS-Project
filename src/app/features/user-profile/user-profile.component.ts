@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -9,8 +9,8 @@ import {
 import { UserProfileService } from '../../core/services/user-profile.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
-import { PermissionService } from '../../core/services/permission.service'; // تأكد من المسار الصح
+import { PermissionService } from '../../core/services/permission.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-profile',
@@ -20,15 +20,22 @@ import { PermissionService } from '../../core/services/permission.service'; // �
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
+  @Input() isDrawer: boolean = false;
+  @Output() closeDrawer = new EventEmitter<void>();
+  @Output() logout = new EventEmitter<void>();
+
   userProfile: any;
   profileForm!: FormGroup;
   passwordForm!: FormGroup;
   activeTab: 'info' | 'password' | null = null;
   selectedFile: File | null = null;
+  localProfileImageUrl: string | null = null;
+
+  isUpdatingProfile = false;
+  isUpdatingPassword = false;
 
   constructor(
     private userProfileService: UserProfileService,
-    private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
     private permissionService: PermissionService, // حقن السيرفس هنا
@@ -41,7 +48,17 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadProfile();
+    // Ensure the profile is fetched (no-op if already cached by DashboardComponent).
+    this.userProfileService.loadProfile();
+    // Reactively subscribe — skip null (initial BehaviorSubject value before data arrives).
+    this.userProfileService.userProfile$.pipe(filter(data => data !== null)).subscribe(data => {
+      this.userProfile = data;
+      // Only set the local preview if it hasn't been locally overridden by a new selection
+      if (!this.selectedFile) {
+         this.localProfileImageUrl = data.profilePictureUrl;
+      }
+      this.profileForm.patchValue(data);
+    });
   }
 
   initForms() {
@@ -67,14 +84,6 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  loadProfile() {
-    this.userProfileService.getProfile().subscribe({
-      next: (data) => {
-        this.userProfile = data;
-        this.profileForm.patchValue(data);
-      },
-    });
-  }
 
   async updateInfo() {
     if (this.profileForm.valid) {
@@ -99,10 +108,18 @@ export class UserProfileComponent implements OnInit {
         formData.append('file', this.selectedFile);
       } else if (this.userProfile?.profilePictureUrl) {
         try {
-          const response = await fetch(this.userProfile.profilePictureUrl);
+          // Fetch the exact image the browser is currently displaying from the browser cache
+          // This guarantees we get the NEW picture that is visibly on the screen, 
+          // avoiding server-side query parameter bugs or stale CDN fetches.
+          const response = await fetch(this.userProfile.profilePictureUrl, { cache: 'force-cache' });
           const blob = await response.blob();
-          const file = new File([blob], 'current-profile.jpg', {
-            type: blob.type,
+          
+          // Extract the actual filename from the URL instead of a hardcoded name
+          let filename = this.userProfile.profilePictureUrl.substring(this.userProfile.profilePictureUrl.lastIndexOf('/') + 1) || 'profile.jpg';
+          if (filename.includes('?')) filename = filename.split('?')[0];
+
+          const file = new File([blob], filename, {
+            type: blob.type || 'image/jpeg',
           });
           formData.append('file', file);
         } catch (e) {
@@ -116,18 +133,32 @@ export class UserProfileComponent implements OnInit {
       } else {
         Swal.fire(
           'Notice',
-          'Please select a profile picture at least once',
+          'A profile picture is required by the server.',
           'warning',
         );
         return;
       }
+      
+      this.isUpdatingProfile = true;
 
       this.userProfileService.updateProfile(formData).subscribe({
         next: () => {
+          this.isUpdatingProfile = false;
+          // We intentionally DO NOT reset this.selectedFile = null here.
+          // By keeping it in memory, if the user hits "Save" again for text edits,
+          // it re-uploads the known good local file instead of fetching the potentially
+          // cached old image from the browser's cache.
+          
           Swal.fire('Success', 'Profile Updated Successfully', 'success');
-          this.loadProfile();
+          // Re-fetch the full profile from the server so the profilePictureUrl
+          // is always the correct server URL and is broadcast to all subscribers
+          // (dashboard header + profile card) without needing a page reload.
+          this.userProfileService.getProfile().subscribe();
         },
-        error: (err) => Swal.fire('Error', 'Update Failed', 'error'),
+        error: (err) => {
+          this.isUpdatingProfile = false;
+          Swal.fire('Error', 'Update Failed', 'error');
+        },
       });
     }
   }
@@ -136,20 +167,32 @@ export class UserProfileComponent implements OnInit {
     const file: File = event.target.files[0];
     if (file) {
       this.selectedFile = file;
-      console.log('Selected file:', file.name);
+      
+      // Optional: Update the local image preview instantly for a better UX
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.localProfileImageUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      // Immediately call the endpoint to save it with current form info
+      this.updateInfo();
     }
   }
 
   updatePassword() {
     if (this.passwordForm.valid) {
+      this.isUpdatingPassword = true;
       this.userProfileService
         .changePassword(this.passwordForm.value)
         .subscribe({
           next: () => {
+            this.isUpdatingPassword = false;
             Swal.fire('Success', 'Password changed successfully', 'success');
             this.passwordForm.reset();
           },
           error: (err) => {
+            this.isUpdatingPassword = false;
             Swal.fire(
               'Error',
               err.error?.errorMessage || 'Failed to change password',
@@ -166,7 +209,9 @@ export class UserProfileComponent implements OnInit {
     this.userProfileService.levelUp().subscribe({
       next: () => {
         Swal.fire('Congrats!', 'You leveled up!', 'success');
-        this.loadProfile(); // بنحدث البيانات عشان نشوف السنة الجديدة
+        // Re-fetch the full profile so the new academic year AND profile picture
+        // are reflected immediately in the card and dashboard header.
+        this.userProfileService.getProfile().subscribe();
       },
       error: (err) =>
         Swal.fire(
@@ -177,39 +222,16 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  onLogout() {
-    Swal.fire({
-      title: 'Logout?',
-      text: 'Are you sure you want to sign out?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#ff4b2b',
-      cancelButtonColor: '#333',
-      confirmButtonText: 'Yes, Logout',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // تجهيز البيانات المطلوبة حسب الـ Documentation
-        const logoutData = {
-          token: localStorage.getItem('token'),
-          refreshToken: localStorage.getItem('refreshToken'),
-        };
+  handleAction(action: 'info' | 'password') {
+    if (this.isDrawer) {
+      this.closeDrawer.emit();
+      this.router.navigate(['/dashboard/settings'], { queryParams: { tab: action } });
+    } else {
+      this.activeTab = this.activeTab === action ? null : action;
+    }
+  }
 
-        // نداء السيرفر لإبطال التوكن
-        this.authService.revokeToken(logoutData).subscribe({
-          next: () => {
-            localStorage.clear(); // بيمسح الـ token والـ refreshToken وكل حاجة
-            this.router.navigate(['/login']);
-          },
-          error: (err) => {
-            console.error(
-              'Server logout failed, but clearing local data anyway',
-              err,
-            );
-            localStorage.clear(); // بيمسح الـ token والـ refreshToken وكل حاجة
-            this.router.navigate(['/login']);
-          },
-        });
-      }
-    });
+  triggerLogout() {
+    this.logout.emit();
   }
 }

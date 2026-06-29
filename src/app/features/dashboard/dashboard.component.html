@@ -1,22 +1,41 @@
 <div class="dashboard-wrapper">
-  <nav class="navbar navbar-light bg-white border-bottom px-4 py-2 sticky-top">
+  <nav class="navbar navbar-light bg-white border-bottom ps-2 pe-4 py-2 sticky-top">
     <div class="container-fluid d-flex align-items-center justify-content-start gap-3">
 
-      <!-- Mobile sidebar toggle (visible only on < 768px via CSS) -->
-      <button class="sidebar-toggle me-1" (click)="isSidebarOpen = !isSidebarOpen"
-              aria-label="Toggle navigation menu">
-        <i class="bi" [ngClass]="isSidebarOpen ? 'bi-x-lg' : 'bi-list'"></i>
-      </button>
-
-      <span class="navbar-brand fw-bold fs-4 text-dark mb-0">
-        Lumina <span class="text-info">Dashboard</span>
-      </span>
+      <!-- Hamburger + Brand: grouped tightly together -->
+      <div class="d-flex align-items-center" style="gap: 0; margin-left: -15px;">
+        <button class="profile-hamburger" (click)="handleHamburgerClick()" aria-label="Open sidebar menu">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+        <a href="/" (click)="goHome($event)" class="fw-bold fs-3 text-decoration-none" style="letter-spacing: 1px; cursor: pointer;">
+          <span class="text-dark">LU</span><span class="text-info">MINA</span>
+        </a>
+      </div>
 
       <app-notification class="ms-auto"></app-notification>
 
-      <div class="profile-trigger" (click)="toggleProfile()">
-        <img [src]="userProfile?.profilePictureUrl || 'assets/hero-vector.png'" alt=""
-          class="nav-profile-img shadow-sm">
+      <!-- Dark / Light mode toggle -->
+      <button class="theme-toggle-btn" (click)="themeService.toggleTheme()"
+        [attr.aria-label]="(themeService.isDarkMode$ | async) ? 'Switch to light mode' : 'Switch to dark mode'"
+        [title]="(themeService.isDarkMode$ | async) ? 'Light mode' : 'Dark mode'">
+        <i class="bi" [ngClass]="(themeService.isDarkMode$ | async) ? 'bi-sun' : 'bi-moon-stars'"></i>
+      </button>
+
+      <!-- Vertical divider -->
+      <div class="vr mx-2 d-none d-md-block text-secondary" style="opacity: 0.25;"></div>
+
+      <div class="d-flex align-items-center cursor-pointer profile-trigger" (click)="toggleProfile()"
+        style="margin-right: -20px;">
+        <!-- User Info -->
+        <div class="text-end me-3 d-none d-md-block">
+          <div class="fw-bold text-dark lh-1 mb-1">{{ userProfile?.firstName }} {{ userProfile?.lastName }}</div>
+          <div class="text-secondary small lh-1">{{ role }}</div>
+        </div>
+        <!-- Profile Image -->
+        <img [src]="userProfile?.profilePictureUrl" alt="" class="nav-profile-img shadow-sm rounded-circle"
+          style="width: 40px; height: 40px; object-fit: cover;">
       </div>
 
     </div>
@@ -30,18 +49,55 @@
       </div>
 
       <div class="drawer-body">
-        <app-user-profile></app-user-profile>
+        <app-user-profile [isDrawer]="true" (closeDrawer)="isProfileOpen = false" (logout)="onLogout()"></app-user-profile>
       </div>
     </aside>
 
     <div class="dashboard-wrapper d-flex">
-      <aside class="sidebar text-white p-3" [class.sidebar-open]="isSidebarOpen">
+      <aside class="sidebar text-white p-3 d-flex flex-column" [class.sidebar-open]="isSidebarOpen">
         <h4 class="mb-4 text-info fw-bold d-flex align-items-center justify-content-between">
-          <span>Lumina Panel</span>
-          <button type="button" class="btn-close btn-close-white d-md-none" (click)="isSidebarOpen = false" aria-label="Close"></button>
+          <span>menu</span>
+          <button type="button" class="btn-close btn-close-white d-md-none" (click)="isSidebarOpen = false"
+            aria-label="Close"></button>
         </h4>
 
         <ul class="nav flex-column">
+
+          <li class="nav-item mb-2" *ngIf="hasPermission('Course:read') || hasPermission('Course:readAll')">
+            <!-- Parent Courses tab -->
+            <a class="nav-link d-flex align-items-center justify-content-between courses-parent-link"
+              routerLink="courses" routerLinkActive="active-link">
+              <span class="d-flex align-items-center">
+                <i class="bi bi-book-fill me-3"></i> Courses
+              </span>
+              <span (click)="toggleCourses($event)" class="d-flex align-items-center justify-content-center"
+                style="width: 30px; height: 30px; margin-right: -5px; cursor: pointer;">
+                <i class="bi chevron-icon m-0" [ngClass]="isCoursesExpanded ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+              </span>
+            </a>
+
+            <!-- Sub-menu container -->
+            <div class="courses-submenu" [class.expanded]="isCoursesExpanded">
+              <div class="submenu-inner">
+                <!-- <div class="submenu-category-label">MY COURSES</div> -->
+
+                <ng-container *ngIf="sidebarCourses.length > 0; else noCourses">
+                  <a *ngFor="let course of sidebarCourses" class="submenu-item d-flex align-items-center"
+                    (click)="navigateToCourseContent(course)"
+                    [class.submenu-item-active]="activeCourseId === course.Id">
+                    <span class="submenu-dot"></span>
+                    <span class="submenu-title">{{ course.Title }}</span>
+                  </a>
+                </ng-container>
+
+                <ng-template #noCourses>
+                  <span class="submenu-empty">No courses available</span>
+                </ng-template>
+
+
+              </div>
+            </div>
+          </li>
 
           <li class="nav-item mb-2" *ngIf="hasPermission('users:read')">
             <a class="nav-link d-flex align-items-center" routerLink="users" routerLinkActive="active-link">
@@ -61,14 +117,20 @@
             </a>
           </li>
 
+        </ul>
 
-
-          <li class="nav-item mb-2" *ngIf="hasPermission('Course:read') || hasPermission('Course:readAll')">
-            <a class="nav-link d-flex align-items-center" routerLink="courses" routerLinkActive="active-link">
-              <i class="bi bi-book-fill me-3"></i> Courses
+        <!-- Bottom Footer Links -->
+        <ul class="nav flex-column mt-auto pt-3" style="border-top: 1px solid rgba(255, 255, 255, 0.05);">
+          <li class="nav-item mb-2">
+            <a class="nav-link bottom-nav-link d-flex align-items-center" routerLink="settings" routerLinkActive="active-link" style="cursor: pointer;">
+              <i class="bi bi-gear-fill me-3"></i> Settings
             </a>
           </li>
-
+          <li class="nav-item">
+            <a class="nav-link bottom-nav-link d-flex align-items-center" style="cursor: pointer;" (click)="onLogout()">
+              <i class="bi bi-box-arrow-right me-3"></i> Sign Out
+            </a>
+          </li>
         </ul>
       </aside>
 
@@ -80,8 +142,7 @@
     </div>
 
     <!-- Mobile sidebar overlay -->
-    <div class="sidebar-overlay" *ngIf="isSidebarOpen"
-         (click)="isSidebarOpen = false">
+    <div class="sidebar-overlay" *ngIf="isSidebarOpen" (click)="isSidebarOpen = false">
     </div>
 
     <div class="drawer-overlay" *ngIf="isProfileOpen" (click)="toggleProfile()"></div>

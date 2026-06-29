@@ -50,7 +50,7 @@ export class CourseViewComponent implements OnInit {
     private courseService: CourseService,
     private permissionService: PermissionService,
     private router: Router
-  ) {}
+  ) { }
 
   // ── Lifecycle ──────────────────────────────────────────────────────────────
 
@@ -84,8 +84,15 @@ export class CourseViewComponent implements OnInit {
         this.filteredCourses = [...data];
         this.isLoading = false;
       },
-      error: () => {
-        this.loadFailed = true;
+      error: (err) => {
+        const apiErrorMessage = err.error?.errorMessage || '';
+        if (err.status === 404 || (err.status === 400 && apiErrorMessage.includes('not enrolled in any courses'))) {
+          this.courses = [];
+          this.filteredCourses = [];
+          this.loadFailed = false;
+        } else {
+          this.loadFailed = true;
+        }
         this.isLoading = false;
       },
     });
@@ -102,8 +109,8 @@ export class CourseViewComponent implements OnInit {
 
     if (this.searchTerm) {
       const lowerTerm = this.searchTerm.toLowerCase().trim();
-      temp = temp.filter(c => 
-        c.Title.toLowerCase().includes(lowerTerm) || 
+      temp = temp.filter(c =>
+        c.Title.toLowerCase().includes(lowerTerm) ||
         c.Id.toString().includes(lowerTerm)
       );
     }
@@ -149,11 +156,13 @@ export class CourseViewComponent implements OnInit {
           next: () => {
             this.courses = this.courses.filter((c) => c.Id !== id);
             this.applyFilters();
+            this.courseService.courseListUpdated$.next();
             Swal.fire({
+              toast: true,
+              position: 'bottom-end',
               icon: 'success',
-              title: 'Deleted',
-              text: 'Course has been removed.',
-              timer: 1500,
+              title: 'Course has been removed.',
+              timer: 3000,
               showConfirmButton: false,
             });
           },
@@ -175,7 +184,7 @@ export class CourseViewComponent implements OnInit {
   openModal(): void {
     const el = document.getElementById('courseModal');
     if (!el) return;
-    
+
     // Check if an instance already exists to avoid memory leaks and duplicate event listeners
     let modal = (window as any).bootstrap.Modal.getInstance(el);
     if (!modal) {
@@ -197,6 +206,7 @@ export class CourseViewComponent implements OnInit {
       this.addEditComponent.courseData = null;
       this.addEditComponent.form?.reset();
       this.addEditComponent.clearImage();
+      this.addEditComponent.loadDepartments();
     }
     this.openModal();
   }
@@ -213,11 +223,13 @@ export class CourseViewComponent implements OnInit {
   // ── In-place state handlers (T019, T026) ──────────────────────────────────
 
   onCourseCreated(newCourse: Course): void {
-    // Reset filters so the new card is visible at the top
+    // Reset filters so the new card is visible at the end
     this.searchTerm = '';
     this.selectedSemester = '';
-    this.courses.unshift(newCourse);
+    newCourse.IsPublished = true;
+    this.courses.push(newCourse);
     this.applyFilters();
+    this.courseService.courseListUpdated$.next();
   }
 
   onCourseUpdated(updatedCourse: Course): void {
@@ -225,6 +237,7 @@ export class CourseViewComponent implements OnInit {
     if (idx !== -1) {
       this.courses[idx] = updatedCourse;
       this.applyFilters();
+      this.courseService.courseListUpdated$.next();
     }
   }
 

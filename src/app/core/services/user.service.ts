@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import { User } from '../../models/user'; // تأكد من مسار الموديل عندك
 import { environment } from '../../../environments/environment';
 
@@ -11,6 +11,7 @@ import { environment } from '../../../environments/environment';
 export class UserService {
   // استبدل <host> بالدومين الفعلي الخاص بك كما هو موضح في صفحة 1 من الـ PDF
   private baseUrl = `${environment.apiUrl}/api/Users`;
+  private usersCache$: Observable<User[]> | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -31,10 +32,29 @@ export class UserService {
     };
   }
 
+  clearCache(): void {
+    this.usersCache$ = null;
+  }
+
   getUsers(
     includeNotConfirmed: boolean = true,
     includeDisabled: boolean = true,
   ): Observable<User[]> {
+    // Only cache if both are true (the default) to simplify caching logic
+    if (includeNotConfirmed && includeDisabled) {
+      if (!this.usersCache$) {
+        const params = new HttpParams()
+          .set('IncludeNotConfirmed', 'true')
+          .set('includeDisabled', 'true');
+    
+        this.usersCache$ = this.http.get<any[]>(this.baseUrl, { params }).pipe(
+          map(users => users.map(u => this.normalizeUser(u))),
+          shareReplay(1)
+        );
+      }
+      return this.usersCache$;
+    }
+
     const params = new HttpParams()
       .set('IncludeNotConfirmed', includeNotConfirmed.toString())
       .set('includeDisabled', includeDisabled.toString());
@@ -62,14 +82,14 @@ export class UserService {
    * البيانات المطلوبة: firstName, lastName, email, password, roles[], إلخ.
    */
   createUser(userData: any): Observable<User> {
-    return this.http.post<User>(this.baseUrl, userData);
+    return this.http.post<User>(this.baseUrl, userData).pipe(tap(() => this.clearCache()));
   }
 
   /**
    * 5. تحديث بيانات مستخدم موجود (صفحة 11 في الـ PDF)
    */
   updateUser(id: string, userData: any): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}`, userData);
+    return this.http.put<void>(`${this.baseUrl}/${id}`, userData).pipe(tap(() => this.clearCache()));
   }
 
   /**
@@ -77,7 +97,7 @@ export class UserService {
    * هذا الـ Endpoint يقوم بعمل soft-delete أو إعادة تفعيل
    */
   toggleUserStatus(id: string): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}/toggle-status`, {});
+    return this.http.put<void>(`${this.baseUrl}/${id}/toggle-status`, {}).pipe(tap(() => this.clearCache()));
   }
 
   /**
@@ -85,6 +105,6 @@ export class UserService {
    * يُستخدم عندما يتم قفل الحساب بسبب محاولات دخول خاطئة كثيرة
    */
   unlockUser(id: string): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}/unlock`, {});
+    return this.http.put<void>(`${this.baseUrl}/${id}/unlock`, {}).pipe(tap(() => this.clearCache()));
   }
 }

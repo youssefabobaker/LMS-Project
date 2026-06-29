@@ -1,34 +1,123 @@
-<div class="contact-wrapper py-5">
-  <div class="container">
-    <div class="row justify-content-center">
+<div class="contact-section">
+  <!-- Background orb -->
+  <div class="contact-orb"></div>
+
+  <div class="container position-relative">
+
+    <!-- Header -->
+    <div class="section-header text-center animate-on-scroll">
+      <span class="section-eyebrow">Get In Touch</span>
+      <h2 class="section-title">Talk to <span class="text-lms-main">Our Team</span></h2>
+      <p class="section-subtitle">Have a question or need support? We're here to help.</p>
+    </div>
+
+    <!-- Contact Card -->
+    <div class="row justify-content-center mt-4">
       <div class="col-lg-10">
-        <div class="contact-glass p-5 shadow-lg">
-          <div class="row">
-            <div class="col-md-5 bg-dark text-white p-5 rounded-4 mb-4 mb-md-0">
-              <h3>Contact Info</h3>
-              <p class="text-white-50">Reach out to us for any technical support.</p>
-              <div class="mt-4">
-                <p><i class="bi bi-geo-alt me-2 text-primary"></i> Cairo, Egypt</p>
-                <p><i class="bi bi-envelope me-2 text-primary"></i> support&#64;lumina.edu</p>
-                <p><i class="bi bi-telephone me-2 text-primary"></i> +20 123 456 789</p>
+        <div class="contact-card animate-on-scroll" style="--card-delay: 0.15s;">
+          <div class="row g-0">
+
+            <!-- Left Info Panel -->
+            <div class="col-md-5">
+              <div class="contact-info-panel">
+                <div class="contact-info-header">
+                  <h4>Contact Information</h4>
+                  <p>Reach out to us for any technical support or inquiries.</p>
+                </div>
+
+                <div class="contact-info-list">
+                  <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                      <i class="bi bi-geo-alt-fill"></i>
+                    </div>
+                    <div>
+                      <span class="info-label">Location</span>
+                      <span class="info-value">Cairo, Egypt</span>
+                    </div>
+                  </div>
+
+                  <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                      <i class="bi bi-envelope-fill"></i>
+                    </div>
+                    <div>
+                      <span class="info-label">Email</span>
+                      <span class="info-value">support&#64;lumina.edu</span>
+                    </div>
+                  </div>
+
+                  <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                      <i class="bi bi-telephone-fill"></i>
+                    </div>
+                    <div>
+                      <span class="info-label">Phone</span>
+                      <span class="info-value">+20 123 456 789</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Social links -->
+                <div class="contact-social">
+                  <a href="#" class="social-btn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                  <a href="#" class="social-btn" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                  <a href="#" class="social-btn" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                </div>
+
+                <!-- Decorative dots -->
+                <div class="contact-dots">
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                </div>
               </div>
             </div>
-            <div class="col-md-7 ps-md-5">
-              <form>
-                <div class="mb-3">
-                  <label class="form-label">Full Name</label>
-                  <input type="text" class="form-control" placeholder="Enter your name">
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Message</label>
-                  <textarea class="form-control" rows="4" placeholder="How can we help?"></textarea>
-                </div>
-                <button class="btn btn-primary w-100 py-3 mt-3">Send Message</button>
-              </form>
+
+            <!-- Right Form Panel -->
+            <div class="col-md-7">
+              <div class="contact-form-panel">
+                <form class="contact-form">
+                  <div class="row g-3">
+                    <div class="col-sm-6">
+                      <div class="form-floating-custom">
+                        <label>Full Name</label>
+                        <input type="text" class="form-input" id="contact-name" placeholder="John Doe">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-floating-custom">
+                        <label>Email Address</label>
+                        <input type="email" class="form-input" id="contact-email" placeholder="john@example.com">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating-custom">
+                        <label>Subject</label>
+                        <input type="text" class="form-input" id="contact-subject" placeholder="How can we help?">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating-custom">
+                        <label>Message</label>
+                        <textarea class="form-input form-textarea" id="contact-message" rows="5"
+                          placeholder="Describe your question or feedback..."></textarea>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <button type="submit" class="btn-contact-send">
+                        <span>Send Message</span>
+                        <i class="bi bi-send-fill btn-icon"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </div>

@@ -23,3 +23,13 @@ input:disabled {
   font-weight: 500;
   cursor: not-allowed;
 }
+
+@media (max-width: 575.98px) {
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+  .modal-footer .btn {
+    width: 100%;
+    margin: 0;
+  }
+}

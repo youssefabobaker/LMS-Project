@@ -87,9 +87,9 @@
       </form>
     </div>
 
-    <div class="modal-footer bg-light border-top-0 rounded-bottom-3 py-3 px-4">
+    <div class="modal-footer bg-light border-top-0 rounded-bottom-3 py-3 px-4 gap-2">
       <button type="button" class="btn btn-outline-secondary px-4 fw-medium" (click)="dismiss()">Cancel</button>
-      <button type="button" class="btn btn-primary px-4 fw-bold d-flex align-items-center gap-2" [disabled]="isSubmitting" (click)="submit()">
+      <button type="button" class="btn btn-primary px-4 fw-bold d-flex align-items-center justify-content-center gap-2" [disabled]="isSubmitting" (click)="submit()">
         <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         <span>Save Question</span>
       </button>

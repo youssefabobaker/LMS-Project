@@ -4,9 +4,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import Swal from 'sweetalert2';
 
 import { CourseService } from '../../../core/services/course.service';
-import { AuthService } from '../../../core/services/auth.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import { Course } from '../../../models/course';
+import { Department } from '../../../models/department';
+import { DepartmentService } from '../../../core/services/department.service';
+
+
 
 // ── Semester mapping helpers ────────────────────────────────────────────────
 const SEMESTER_STR_TO_INT: Record<string, number> = { Fall: 1, Spring: 2, Summer: 3 };
@@ -34,21 +37,20 @@ export class CourseAddEditComponent implements OnInit, OnChanges {
   isSaving = false;
   selectedFile: File | null = null;
   imagePreviewUrl: string | null = null;
-  departments: any[] = [];
+  departments: Department[] = [];
 
   get isEditMode(): boolean { return this.courseData !== null; }
 
   constructor(
     private fb: FormBuilder,
     private courseService: CourseService,
-    private authService: AuthService,
+    private deptService: DepartmentService,
     public permissionService: PermissionService,
-  ) {}
+  ) { }
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   ngOnInit(): void {
-    this.loadDepartments();
     this.initForm();
     if (this.courseData) {
       this.patchForm(this.courseData);
@@ -72,7 +74,7 @@ export class CourseAddEditComponent implements OnInit, OnChanges {
   // ── Department Loading (T010) ─────────────────────────────────────────────
 
   loadDepartments(): void {
-    this.authService.getDepartments().subscribe({
+    this.deptService.getDepartments().subscribe({
       next: (deps) => { this.departments = deps; },
       error: () => { this.departments = []; }
     });
@@ -82,13 +84,13 @@ export class CourseAddEditComponent implements OnInit, OnChanges {
 
   initForm(): void {
     this.form = this.fb.group({
-      title:            ['', [Validators.required, Validators.minLength(5)]],
-      description:      ['', Validators.required],
-      semster:          [null, Validators.required],       // integer: 1, 2, 3
-      academicLevel:    [null, Validators.required],       // integer: 1–5
-      credit_Hour:      [null, [Validators.required, Validators.min(1), Validators.max(10)]],
+      title: ['', [Validators.required, Validators.minLength(5)]],
+      description: ['', Validators.required],
+      semster: [null, Validators.required],       // integer: 1, 2, 3
+      academicLevel: [null, Validators.required],       // integer: 1–5
+      credit_Hour: [null, [Validators.required, Validators.min(1), Validators.max(10)]],
       learningOutcomes: ['', Validators.required],
-      departmentId:     [null, Validators.required],
+      departmentId: [null, Validators.required],
     });
   }
 
@@ -97,18 +99,18 @@ export class CourseAddEditComponent implements OnInit, OnChanges {
   patchForm(course: Course): void {
     const semesterInt = SEMESTER_STR_TO_INT[course.semster] ?? null;
     this.form.patchValue({
-      title:            course.Title,
-      description:      course.Description,
-      semster:          semesterInt,
-      academicLevel:    course.academicLevel ?? null,
-      credit_Hour:      course.Credit_Hour,
+      title: course.Title,
+      description: course.Description,
+      semster: semesterInt,
+      academicLevel: course.academicLevel ?? null,
+      credit_Hour: course.Credit_Hour,
       learningOutcomes: course.LearningOutcomes ?? '',
-      departmentId:     course.departmentId ?? null,
+      departmentId: course.departmentId ?? null,
     });
     // In edit mode, department is not sent to the backend, so it's not required
     this.form.get('departmentId')?.clearValidators();
     this.form.get('departmentId')?.updateValueAndValidity();
-    
+
     // Show existing image as preview
     if (course.ImageUrl) {
       this.imagePreviewUrl = course.ImageUrl;
@@ -185,10 +187,30 @@ export class CourseAddEditComponent implements OnInit, OnChanges {
       next: (responseId: any) => {
         this.isSaving = false;
 
+        let parsedId: number | null = null;
+        if (typeof responseId === 'string') {
+          try {
+            const parsed = JSON.parse(responseId);
+            parsedId = Number(parsed.id || parsed.Id || parsed.courseId || parsed.CourseId) || null;
+          } catch (e) {
+            parsedId = Number(responseId);
+            if (isNaN(parsedId)) {
+              const match = responseId.match(/\d+/);
+              parsedId = match ? Number(match[0]) : null;
+            }
+          }
+        } else if (typeof responseId === 'object' && responseId !== null) {
+          parsedId = Number(responseId.id || responseId.Id || responseId.courseId || responseId.CourseId) || null;
+        } else {
+          parsedId = Number(responseId);
+        }
+
+        const finalId = (parsedId && !isNaN(parsedId)) ? parsedId : Math.floor(Math.random() * 10000);
+
         // Construct the updated course locally to update the UI without an extra API call
         const v = this.form.getRawValue();
         const localCourse: Course = {
-          Id: this.isEditMode ? this.courseData!.Id : (Number(responseId) || Math.floor(Math.random() * 10000)),
+          Id: this.isEditMode ? this.courseData!.Id : finalId,
           Title: v.title,
           Description: v.description,
           semster: SEMESTER_INT_TO_STR[v.semster],
@@ -197,16 +219,18 @@ export class CourseAddEditComponent implements OnInit, OnChanges {
           LearningOutcomes: v.learningOutcomes,
           departmentId: Number(v.departmentId),
           ImageUrl: this.imagePreviewUrl || (this.courseData?.ImageUrl || ''),
-          IsPublished: this.courseData?.IsPublished || false
+          IsPublished: this.isEditMode ? (this.courseData?.IsPublished || false) : true
         };
 
         Swal.fire({
+          toast: true,
+          position: 'bottom-end',
           icon: 'success',
           title: this.isEditMode ? 'Course Updated!' : 'Course Created!',
-          timer: 2000,
+          timer: 3000,
           showConfirmButton: false,
         });
-        
+
         if (this.isEditMode) {
           this.courseUpdated.emit(localCourse);
         } else {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Content, ContentAttachment } from '../../models/content';
 import { environment } from '../../../environments/environment';
 
@@ -34,27 +34,12 @@ export class ContentService {
 
   // ── This Cycle ────────────────────────────────────────────────────────────
 
-  private cachedCourseId?: number;
-  private cachedContentList?: Content[];
-
-  clearCache(): void {
-    this.cachedCourseId = undefined;
-    this.cachedContentList = undefined;
-  }
-
   /** GET /api/Content/course/{courseId} — list all content for a course */
   getContentByCourse(courseId: number): Observable<Content[]> {
-    if (this.cachedCourseId === courseId && this.cachedContentList) {
-      return of(this.cachedContentList);
-    }
     return this.http
       .get<any[]>(`${this.baseUrl}/course/${courseId}`)
       .pipe(
-        map(list => list.map(u => this.normalizeContent(u))),
-        tap(list => {
-          this.cachedCourseId = courseId;
-          this.cachedContentList = list;
-        })
+        map(list => list.map(u => this.normalizeContent(u)))
       );
   }
 
@@ -67,7 +52,6 @@ export class ContentService {
 
   /** PUT /api/Content/{contentId} — update title and body */
   updateContent(contentId: number, title: string, body: string): Observable<any> {
-    this.clearCache();
     return this.http.put(
       `${this.baseUrl}/${contentId}`,
       { title, body },
@@ -77,13 +61,11 @@ export class ContentService {
 
   /** DELETE /api/Content/{contentId} — delete content item */
   deleteContent(contentId: number): Observable<any> {
-    this.clearCache();
     return this.http.delete(`${this.baseUrl}/${contentId}`, { responseType: 'text' });
   }
 
   /** DELETE /api/Content/attachments/{attachmentId} — remove a single attachment */
   deleteAttachment(attachmentId: string): Observable<any> {
-    this.clearCache();
     return this.http.delete(
       `${this.baseUrl}/attachments/${attachmentId}`,
       { responseType: 'text' }
@@ -94,7 +76,6 @@ export class ContentService {
 
   /** POST /api/Content/course/{courseId} — create a new content item (content-add cycle) */
   createContent(courseId: number, title: string, body: string): Observable<Content> {
-    this.clearCache();
     return this.http
       .post<any>(`${this.baseUrl}/course/${courseId}`, { title, body })
       .pipe(map(u => this.normalizeContent(u)));
@@ -102,7 +83,6 @@ export class ContentService {
 
   /** POST /api/Content/{contentId}/attachments — upload files (content-add cycle) */
   addAttachments(contentId: number, files: File[]): Observable<Content> {
-    this.clearCache();
     const form = new FormData();
     files.forEach(f => form.append('attachmentFiles', f, f.name));
     return this.http

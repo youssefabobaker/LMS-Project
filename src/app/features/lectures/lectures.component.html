@@ -94,7 +94,7 @@
 
 <!-- Modal for Create/Edit -->
 <div class="modal fade" id="lectureModal" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true" data-bs-backdrop="static">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered mx-3 mx-sm-auto">
     <div class="modal-content border-0 shadow rounded-3 overflow-hidden">
       <div class="modal-header" style="background: linear-gradient(135deg, #002D5B 0%, #004080 100%);">
         <h5 class="modal-title fw-bold text-white" id="lectureModalLabel">
@@ -129,9 +129,9 @@
             </div>
           </div>
           
-          <div class="d-flex justify-content-end gap-2">
-            <button type="button" class="btn btn-light border fw-medium" (click)="closeModal()">Cancel</button>
-            <button type="submit" class="btn btn-lumina-submit fw-bold" [disabled]="lectureForm.invalid || isSubmitting">
+          <div class="d-flex flex-column-reverse flex-sm-row justify-content-sm-end gap-2 lecture-modal-footer">
+            <button type="button" class="btn btn-light border fw-medium px-4" (click)="closeModal()">Cancel</button>
+            <button type="submit" class="btn btn-lumina-submit fw-bold px-4" [disabled]="lectureForm.invalid || isSubmitting">
               <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
               {{ editingLectureId ? 'Update Live Class' : 'Create Live Class' }}
             </button>

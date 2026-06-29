@@ -34,15 +34,15 @@ export class ContentViewComponent implements OnInit {
 
   // Card state
   expandedIds = new Set<number>();
-  editingIds  = new Set<number>();
+  editingIds = new Set<number>();
   editFormData = new Map<number, { title: string; body: string }>();
   isUploadingAttachment = new Map<number, boolean>();
 
   // Permission flags
-  canRead   = false;
+  canRead = false;
   canUpdate = false;
   canDelete = false;
-  canAdd    = false;
+  canAdd = false;
   canAddAssignment = false;
   canReadAssignment = false;
 
@@ -56,11 +56,11 @@ export class ContentViewComponent implements OnInit {
   canReadCourse = false;
 
   constructor(
-    private route:             ActivatedRoute,
-    private router:            Router,
-    private location:          Location,
-    private contentService:    ContentService,
-    private courseService:     CourseService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location,
+    private contentService: ContentService,
+    private courseService: CourseService,
     private permissionService: PermissionService,
   ) {
     const navigation = this.router.getCurrentNavigation();
@@ -77,10 +77,10 @@ export class ContentViewComponent implements OnInit {
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   ngOnInit(): void {
-    this.canRead   = this.permissionService.hasPermission('Content:read');
+    this.canRead = this.permissionService.hasPermission('Content:read');
     this.canUpdate = this.permissionService.hasPermission('Content:update');
     this.canDelete = this.permissionService.hasPermission('Content:delete');
-    this.canAdd    = this.permissionService.hasPermission('Content:add');
+    this.canAdd = this.permissionService.hasPermission('Content:add');
     this.canAddAssignment = this.permissionService.hasPermission('Ass:addOrUpdate');
     this.canReadAssignment = this.permissionService.hasPermission('Ass:read');
     this.canReadQuiz = this.permissionService.hasPermission('Quiz:read');
@@ -95,8 +95,13 @@ export class ContentViewComponent implements OnInit {
           this.courseDetails = undefined;
         }
         this.courseId = newCourseId;
+
         this.contentInitialized = false;
         this.assignmentsInitialized = false;
+        this.quizzesInitialized = false;
+        this.lecturesInitialized = false;
+
+        this.contentList = [];
 
         const url = this.router.url;
         if (url.includes('/assignments')) {
@@ -125,9 +130,9 @@ export class ContentViewComponent implements OnInit {
 
   switchTab(tab: 'content' | 'assignments' | 'quizzes' | 'lectures'): void {
     if (this.activeTab === tab) return;
-    
+
     this.activeTab = tab;
-    
+
     if (tab === 'content' && !this.contentInitialized) {
       this.contentInitialized = true;
       if (this.canRead) {
@@ -167,8 +172,8 @@ export class ContentViewComponent implements OnInit {
   }
 
   loadCourseDetails(): void {
-    const courses$ = this.permissionService.hasPermission('Course:readAll') 
-      ? this.courseService.getAllCourses() 
+    const courses$ = this.permissionService.hasPermission('Course:readAll')
+      ? this.courseService.getAllCourses()
       : this.courseService.getCourses();
 
     courses$.subscribe({
@@ -241,7 +246,7 @@ export class ContentViewComponent implements OnInit {
         const item = this.contentList.find(c => c.id === id);
         if (item) {
           item.title = title;
-          item.body  = body;
+          item.body = body;
         }
         this.cancelEdit(id);
         Swal.fire({

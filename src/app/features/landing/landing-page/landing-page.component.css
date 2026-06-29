@@ -1,3 +1,9 @@
+/* Landing page host scroll snap and smooth scroll */
+:host {
+  display: block;
+}
+
+/* Remove double padding — each section now self-manages its padding */
 #about, #contact, #features {
-  padding-top: 60px;
+  scroll-margin-top: 70px; /* account for sticky navbar height */
 }

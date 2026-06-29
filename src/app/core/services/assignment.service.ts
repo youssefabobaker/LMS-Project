@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import {
   AssignmentResponseDto,
@@ -40,14 +40,6 @@ export class AssignmentService {
     };
   }
 
-  private cachedCourseId?: number;
-  private cachedAssignments?: AssignmentResponseDto[];
-
-  clearCache(): void {
-    this.cachedCourseId = undefined;
-    this.cachedAssignments = undefined;
-  }
-
   getAssignmentById(id: number): Observable<AssignmentResponseDto> {
     return this.http
       .get<any>(`${this.apiUrl}/${id}`)
@@ -57,17 +49,10 @@ export class AssignmentService {
   getAssignmentsByCourseId(
     courseId: number,
   ): Observable<AssignmentResponseDto[]> {
-    if (this.cachedCourseId === courseId && this.cachedAssignments) {
-      return of([...this.cachedAssignments]);
-    }
     return this.http
       .get<any[]>(`${this.apiUrl}/course/${courseId}`)
       .pipe(
-        map((list) => list.map((u) => this.normalizeAssignment(u))),
-        tap((list) => {
-          this.cachedCourseId = courseId;
-          this.cachedAssignments = list;
-        })
+        map((list) => list.map((u) => this.normalizeAssignment(u)))
       );
   }
   createOrUpdateAssignment(
@@ -80,7 +65,6 @@ export class AssignmentService {
       totalMarks: number;
     },
   ): Observable<AssignmentResponseDto> {
-    this.clearCache();
     return this.http
       .post<any>(`${this.apiUrl}/course/${courseId}`, data)
       .pipe(map((u) => this.normalizeAssignment(u)));
@@ -90,7 +74,6 @@ export class AssignmentService {
     assignmentId: number,
     files: File[],
   ): Observable<AssignmentResponseDto> {
-    this.clearCache();
     const formData = new FormData();
     files.forEach((f) => formData.append('attachmentFiles', f, f.name));
     return this.http
@@ -99,12 +82,10 @@ export class AssignmentService {
   }
 
   deleteAssignment(id: number): Observable<void> {
-    this.clearCache();
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   deleteAttachment(attachmentId: string): Observable<void> {
-    this.clearCache();
     return this.http.delete<void>(`${this.apiUrl}/attachments/${attachmentId}`);
   }
 }

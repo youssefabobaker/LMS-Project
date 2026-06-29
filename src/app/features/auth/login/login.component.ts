@@ -20,6 +20,7 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -37,8 +38,10 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     if (this.loginForm.valid) {
+      this.isLoading = true;
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
+          this.isLoading = false;
           // console.log('Login Success! User Data:', response);
 
           // حفظ البيانات الأساسية
@@ -62,6 +65,7 @@ export class LoginComponent implements OnInit {
         },
 
         error: (err) => {
+          this.isLoading = false;
           // بنجيب نص الرسالة اللي راجع من الـ Backend
           const apiErrorMessage = err.error?.errorMessage || '';
 

@@ -9,6 +9,8 @@ import {
 } from '@angular/forms'; // إضافات الـ Validation
 import { AuthService } from '../../../core/services/auth.service';
 import Swal from 'sweetalert2';
+import { Department } from '../../../models/department';
+import { DepartmentService } from '../../../core/services/department.service';
 
 @Component({
   selector: 'app-register',
@@ -20,8 +22,9 @@ import Swal from 'sweetalert2';
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   isRegistered = false;
+  isLoading = false;
   selectedFile: File | null = null;
-  departments: any[] = []; // مصفوفة لتخزين الأقسام
+  departments: Department[] = []; // مصفوفة لتخزين الأقسام
   academicYears = [
     { value: 'first', label: 'First Year' },
     { value: 'second', label: 'Second Year' },
@@ -34,7 +37,9 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-  ) {}
+    private deptService: DepartmentService,
+
+  ) { }
 
   ngOnInit() {
     this.loadDepartments();
@@ -93,13 +98,11 @@ export class RegisterComponent implements OnInit {
   }
 
   loadDepartments() {
-    this.authService.getDepartments().subscribe({
+    this.deptService.getDepartments().subscribe({
       next: (data) => {
         this.departments = data; // تخزين البيانات اللي جاية من الباكيند
-        console.log('Departments loaded:', this.departments);
       },
       error: (err) => {
-        console.error('Error fetching departments:', err);
       },
     });
   }
@@ -115,6 +118,7 @@ export class RegisterComponent implements OnInit {
 
   onRegister() {
     if (this.registerForm.valid) {
+      this.isLoading = true;
       const formData = new FormData();
 
       // إضافة الحقول الأساسية حسب أسامي الـ Backend في الـ Doc
@@ -139,9 +143,11 @@ export class RegisterComponent implements OnInit {
       // إرسال الـ FormData للـ Backend
       this.authService.register(formData).subscribe({
         next: (response) => {
+          this.isLoading = false;
           this.isRegistered = true;
         },
         error: (err) => {
+          this.isLoading = false;
           const apiErrorMessage = err.error?.errorMessage || '';
 
           // 1. حالة الإيميل موجود قبل كدة (Conflict 409)

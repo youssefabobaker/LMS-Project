@@ -88,9 +88,23 @@
 /* ── Course Grid ──────────────────────────────────────────────── */
 .course-grid {
   display: grid;
-  /* Cards go full-width on mobile, 2-col on MD, 3-col on LG */
-  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  /* Desktop (>= 1024px): Strictly 4 columns */
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
+}
+
+/* Tablet: Strictly 2 columns */
+@media (max-width: 1023.98px) {
+  .course-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: Strictly 1 column */
+@media (max-width: 767.98px) {
+  .course-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Course Card ─────────────────────────────────────────────────────── */
@@ -278,6 +292,7 @@ button.status-badge:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 0.5rem;
   padding: 0.6rem 1.25rem;
   border-top: 1px solid #dfe3e7;
