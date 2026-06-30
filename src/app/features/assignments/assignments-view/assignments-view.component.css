@@ -190,22 +190,47 @@
   color: #ffffff;
 }
 
-.btn-save-action {
-  background-color: #41B3E3;
-  color: #ffffff;
+.btn-cancel-modal {
+  padding: 0.55rem 1.4rem;
+  border: 1.5px solid #cbd5e1;
+  background-color: transparent;
+  color: #475569;
+  border-radius: 8px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.btn-cancel-modal:hover:not(:disabled) { 
+  background-color: #f1f5f9; 
+  color: #334155; 
+  border-color: #cbd5e1; 
+}
+.btn-cancel-modal:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-save-modal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.75rem;
+  background: linear-gradient(135deg, #41B3E3, #002D5B);
+  color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 8px 22px;
-  font-weight: 600;
-  font-size: 0.88rem;
-  transition: all 0.2s ease;
+  border-radius: 8px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(65, 179, 227, 0.3);
+  transition: box-shadow 0.2s, transform 0.15s;
 }
 
-.btn-save-action:hover {
-  background-color: #3599C4;
-  color: #ffffff;
+.btn-save-modal:hover:not(:disabled) {
+  box-shadow: 0 6px 16px rgba(65, 179, 227, 0.45);
   transform: translateY(-1px);
 }
+.btn-save-modal:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
 /* ── Empty State ───────────────────────────────────────────────────── */
 .empty-state-card {

@@ -79,8 +79,8 @@ export class LoginComponent implements OnInit {
                 showCancelButton: true,
                 confirmButtonText: 'Resend Email', // اختيارية لو الـ Backend بيدعمها
                 cancelButtonText: 'Maybe Later',
-                confirmButtonColor: '#00bfff',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#94a3b8',
                 background: '#1a1d21',
                 color: '#fff',
               }).then((result) => {

@@ -23,6 +23,7 @@ export class DepartmentManagementComponent implements OnInit {
   isLoading: boolean = false;
   loadFailed: boolean = false;
   showForm: boolean = false;
+  isSubmitting: boolean = false;
   editingDeptId: number | null = null;
   deptForm!: FormGroup;
 
@@ -88,11 +89,13 @@ export class DepartmentManagementComponent implements OnInit {
     // Guard: trim-aware validation
     if (
       this.deptForm.invalid ||
-      !this.deptForm.value.title?.trim()
+      !this.deptForm.value.title?.trim() ||
+      this.isSubmitting
     ) {
       this.deptForm.markAllAsTouched();
       return;
     }
+    this.isSubmitting = true;
 
     const payload = { title: this.deptForm.value.title.trim() };
 
@@ -109,8 +112,10 @@ export class DepartmentManagementComponent implements OnInit {
           });
           this.loadDepartments();
           this.closeForm();
+          this.isSubmitting = false;
         },
         error: (err) => {
+          this.isSubmitting = false;
           const msg =
             err.error?.message || err.error?.errorMessage || 'Operation failed';
           Swal.fire({
@@ -134,8 +139,10 @@ export class DepartmentManagementComponent implements OnInit {
           });
           this.loadDepartments();
           this.closeForm();
+          this.isSubmitting = false;
         },
         error: (err) => {
+          this.isSubmitting = false;
           const msg =
             err.error?.message || err.error?.errorMessage || 'Update failed';
           Swal.fire({
@@ -158,8 +165,8 @@ export class DepartmentManagementComponent implements OnInit {
       text: 'This action cannot be undone.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#e63946',
-      cancelButtonColor: '#6c757d',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
       confirmButtonText: 'Yes, Remove',
       cancelButtonText: 'Cancel',
     }).then((result) => {

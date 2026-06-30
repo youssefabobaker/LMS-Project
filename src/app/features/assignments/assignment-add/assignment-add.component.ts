@@ -167,7 +167,7 @@ export class AssignmentAddComponent {
     Swal.fire({
       toast: true, position: 'bottom-end', icon: 'success',
       title: 'Assignment created successfully.',
-      showConfirmButton: false, timer: 3000, timerProgressBar: true,
+      showConfirmButton: false, timer: 3000, timerProgressBar: false,
     });
     this.assignmentCreated.emit(item);
     this.resetForm();

@@ -162,7 +162,7 @@ export class RegisterComponent implements OnInit {
               confirmButtonText: 'Go to Login',
               showCancelButton: true,
               cancelButtonText: 'Try Again',
-              confirmButtonColor: '#00bfff',
+              confirmButtonColor: '#dc3545',
               background: '#1a1d21',
               color: '#fff',
             }).then((result) => {

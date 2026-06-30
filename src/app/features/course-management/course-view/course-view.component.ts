@@ -146,8 +146,8 @@ export class CourseViewComponent implements OnInit {
       text: 'This action cannot be undone.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#E63946',
-      cancelButtonColor: '#41B3E3',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
       confirmButtonText: 'Yes, delete it',
       cancelButtonText: 'Cancel',
     }).then((result) => {

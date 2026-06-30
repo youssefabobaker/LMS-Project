@@ -1,0 +1,33 @@
+<div class="payment-container">
+  <div class="payment-card">
+    <div class="payment-header">
+      <h2>Academic Payment Fees</h2>
+      <span class="status-badge warning">Awaiting Payment</span>
+    </div>
+
+    <div class="student-info">
+      <div class="info-group">
+        <label>Student Name</label>
+        <p>{{ studentName }}</p>
+      </div>
+      <div class="info-group">
+        <label>Email Address</label>
+        <p>{{ studentEmail }}</p>
+      </div>
+    </div>
+
+    <div class="notice-box">
+      <p>The tuition fee amount is automatically calculated by the university administration based on your enrolled academic year and department parameters.</p>
+    </div>
+
+    <div class="actions">
+      <button 
+        class="btn-primary pay-btn" 
+        (click)="proceedToPayment()" 
+        [disabled]="isLoading">
+        <span *ngIf="!isLoading">Proceed to Secure Payment via Paymob</span>
+        <span *ngIf="isLoading" class="loader"></span>
+      </button>
+    </div>
+  </div>
+</div>

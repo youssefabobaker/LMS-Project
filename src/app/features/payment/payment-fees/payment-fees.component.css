@@ -1,0 +1,177 @@
+.payment-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 80vh;
+  padding: 2rem;
+  background-color: transparent;
+}
+
+.payment-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 600px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 1px solid #eef2f6;
+}
+
+.payment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eef2f6;
+  padding-bottom: 1.5rem;
+  transition: border-color 0.3s ease;
+}
+
+.payment-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1d21;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.warning {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.student-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.info-group label {
+  display: block;
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.info-group p {
+  font-size: 1.1rem;
+  color: #1a1d21;
+  font-weight: 600;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.notice-box {
+  background-color: #f8fafc;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+  border-left: 4px solid #3b82f6;
+  transition: background-color 0.3s ease;
+}
+
+.notice-box p {
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+}
+
+.pay-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(to right, #42b3e4, #033c6d);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 56px;
+}
+
+.pay-btn:hover:not([disabled]) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(67, 100, 247, 0.3);
+}
+
+.pay-btn[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loader {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 3px solid white;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Dark Mode Support via :host-context */
+:host-context(body.dark-mode) .payment-card {
+  background-color: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+:host-context(body.dark-mode) .payment-header {
+  border-color: #334155;
+}
+
+:host-context(body.dark-mode) .payment-header h2,
+:host-context(body.dark-mode) .info-group p {
+  color: #f8fafc;
+}
+
+:host-context(body.dark-mode) .info-group label {
+  color: #94a3b8;
+}
+
+:host-context(body.dark-mode) .notice-box {
+  background-color: #0f172a;
+}
+
+:host-context(body.dark-mode) .notice-box p {
+  color: #cbd5e1;
+}
+
+@media (max-width: 600px) {
+  .student-info {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .payment-card {
+    padding: 1.5rem;
+  }
+}

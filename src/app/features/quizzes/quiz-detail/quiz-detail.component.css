@@ -125,3 +125,23 @@
 .opacity-50 .correct-choice {
   opacity: 0.7;
 }
+
+/* ── Buttons (Lumina system) ───────────────────────────────────────── */
+.btn-lumina-main {
+  background: linear-gradient(135deg, #41B3E3, #002D5B);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(65, 179, 227, 0.2);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-lumina-main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(65, 179, 227, 0.35);
+  color: #ffffff;
+}

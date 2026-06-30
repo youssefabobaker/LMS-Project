@@ -165,8 +165,8 @@ export class LecturesComponent implements OnInit {
       text: 'You will not be able to recover this live class!',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {

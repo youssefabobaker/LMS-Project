@@ -130,8 +130,8 @@
           </div>
           
           <div class="d-flex flex-column-reverse flex-sm-row justify-content-sm-end gap-2 lecture-modal-footer">
-            <button type="button" class="btn btn-light border fw-medium px-4" (click)="closeModal()">Cancel</button>
-            <button type="submit" class="btn btn-lumina-submit fw-bold px-4" [disabled]="lectureForm.invalid || isSubmitting">
+            <button type="button" class="btn-cancel-modal" (click)="closeModal()">Cancel</button>
+            <button type="submit" class="btn-save-modal" [disabled]="lectureForm.invalid || isSubmitting">
               <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
               {{ editingLectureId ? 'Update Live Class' : 'Create Live Class' }}
             </button>

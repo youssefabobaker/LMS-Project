@@ -2,9 +2,9 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-info fw-bold mb-0">User Management</h2>
         <button *ngIf="hasPermission('users:add')" class="btn shadow-sm"
-            [ngClass]="showForm ? 'btn-lumina-outline' : 'btn-lumina-main'"
+            [ngClass]="showForm ? 'btn-cancel-modal' : 'btn-lumina-main'"
             (click)="showForm = !showForm; (showForm ? null : resetForm())">
-            <i class="bi" [ngClass]="showForm ? 'bi-x-lg' : 'bi-plus-lg'"></i>
+            <i class="bi me-2" [ngClass]="showForm ? 'bi-x-lg' : 'bi-plus-lg'"></i>
             {{ showForm ? 'Close Form' : 'Create New User' }}
         </button>
     </div>
@@ -77,9 +77,9 @@
                     </div>
                 </div>
 
-                <div class="text-end mt-3 border-top pt-3">
-                    <button type="button" class="btn btn-secondary me-2" (click)="resetForm()">Cancel</button>
-                    <button type="submit" class="btn btn-save-action px-4" [disabled]="userForm.invalid">
+                <div class="text-end mt-3 border-top pt-3 d-flex gap-2 justify-content-end">
+                    <button type="button" class="btn-cancel-modal" (click)="resetForm()">Cancel</button>
+                    <button type="submit" class="btn-save-modal px-4" [disabled]="userForm.invalid || isSubmitting">
                         {{ editingUserId ? 'Update User' : 'Create User' }}
                     </button>
                 </div>

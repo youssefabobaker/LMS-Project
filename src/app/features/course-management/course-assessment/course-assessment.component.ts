@@ -31,6 +31,7 @@ export class CourseAssessmentComponent {
   // ── Mode State ────────────────────────────────────────────────────────────
   isEditingMode = false;
   showAddForm = false;
+  isSubmitting = false;
 
   // ── Forms ─────────────────────────────────────────────────────────────────
   addForm: FormGroup;
@@ -160,10 +161,11 @@ export class CourseAssessmentComponent {
 
   // ── Save Actions ──────────────────────────────────────────────────────────
   onAddSave(): void {
-    if (this.addForm.invalid) {
+    if (this.addForm.invalid || this.isSubmitting) {
       this.addForm.markAllAsTouched();
       return;
     }
+    this.isSubmitting = true;
     const weight = this.addForm.value.percentageWeight;
     if (this.totalWeight + weight > 100) {
       this.addSaveError = 'Total course weight cannot exceed 100%.';
@@ -182,16 +184,21 @@ export class CourseAssessmentComponent {
         this.assessments = [...this.assessments, newAssessment];
         this.populateBulkForm(); // Sync the table view with the new item
         this.toggleAddForm();
+        this.isSubmitting = false;
       },
-      error: () => this.addSaveError = 'Failed to save. Try again.'
+      error: () => {
+        this.addSaveError = 'Failed to save. Try again.';
+        this.isSubmitting = false;
+      }
     });
   }
 
   onSaveBulk(): void {
-    if (this.bulkForm.invalid) {
+    if (this.bulkForm.invalid || this.isSubmitting) {
       this.bulkForm.markAllAsTouched();
       return;
     }
+    this.isSubmitting = true;
     const total = this.calculateBulkWeight();
     if (total > 100) {
       this.bulkSaveError = 'Total weight cannot exceed 100%.';
@@ -225,8 +232,12 @@ export class CourseAssessmentComponent {
         this.assessments = payload;
         this.isEditingMode = false;
         this.populateBulkForm(); // Sync back to ensure form state is clean
+        this.isSubmitting = false;
       },
-      error: () => this.bulkSaveError = 'Failed to update list. Try again.'
+      error: () => {
+        this.bulkSaveError = 'Failed to update list. Try again.';
+        this.isSubmitting = false;
+      }
     });
   }
 

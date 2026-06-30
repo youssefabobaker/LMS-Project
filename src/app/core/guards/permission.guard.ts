@@ -18,6 +18,9 @@ export const permissionGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  router.navigate(['/dashboard']);
-  return false;
+  if (router.url !== '/' && router.url !== state.url) {
+    return router.parseUrl(router.url);
+  }
+
+  return router.parseUrl('/dashboard');
 };

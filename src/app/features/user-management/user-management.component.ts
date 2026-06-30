@@ -26,6 +26,7 @@ export class UserManagementComponent implements OnInit {
   users: User[] = [];
   roles: Role[] = [];
   userForm!: FormGroup; // تعريف الفورم
+  isSubmitting: boolean = false;
   isLoading: boolean = false;
   showForm: boolean = false;
   editingUserId: string | null = null;
@@ -126,7 +127,8 @@ export class UserManagementComponent implements OnInit {
   }
 
   saveUser(): void {
-    if (this.userForm.invalid) return;
+    if (this.userForm.invalid || this.isSubmitting) return;
+    this.isSubmitting = true;
 
     const userData = { ...this.userForm.value };
 
@@ -146,8 +148,10 @@ export class UserManagementComponent implements OnInit {
           });
           this.loadUsers();
           this.resetForm();
+          this.isSubmitting = false;
         },
         error: (err) => {
+          this.isSubmitting = false;
           console.error('API Error:', err);
           const serverMessage =
             err.error?.errorMessage ||
@@ -181,8 +185,10 @@ export class UserManagementComponent implements OnInit {
           });
           this.loadUsers();
           this.resetForm();
+          this.isSubmitting = false;
         },
         error: (err) => {
+          this.isSubmitting = false;
           console.error('API Error:', err);
           const serverMessage =
             err.error?.errorMessage ||

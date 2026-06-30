@@ -144,7 +144,7 @@ export class ContentAddComponent { // Triggers Angular file watcher
       title: 'Content created successfully.',
       showConfirmButton: false,
       timer: 3000,
-      timerProgressBar: true,
+      timerProgressBar: false,
     });
     this.contentCreated.emit(item);
     this.resetForm();

@@ -84,7 +84,7 @@ export class SubmissionAddEditComponent implements OnChanges {
           title: 'Assignment submitted successfully!',
           showConfirmButton: false,
           timer: 3000,
-          timerProgressBar: true,
+          timerProgressBar: false,
         });
 
         this.reset();

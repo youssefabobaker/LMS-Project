@@ -96,7 +96,7 @@
                         </div>
                         <div class="card-body p-4">
                             <div *ngIf="!assignment.assignmentAttachments || assignment.assignmentAttachments.length === 0"
-                                class="text-center p-4 bg-light rounded-3 border border-2 text-muted" style="border-style: dashed !important; background-color: #F8FAFC !important;">
+                                class="text-center p-4 rounded-3 border border-2 text-muted empty-attachment-state">
                                 <i class="bi bi-folder-x fs-1 d-block mb-2 text-secondary opacity-50"></i>
                                 <span class="small fw-medium">No attachments provided</span>
                             </div>
@@ -156,7 +156,7 @@
                                     <h6 class="fw-bold text-dark mt-4 mb-2"><i
                                             class="bi bi-chat-left-text me-2 text-primary"></i>Instructor Feedback</h6>
                                     <p class="text-muted small p-3 bg-light rounded-3 border fst-italic">"{{
-                                        submission?.feedback }}"</p>
+                                        submission!.feedback }}"</p>
                                 </div>
                             </ng-container>
 
@@ -184,14 +184,14 @@
                                     
                                     <!-- Submitted Text -->
                                     <div *ngIf="submission?.textSubmission" class="mb-3">
-                                        <div class="text-secondary small description-text p-3 submission-preview-box shadow-sm">{{ submission?.textSubmission }}</div>
+                                        <div class="text-secondary small description-text p-3 submission-preview-box shadow-sm">{{ submission!.textSubmission }}</div>
                                     </div>
                                     
                                     <!-- Submitted Attachments -->
                                     <div *ngIf="submission?.assignmentSubmissionAttachments?.length">
                                         <div class="text-muted small mb-2 fw-medium">Attachments:</div>
                                         <div class="attachment-list border">
-                                            <div *ngFor="let att of submission?.assignmentSubmissionAttachments"
+                                            <div *ngFor="let att of submission!.assignmentSubmissionAttachments"
                                                 class="attachment-row d-flex align-items-center justify-content-between px-3 py-2">
                                                 <div class="d-flex align-items-center gap-2 attachment-link" (click)="openAttachment(att.fileUrl)"
                                                     role="button">

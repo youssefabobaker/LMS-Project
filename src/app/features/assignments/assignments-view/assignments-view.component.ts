@@ -26,6 +26,7 @@ export class AssignmentsViewComponent implements OnInit {
   assignmentsList: AssignmentResponseDto[] = [];
   isLoading = false;
   loadError = '';
+  submittingId: number | null = null;
 
   canAddOrUpdate = false;
   canDelete = false;
@@ -117,6 +118,11 @@ export class AssignmentsViewComponent implements OnInit {
   }
 
   saveEdit(id: number): void {
+    if (this.submittingId === id) {
+      return;
+    }
+    this.submittingId = id;
+    
     const data = this.editFormData.get(id);
     if (
       !data ||
@@ -152,6 +158,7 @@ export class AssignmentsViewComponent implements OnInit {
           }
           this.editingIds.delete(id);
           this.editFormData.delete(id);
+          this.submittingId = null;
           Swal.fire({
             toast: true,
             position: 'bottom-end',
@@ -159,10 +166,11 @@ export class AssignmentsViewComponent implements OnInit {
             title: 'Assignment updated.',
             showConfirmButton: false,
             timer: 3000,
-            timerProgressBar: true,
+            timerProgressBar: false,
           });
         },
         error: () => {
+          this.submittingId = null;
           Swal.fire({
             icon: 'error',
             title: 'Update Failed',
@@ -179,8 +187,8 @@ export class AssignmentsViewComponent implements OnInit {
       text: 'This action cannot be undone.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#E63946',
-      cancelButtonColor: '#41B3E3',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
       confirmButtonText: 'Yes, delete it',
     });
 
@@ -196,10 +204,11 @@ export class AssignmentsViewComponent implements OnInit {
           title: 'Assignment deleted.',
           showConfirmButton: false,
           timer: 3000,
-          timerProgressBar: true,
+          timerProgressBar: false,
         });
       },
       error: () => {
+        this.submittingId = null;
         Swal.fire({
           icon: 'error',
           title: 'Delete Failed',

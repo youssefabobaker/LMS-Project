@@ -257,8 +257,8 @@ export class CourseAddEditComponent implements OnInit, OnChanges {
         showCancelButton: true,
         confirmButtonText: 'Discard',
         cancelButtonText: 'Keep Editing',
-        confirmButtonColor: '#E63946',
-        cancelButtonColor: '#41B3E3',
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#94a3b8',
       }).then(result => {
         if (result.isConfirmed) { this.closeModal(); }
       });

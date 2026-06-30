@@ -41,7 +41,7 @@ export class AssignmentDetailComponent implements OnInit {
     private assignmentService: AssignmentService,
     private submissionService: AssignmentSubmissionService,
     private permissionService: PermissionService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.canSubmit = this.permissionService.hasPermission('Ass:solve');
@@ -109,8 +109,8 @@ export class AssignmentDetailComponent implements OnInit {
       text: "Unsubmit to add or change attachments. Don't forget to resubmit once you're done.",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#E63946',
-      cancelButtonColor: '#41B3E3',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
       confirmButtonText: 'Yes, unsubmit',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -124,7 +124,7 @@ export class AssignmentDetailComponent implements OnInit {
               title: 'Submission removed.',
               showConfirmButton: false,
               timer: 3000,
-              timerProgressBar: true,
+              timerProgressBar: false,
             });
           },
           error: () => {
@@ -150,8 +150,8 @@ export class AssignmentDetailComponent implements OnInit {
       text: "This attachment will be permanently deleted.",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#E63946',
-      cancelButtonColor: '#41B3E3',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -161,7 +161,7 @@ export class AssignmentDetailComponent implements OnInit {
             if (this.assignment) {
               this.assignment.assignmentAttachments = this.assignment.assignmentAttachments.filter(a => a.id !== attId);
             }
-            
+
             Swal.fire({
               toast: true,
               position: 'bottom-end',
@@ -169,7 +169,7 @@ export class AssignmentDetailComponent implements OnInit {
               title: 'Attachment deleted.',
               showConfirmButton: false,
               timer: 3000,
-              timerProgressBar: true,
+              timerProgressBar: false,
             });
           },
           error: () => {
@@ -204,7 +204,7 @@ export class AssignmentDetailComponent implements OnInit {
           title: 'Attachment(s) added successfully.',
           showConfirmButton: false,
           timer: 3000,
-          timerProgressBar: true,
+          timerProgressBar: false,
         });
       },
       error: () => {

@@ -118,7 +118,7 @@ export class QuizViewComponent implements OnInit {
       title: 'Quiz created successfully',
       showConfirmButton: false,
       timer: 3000,
-      timerProgressBar: true
+      timerProgressBar: false
     });
   }
 
@@ -135,7 +135,7 @@ export class QuizViewComponent implements OnInit {
       title: 'Quiz updated successfully',
       showConfirmButton: false,
       timer: 3000,
-      timerProgressBar: true
+      timerProgressBar: false
     });
   }
 
@@ -145,8 +145,8 @@ export class QuizViewComponent implements OnInit {
       text: 'This action cannot be undone.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#E63946',
-      cancelButtonColor: '#41B3E3',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
       confirmButtonText: 'Yes, delete it'
     });
 
@@ -162,7 +162,7 @@ export class QuizViewComponent implements OnInit {
           title: 'Quiz deleted.',
           showConfirmButton: false,
           timer: 3000,
-          timerProgressBar: true
+          timerProgressBar: false
         });
       },
       error: () => {
@@ -195,7 +195,7 @@ export class QuizViewComponent implements OnInit {
           title: 'Quiz code copied!',
           showConfirmButton: false,
           timer: 2000,
-          timerProgressBar: true
+          timerProgressBar: false
         });
       }).catch(err => {
         console.error('Failed to copy code: ', err);

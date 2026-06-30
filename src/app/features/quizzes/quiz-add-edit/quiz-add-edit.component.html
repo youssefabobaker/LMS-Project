@@ -64,8 +64,8 @@
     </div>
 
     <div class="d-flex flex-column-reverse flex-sm-row justify-content-sm-end gap-2 mt-4 pt-3 border-top quiz-modal-footer">
-      <button type="button" class="btn btn-light border fw-medium px-4" (click)="dismiss()">Cancel</button>
-      <button type="submit" class="btn btn-lumina-main fw-bold px-4 d-flex align-items-center justify-content-center gap-2"
+      <button type="button" class="btn-cancel-modal" (click)="dismiss()">Cancel</button>
+      <button type="submit" class="btn-save-modal gap-2"
         [disabled]="form.invalid || isSubmitting">
         <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         <i *ngIf="!isSubmitting" class="bi bi-check-lg"></i>

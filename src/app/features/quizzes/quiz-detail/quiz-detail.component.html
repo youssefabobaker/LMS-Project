@@ -35,7 +35,8 @@
     <div class="detail-header-modern p-4 p-md-5 mb-5 mx-4 mt-4">
       <div class="position-relative" style="z-index: 10;">
         <nav class="mb-4">
-          <button class="btn btn-link text-decoration-none header-back-btn p-0 d-flex align-items-center gap-2" (click)="goBack()">
+          <button class="btn btn-link text-decoration-none header-back-btn p-0 d-flex align-items-center gap-2"
+            (click)="goBack()">
             <i class="bi bi-arrow-left small"></i> Back to Quizzes
           </button>
         </nav>
@@ -61,14 +62,17 @@
               <div class="header-meta-badge" style="background: rgba(0,0,0,0.3); border: none;">
                 <span class="fw-medium opacity-75" style="font-size: 0.85rem; text-transform: uppercase;">Code:</span>
                 <span class="fw-bold text-info" style="letter-spacing: 0.05em;">{{ quiz.quizCode }}</span>
-                <i class="bi bi-copy cursor-pointer ms-1" style="color: rgba(255,255,255,0.7);" title="Copy Code" (click)="copyToClipboard($event, quiz.quizCode)"></i>
+                <i class="bi bi-copy cursor-pointer ms-1" style="color: rgba(255,255,255,0.7);" title="Copy Code"
+                  (click)="copyToClipboard($event, quiz.quizCode)"></i>
               </div>
             </div>
-            
+
             <!-- Active Toggle -->
-            <div *ngIf="canAddOrUpdateQuiz" class="d-flex align-items-center gap-2 px-3 py-2 header-meta-badge" style="background: rgba(255,255,255,0.15);">
+            <div *ngIf="canAddOrUpdateQuiz" class="d-flex align-items-center gap-2 px-3 py-2 header-meta-badge"
+              style="background: rgba(255,255,255,0.15);">
               <div class="form-check form-switch m-0 fs-5 d-flex align-items-center">
-                <input class="form-check-input lms-switch mt-0" type="checkbox" [checked]="quiz.isActive" (change)="toggleQuizActive()" [disabled]="isTogglingQuiz" style="cursor: pointer;">
+                <input class="form-check-input lms-switch mt-0" type="checkbox" [checked]="quiz.isActive"
+                  (change)="toggleQuizActive()" [disabled]="isTogglingQuiz" style="cursor: pointer;">
               </div>
               <span class="fw-bold" [ngClass]="quiz.isActive ? 'text-lms-primary-light' : 'opacity-75 text-white'">
                 {{ quiz.isActive ? 'Active' : 'Inactive' }}
@@ -88,19 +92,24 @@
           <h3 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
             <i class="bi bi-list-task text-primary"></i> Questions
           </h3>
-          <div class="d-flex align-items-center px-3 py-1 rounded-pill marks-allocated-pill" style="background-color: #f8f9fa; border: 1px solid #e9ecef; font-size: 0.9rem; color: #6c757d;">
+          <div class="d-flex align-items-center px-3 py-1 rounded-pill marks-allocated-pill"
+            style="background-color: #f8f9fa; border: 1px solid #e9ecef; font-size: 0.9rem; color: #6c757d;">
             <span class="fw-medium">
-              <span class="text-dark fw-bold">{{ currentTotalMarks | number:'1.0-2' }}</span> / {{ quiz.totalMarks }} Marks Allocated
+              <span class="text-dark fw-bold">{{ currentTotalMarks | number:'1.0-2' }}</span> / {{ quiz.totalMarks }}
+              Marks Allocated
             </span>
           </div>
         </div>
-        <button *ngIf="canAddQuestion" class="btn btn-primary d-flex align-items-center gap-2 px-3 fw-medium shadow-sm flex-shrink-0" (click)="openAddQuestionModal()">
+        <button *ngIf="canAddQuestion"
+          class="btn btn-lumina-main d-flex align-items-center gap-2 px-3 fw-medium shadow-sm flex-shrink-0"
+          (click)="openAddQuestionModal()">
           <i class="bi bi-plus-circle"></i> Add Question
         </button>
       </div>
 
       <!-- Empty State -->
-      <div *ngIf="quiz.quizQuestions.length === 0" class="empty-state-card text-center py-5 bg-white rounded-4 shadow-sm border mt-4">
+      <div *ngIf="quiz.quizQuestions.length === 0"
+        class="empty-state-card text-center py-5 bg-white rounded-4 shadow-sm border mt-4">
         <i class="bi bi-patch-question empty-state-icon text-muted opacity-50" style="font-size: 4rem;"></i>
         <h5 class="mt-4 fw-bold" style="color: #002D5B;">No Questions Yet</h5>
         <p class="text-muted">This quiz doesn't have any questions configured.</p>
@@ -108,51 +117,66 @@
 
       <!-- Question List -->
       <div class="questions-container mt-4">
-        <div *ngFor="let question of quiz.quizQuestions; let i = index" class="content-card mb-4 bg-white rounded-4 shadow-sm border p-4">
-          
-          <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
-            <div class="d-flex align-items-start gap-3 w-100 overflow-hidden">
+        <div *ngFor="let question of quiz.quizQuestions; let i = index"
+          class="content-card mb-4 bg-white rounded-4 shadow-sm border p-4">
+
+          <div class="d-flex flex-column flex-md-row align-items-start justify-content-between gap-3 mb-3">
+            <div class="d-flex align-items-start gap-3 flex-grow-1 overflow-hidden" style="min-width: 0;">
               <!-- Number Badge -->
-              <div class="content-number-badge flex-shrink-0 d-flex align-items-center justify-content-center fw-bold fs-5 shadow-sm text-white rounded-3" style="width: 48px; height: 48px; background: linear-gradient(135deg, #41B3E3 0%, #002D5B 100%);">
+              <div
+                class="content-number-badge flex-shrink-0 d-flex align-items-center justify-content-center fw-bold fs-5 shadow-sm text-white rounded-3"
+                style="width: 48px; height: 48px; background: linear-gradient(135deg, #41B3E3 0%, #002D5B 100%);">
                 {{ (i + 1) | number: '2.0-0' }}
               </div>
-              
+
               <!-- Question Info -->
               <div class="flex-grow-1 mt-1 overflow-hidden">
                 <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-                  <span class="badge fw-medium px-2 py-1 bg-info bg-opacity-10 text-info border border-info border-opacity-25">
+                  <span
+                    class="badge fw-medium px-2 py-1 bg-info bg-opacity-10 text-info border border-info border-opacity-25">
                     {{ question.questionType === 'MultipleChoice' ? 'Multiple Choice' : 'True / False' }}
                   </span>
                   <span class="badge bg-light text-secondary border fw-medium px-2 py-1">
                     {{ question.marks }} pts
                   </span>
-                  <span class="badge bg-opacity-10 border border-opacity-25 fw-medium px-2 py-1" 
-                        [ngClass]="question.isAllowableToLookDown ? 'bg-warning text-dark border-warning' : 'bg-danger text-danger border-danger'"
-                        [title]="question.isAllowableToLookDown ? 'Allow Looking Down' : 'No Looking Down Allowed'">
-                    <i class="me-1" [ngClass]="question.isAllowableToLookDown ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></i>
+                  <span class="badge bg-opacity-10 border border-opacity-25 fw-medium px-2 py-1"
+                    [ngClass]="question.isAllowableToLookDown ? 'bg-warning text-dark border-warning' : 'bg-danger text-danger border-danger'"
+                    [title]="question.isAllowableToLookDown ? 'Allow Looking Down' : 'No Looking Down Allowed'">
+                    <i class="me-1"
+                      [ngClass]="question.isAllowableToLookDown ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></i>
                     {{ question.isAllowableToLookDown ? 'Look Down' : 'No Look Down' }}
                   </span>
                 </div>
-                
-                <h5 class="fw-bold mb-0 question-text text-break" style="color: #001A33; line-height: 1.5;">{{ question.questionText }}</h5>
+
+                <h5 class="fw-bold mb-0 question-text text-break" style="color: #001A33; line-height: 1.5;">{{
+                  question.questionText }}</h5>
               </div>
             </div>
 
             <!-- Actions -->
-            <div class="d-flex flex-column flex-sm-row align-items-center gap-3 flex-shrink-0" (click)="$event.stopPropagation()">
-              
+            <div
+              class="d-flex flex-row align-items-center justify-content-end gap-3 flex-shrink-0 mt-2 mt-md-0 pt-3 pt-md-0"
+              style="min-width: max-content;" (click)="$event.stopPropagation()">
+
               <!-- Clean Active Switch -->
-              <div *ngIf="canUpdateQuestion" class="d-flex align-items-center gap-2" [title]="question.isActive ? 'Deactivate' : 'Activate'">
+              <div *ngIf="canUpdateQuestion" class="d-flex align-items-center gap-2"
+                [title]="question.isActive ? 'Deactivate' : 'Activate'">
                 <span class="small fw-bold" [ngClass]="question.isActive ? 'text-primary' : 'text-muted'">
                   {{ question.isActive ? 'Active' : 'Inactive' }}
                 </span>
                 <div class="form-check form-switch m-0 fs-5 d-flex align-items-center">
-                  <input class="form-check-input lms-switch mt-0" type="checkbox" [checked]="question.isActive" (change)="toggleQuestionStatus(question)" style="cursor: pointer;">
+                  <input class="form-check-input lms-switch mt-0" type="checkbox" [checked]="question.isActive"
+                    (change)="toggleQuestionStatus(question)" style="cursor: pointer;">
                 </div>
               </div>
 
               <!-- Sleek Edit Button -->
-              <button *ngIf="canUpdateQuestion" class="btn btn-sm text-primary d-flex align-items-center gap-2 px-3 py-2 fw-bold rounded-pill shadow-sm btn-edit-question" style="background-color: #f0f8ff; border: 1px solid rgba(65, 179, 227, 0.2); transition: all 0.2s;" (click)="openEditQuestionModal(question)" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(65, 179, 227, 0.2)'" onmouseout="this.style.transform='none'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.075)'">
+              <button *ngIf="canUpdateQuestion"
+                class="btn btn-sm text-primary d-flex align-items-center gap-2 px-3 py-2 fw-bold rounded-pill shadow-sm btn-edit-question"
+                style="background-color: #f0f8ff; border: 1px solid rgba(65, 179, 227, 0.2); transition: all 0.2s;"
+                (click)="openEditQuestionModal(question)"
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(65, 179, 227, 0.2)'"
+                onmouseout="this.style.transform='none'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.075)'">
                 <i class="bi bi-pencil-square"></i> Edit
               </button>
             </div>
@@ -160,14 +184,16 @@
 
           <!-- Choices List (Full Width) -->
           <div class="d-flex flex-column gap-2 mt-3" style="margin-left: 64px;">
-            <div *ngFor="let choice of question.questionChoices; let cIndex = index" 
-                 class="choice-item d-flex align-items-center p-3 rounded-3 transition-all"
-                 [class.correct-choice]="choice.isCorrect"
-                 [class.incorrect-choice]="!choice.isCorrect">
-              <div class="flex-shrink-0 me-3 d-flex align-items-center justify-content-center rounded-circle choice-letter" style="width: 24px; height: 24px; background: rgba(0,0,0,0.05); font-size: 0.85rem; font-weight: 600; color: #6c757d;">
+            <div *ngFor="let choice of question.questionChoices; let cIndex = index"
+              class="choice-item d-flex align-items-center p-3 rounded-3 transition-all"
+              [class.correct-choice]="choice.isCorrect" [class.incorrect-choice]="!choice.isCorrect">
+              <div
+                class="flex-shrink-0 me-3 d-flex align-items-center justify-content-center rounded-circle choice-letter"
+                style="width: 24px; height: 24px; background: rgba(0,0,0,0.05); font-size: 0.85rem; font-weight: 600; color: #6c757d;">
                 {{ ['A', 'B', 'C', 'D', 'E', 'F'][cIndex] || (cIndex+1) }}
               </div>
-              <span class="flex-grow-1 fw-medium text-break" [class.text-dark]="!choice.isCorrect">{{ choice.choiceText }}</span>
+              <span class="flex-grow-1 fw-medium text-break" [class.text-dark]="!choice.isCorrect">{{ choice.choiceText
+                }}</span>
               <i *ngIf="choice.isCorrect" class="bi bi-check-circle-fill fs-5 ms-2"></i>
             </div>
           </div>
@@ -178,12 +204,8 @@
 
   <!-- Question Form Modal -->
   <div class="modal fade" id="questionFormModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-    <app-question-form-modal
-      *ngIf="quiz"
-      [quizId]="quiz.id"
-      [questionData]="selectedQuestion"
-      [refreshTrigger]="modalRefreshTrigger"
-      (questionSaved)="onQuestionSaved($event)"
+    <app-question-form-modal *ngIf="quiz" [quizId]="quiz.id" [questionData]="selectedQuestion"
+      [refreshTrigger]="modalRefreshTrigger" (questionSaved)="onQuestionSaved($event)"
       (modalDismissed)="closeQuestionModal()">
     </app-question-form-modal>
   </div>

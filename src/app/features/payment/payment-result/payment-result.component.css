@@ -1,0 +1,134 @@
+.result-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: transparent;
+}
+
+.result-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 3rem;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 1px solid #eef2f6;
+}
+
+.state-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.state-view h2 {
+  font-size: 1.75rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #1a1d21;
+}
+
+.state-view .message {
+  color: #64748b;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.amount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #10b981;
+  margin: 1rem 0;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(to right, #42b3e4, #033c6d);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(67, 100, 247, 0.3);
+}
+
+.btn-primary.try-again {
+  background: #ef4444;
+}
+
+.btn-primary.try-again:hover {
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+}
+
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.icon-circle svg {
+  width: 40px;
+  height: 40px;
+}
+
+.success .icon-circle {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.failure .icon-circle {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(59, 130, 246, 0.1);
+  border-left-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.spinner.warning {
+  border-left-color: #f59e0b;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Dark Mode Support */
+:host-context(body.dark-mode) .result-card {
+  background-color: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+:host-context(body.dark-mode) .state-view h2 {
+  color: #f8fafc;
+}
+
+:host-context(body.dark-mode) .state-view .message {
+  color: #94a3b8;
+}

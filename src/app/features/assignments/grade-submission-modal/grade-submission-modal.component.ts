@@ -53,7 +53,7 @@ export class GradeSubmissionModalComponent implements OnChanges {
           title: 'Grade published successfully.',
           showConfirmButton: false,
           timer: 3000,
-          timerProgressBar: true,
+          timerProgressBar: false,
         });
 
         this.reset();

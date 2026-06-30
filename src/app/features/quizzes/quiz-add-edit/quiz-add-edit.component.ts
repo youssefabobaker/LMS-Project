@@ -82,8 +82,8 @@ export class QuizAddEditComponent implements OnChanges {
         title: 'Quiz Code Will Change',
         text: 'Saving will invalidate the current Quiz Code and generate a new one.',
         showCancelButton: true,
-        confirmButtonColor: '#E63946',
-        cancelButtonColor: '#41B3E3',
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#94a3b8',
         confirmButtonText: 'Yes, save changes'
       });
       if (!result.isConfirmed) {

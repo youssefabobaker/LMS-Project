@@ -117,6 +117,12 @@
             </a>
           </li>
 
+          <li class="nav-item mb-2" *ngIf="hasRole('Student')">
+            <a class="nav-link d-flex align-items-center" routerLink="Payment-fees" routerLinkActive="active-link">
+              <i class="bi bi-credit-card-fill me-3"></i> Payment Fees
+            </a>
+          </li>
+
         </ul>
 
         <!-- Bottom Footer Links -->

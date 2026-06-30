@@ -2,9 +2,9 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-info fw-bold mb-0">Role Management</h2>
         <button *ngIf="hasPermission('roles:add')" class="btn shadow-sm"
-            [ngClass]="showCreateForm ? 'btn-lumina-outline' : 'btn-lumina-main'"
+            [ngClass]="showCreateForm ? 'btn-cancel-modal' : 'btn-lumina-main'"
             (click)="showCreateForm = !showCreateForm; (showCreateForm ? null : resetForm())">
-            <i class="bi" [ngClass]="showCreateForm ? 'bi-x-lg' : 'bi-plus-lg'"></i>
+            <i class="bi me-2" [ngClass]="showCreateForm ? 'bi-x-lg' : 'bi-plus-lg'"></i>
             {{ showCreateForm ? 'Close Form' :'Create New Role' }}
         </button>
     </div>
@@ -40,9 +40,9 @@
                 </div>
             </div>
 
-            <div class="text-end mt-4 border-top pt-3">
-                <button class="btn btn-link text-secondary me-2" (click)="resetForm()">Cancel</button>
-                <button class="btn btn-save-action px-4" (click)="saveRole()" [disabled]="!newRoleName">
+            <div class="text-end mt-4 border-top pt-3 d-flex gap-2 justify-content-end">
+                <button type="button" class="btn-cancel-modal" (click)="resetForm()">Cancel</button>
+                <button type="button" class="btn-save-modal px-4" (click)="saveRole()" [disabled]="!newRoleName || isSubmitting">
                     {{ editingRoleId ? 'Update Role' : 'Save Role' }}
                 </button>
             </div>

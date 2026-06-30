@@ -60,38 +60,38 @@
       <div class="d-flex gap-4 flex-nowrap h-100">
 
         <!-- Content Tab -->
-      <button class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
-        [class.active-tab]="activeTab === 'content'" (click)="switchTab('content')">
-        <i class="bi bi-layout-text-window-reverse fs-5"></i>
-        Content
-      </button>
+        <button class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
+          [class.active-tab]="activeTab === 'content'" (click)="switchTab('content')">
+          <i class="bi bi-layout-text-window-reverse fs-5"></i>
+          Content
+        </button>
 
-      <!-- Assignments Tab -->
-      <button *ngIf="canReadAssignment"
-        class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
-        [class.active-tab]="activeTab === 'assignments'" (click)="switchTab('assignments')">
-        <i class="bi bi-clipboard-check fs-5"></i>
-        Assignments
-      </button>
+        <!-- Assignments Tab -->
+        <button *ngIf="canReadAssignment"
+          class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
+          [class.active-tab]="activeTab === 'assignments'" (click)="switchTab('assignments')">
+          <i class="bi bi-clipboard-check fs-5"></i>
+          Assignments
+        </button>
 
-      <!-- Quizzes Tab -->
-      <button *ngIf="canReadQuiz"
-        class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
-        [class.active-tab]="activeTab === 'quizzes'" (click)="switchTab('quizzes')">
-        <i class="bi bi-card-checklist fs-5"></i>
-        Quizzes
-      </button>
+        <!-- Quizzes Tab -->
+        <button *ngIf="canReadQuiz"
+          class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
+          [class.active-tab]="activeTab === 'quizzes'" (click)="switchTab('quizzes')">
+          <i class="bi bi-card-checklist fs-5"></i>
+          Quizzes
+        </button>
 
-      <!-- Live Classes Tab -->
-      <button *ngIf="canReadCourse"
-        class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
-        [class.active-tab]="activeTab === 'lectures'" (click)="switchTab('lectures')">
-        <i class="bi bi-camera-video fs-5"></i>
-        Live Classes
-      </button>
+        <!-- Live Classes Tab -->
+        <button *ngIf="canReadCourse"
+          class="btn btn-link text-decoration-none pb-3 px-0 fw-medium d-flex align-items-center gap-2 tab-btn"
+          [class.active-tab]="activeTab === 'lectures'" (click)="switchTab('lectures')">
+          <i class="bi bi-camera-video fs-5"></i>
+          Live Classes
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
   <!-- ── Section Title & Add Button ───────────────────────────────── -->
   <div class="d-flex align-items-center justify-content-between mb-4 ps-1 flex-wrap gap-2">
@@ -207,11 +207,11 @@
             <textarea class="form-control" [id]="'edit-body-' + item.id" rows="4"
               [(ngModel)]="editFormData.get(item.id)!.body" placeholder="Content description"></textarea>
           </div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-save-action" [id]="'btn-save-' + item.id" (click)="saveEdit(item.id)">
+          <div class="d-flex gap-2 mt-2">
+            <button class="btn-save-modal" [id]="'btn-save-' + item.id" (click)="saveEdit(item.id)" [disabled]="submittingId === item.id">
               <i class="bi bi-check-lg me-1"></i>Save Changes
             </button>
-            <button class="btn btn-lumina-outline btn-sm" [id]="'btn-cancel-' + item.id" (click)="cancelEdit(item.id)">
+            <button class="btn-cancel-modal" [id]="'btn-cancel-' + item.id" (click)="cancelEdit(item.id)">
               Cancel
             </button>
           </div>

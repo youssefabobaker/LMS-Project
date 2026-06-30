@@ -23,7 +23,9 @@ export class QuizDetailComponent implements OnInit {
 
   get currentTotalMarks(): number {
     if (!this.quiz || !this.quiz.quizQuestions) return 0;
-    return this.quiz.quizQuestions.reduce((sum, q) => sum + (q.marks || 0), 0);
+    return this.quiz.quizQuestions
+      .filter(q => q.isActive)
+      .reduce((sum, q) => sum + (q.marks || 0), 0);
   }
 
   selectedQuestion: QuestionResponseDto | null = null;
@@ -109,7 +111,7 @@ export class QuizDetailComponent implements OnInit {
           title: 'Quiz code copied!',
           showConfirmButton: false,
           timer: 2000,
-          timerProgressBar: true
+          timerProgressBar: false
         });
       }).catch(err => {
         console.error('Failed to copy code: ', err);
@@ -164,7 +166,7 @@ export class QuizDetailComponent implements OnInit {
       title: this.selectedQuestion ? 'Question updated successfully' : 'Question added successfully',
       showConfirmButton: false,
       timer: 3000,
-      timerProgressBar: true
+      timerProgressBar: false
     });
     
     this.closeQuestionModal();
@@ -184,7 +186,7 @@ export class QuizDetailComponent implements OnInit {
           title: `Quiz is now ${res.isActive ? 'Active' : 'Inactive'}`,
           showConfirmButton: false,
           timer: 2000,
-          timerProgressBar: true
+          timerProgressBar: false
         });
       },
       error: () => {
@@ -214,7 +216,7 @@ export class QuizDetailComponent implements OnInit {
           title: `Question is now ${res.isActive ? 'Active' : 'Inactive'}`,
           showConfirmButton: false,
           timer: 2000,
-          timerProgressBar: true
+          timerProgressBar: false
         });
       },
       error: () => {

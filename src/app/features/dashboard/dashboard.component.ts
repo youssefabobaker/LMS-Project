@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.userProfile = data;
     });
     this.loadSidebarCourses();
-    
+
     this.courseListSub = this.courseService.courseListUpdated$.subscribe(() => {
       this.loadSidebarCourses();
     });
@@ -107,13 +107,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onLogout() {
     Swal.fire({
-      title: 'Logout?',
+      title: 'sign out?',
       text: 'Are you sure you want to sign out?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#ff4b2b',
-      cancelButtonColor: '#333',
-      confirmButtonText: 'Yes, Logout',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
+      confirmButtonText: 'Yes, sign out',
     }).then((result) => {
       if (result.isConfirmed) {
         const logoutData = {
@@ -152,6 +152,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // فنكشن التأكد من الصلاحية
   hasPermission(permission: string): boolean {
     return this.permissionService.hasPermission(permission);
+  }
+
+  hasRole(roleToCheck: string): boolean {
+    return this.role.includes(roleToCheck);
   }
 
   ngOnDestroy() {

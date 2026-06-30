@@ -1,0 +1,45 @@
+<div class="result-container">
+  <div class="result-card">
+
+    <!-- Loading State -->
+    <div *ngIf="state === 'loading'" class="state-view">
+      <div class="spinner"></div>
+      <h2>Processing...</h2>
+      <p class="message">Please wait while we verify your payment details.</p>
+    </div>
+
+    <!-- Success State -->
+    <div *ngIf="state === 'success'" class="state-view success">
+      <div class="icon-circle">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <h2>Payment Successful!</h2>
+      <p class="amount">{{ amountEGP }} EGP</p>
+      <p class="message">Your tuition fee payment has been settled successfully.</p>
+      <button class="btn-primary" routerLink="/dashboard">Return to Dashboard</button>
+    </div>
+
+    <!-- Pending State -->
+    <div *ngIf="state === 'pending'" class="state-view pending">
+      <div class="spinner warning"></div>
+      <h2>Payment Pending</h2>
+      <p class="message">Your payment is currently being processed. This might take a moment.</p>
+      <button class="btn-primary" routerLink="/dashboard">Return to Dashboard</button>
+    </div>
+
+    <!-- Failure State -->
+    <div *ngIf="state === 'failure'" class="state-view failure">
+      <div class="icon-circle">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </div>
+      <h2>Payment Failed</h2>
+      <p class="message">Unfortunately, your payment could not be completed. Please check your details and try again.</p>
+      <button class="btn-primary try-again" (click)="tryAgain()">Try Again</button>
+    </div>
+
+  </div>
+</div>

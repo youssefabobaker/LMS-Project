@@ -179,6 +179,18 @@
   color: #001a33;
 }
 
+.empty-attachment-state {
+  background-color: #F8FAFC;
+  border-style: dashed !important;
+  transition: all 0.3s ease;
+}
+
+:host-context(body.dark-mode) .empty-attachment-state {
+  background-color: #1e222d !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+  color: #94a3b8 !important;
+}
+
 /* ── Attachment List ───────────────────────────────────────────────── */
 .attachment-list {
   background: rgba(240, 244, 248, 0.5);

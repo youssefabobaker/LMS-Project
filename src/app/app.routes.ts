@@ -1,4 +1,5 @@
-import { Routes } from '@angular/router';
+import { Routes, Router } from '@angular/router';
+import { inject } from '@angular/core';
 import { LandingPageComponent } from './features/landing/landing-page/landing-page.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
@@ -19,12 +20,19 @@ import { AssignmentDetailComponent } from './features/assignments/assignment-det
 import { QuizDetailComponent } from './features/quizzes/quiz-detail/quiz-detail.component';
 import { QuizAttemptsComponent } from './features/quizzes/quiz-attempts/quiz-attempts.component';
 
+import { PaymentFeesComponent } from './features/payment/payment-fees/payment-fees.component';
+import { PaymentResultComponent } from './features/payment/payment-result/payment-result.component';
+import { roleGuard } from './core/guards/role.guard';
+
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'forget-password', component: ForgotPasswordComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'Auth/emailConfrimation', component: EmailConfirmationComponent },
   { path: 'auth/forgetPassword', component: ResetPasswordComponent },
+  
+  // Public Payment Result Webhook redirect target
+  { path: 'payment/result', component: PaymentResultComponent },
 
   {
     path: 'dashboard',
@@ -53,6 +61,12 @@ export const routes: Routes = [
       {
         path: 'settings',
         component: UserProfileComponent,
+      },
+      {
+        path: 'Payment-fees',
+        component: PaymentFeesComponent,
+        canActivate: [roleGuard],
+        data: { role: 'Student' }
       },
       // مسار افتراضي عشان لما يفتح Dashboard متبقاش فاضية
       { path: '', redirectTo: 'courses', pathMatch: 'full' },
@@ -135,5 +149,15 @@ export const routes: Routes = [
     ],
   },
   { path: '', component: LandingPageComponent },
-  { path: '**', redirectTo: '' },
+  { 
+    path: '**', 
+    canActivate: [() => {
+      const router = inject(Router);
+      if (router.url !== '/') {
+        return router.parseUrl(router.url);
+      }
+      return router.parseUrl('/dashboard');
+    }],
+    component: LandingPageComponent
+  },
 ];

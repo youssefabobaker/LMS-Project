@@ -37,6 +37,7 @@ export class ContentViewComponent implements OnInit {
   editingIds = new Set<number>();
   editFormData = new Map<number, { title: string; body: string }>();
   isUploadingAttachment = new Map<number, boolean>();
+  submittingId: number | null = null;
 
   // Permission flags
   canRead = false;
@@ -237,8 +238,13 @@ export class ContentViewComponent implements OnInit {
   }
 
   saveEdit(id: number): void {
+    if (this.submittingId === id) return;
+    this.submittingId = id;
     const formData = this.editFormData.get(id);
-    if (!formData) return;
+    if (!formData) {
+      this.submittingId = null;
+      return;
+    }
     const { title, body } = formData;
 
     this.contentService.updateContent(id, title, body).subscribe({
@@ -249,6 +255,7 @@ export class ContentViewComponent implements OnInit {
           item.body = body;
         }
         this.cancelEdit(id);
+        this.submittingId = null;
         Swal.fire({
           toast: true,
           position: 'bottom-end',
@@ -256,10 +263,11 @@ export class ContentViewComponent implements OnInit {
           title: 'Content updated successfully.',
           showConfirmButton: false,
           timer: 3000,
-          timerProgressBar: true,
+          timerProgressBar: false,
         });
       },
       error: () => {
+        this.submittingId = null;
         Swal.fire({
           icon: 'error',
           title: 'Update Failed',
@@ -278,8 +286,8 @@ export class ContentViewComponent implements OnInit {
       text: 'This action cannot be undone.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#E63946',
-      cancelButtonColor: '#41B3E3',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
       confirmButtonText: 'Yes, delete it',
     });
 
@@ -298,7 +306,7 @@ export class ContentViewComponent implements OnInit {
           title: 'Content deleted.',
           showConfirmButton: false,
           timer: 3000,
-          timerProgressBar: true,
+          timerProgressBar: false,
         });
       },
       error: () => {
@@ -336,7 +344,7 @@ export class ContentViewComponent implements OnInit {
           title: 'Attachment(s) added successfully.',
           showConfirmButton: false,
           timer: 3000,
-          timerProgressBar: true,
+          timerProgressBar: false,
         });
       },
       error: () => {
@@ -355,8 +363,8 @@ export class ContentViewComponent implements OnInit {
       text: 'The file will be permanently removed.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#E63946',
-      cancelButtonColor: '#41B3E3',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
       confirmButtonText: 'Yes, remove it',
     });
 
@@ -375,7 +383,7 @@ export class ContentViewComponent implements OnInit {
           title: 'Attachment removed.',
           showConfirmButton: false,
           timer: 3000,
-          timerProgressBar: true,
+          timerProgressBar: false,
         });
       },
       error: () => {

@@ -234,8 +234,8 @@ export class QuizAttemptsComponent implements OnInit {
       text: "This action cannot be undone.",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#6c757d',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -266,8 +266,8 @@ export class QuizAttemptsComponent implements OnInit {
       text: "This will permanently delete the cheating report and all associated violations. This action cannot be undone.",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#6c757d',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#94a3b8',
       confirmButtonText: 'Yes, delete report!'
     }).then((result) => {
       if (result.isConfirmed) {

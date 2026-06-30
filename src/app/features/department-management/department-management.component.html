@@ -8,9 +8,12 @@
       Department Management
     </h2>
 
-    <!-- Create New Department — visible only with Department:add permission (US2) -->
-    <button *ngIf="hasPermission('Department:add')" class="btn btn-lumina-main" (click)="openCreateForm()">
-      <i class="bi bi-plus-lg me-2"></i> Create New Department
+    <!-- Create New Department / Close Form -->
+    <button *ngIf="hasPermission('Department:add')" class="btn shadow-sm"
+      [ngClass]="showForm ? 'btn-cancel-modal' : 'btn-lumina-main'"
+      (click)="showForm ? closeForm() : openCreateForm()">
+      <i class="bi me-2" [ngClass]="showForm ? 'bi-x-lg' : 'bi-plus-lg'"></i>
+      {{ showForm ? 'Close Form' : 'Create New Department' }}
     </button>
   </div>
 
@@ -20,14 +23,10 @@
   <div *ngIf="showForm" class="card shadow-sm mb-4">
 
     <!-- Card Header — dynamic title -->
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h5 class="text-info mb-0">
-        <i class="bi bi-pencil-square me-2"></i>
+    <div class="card-header py-3 text-info">
+      <h5 class="mb-0">
         {{ editingDeptId ? 'Edit Department' : 'Add Department' }}
       </h5>
-      <button class="btn btn-outline-secondary btn-sm px-2 py-1" (click)="closeForm()">
-        <i class="bi bi-x-lg"></i>
-      </button>
     </div>
 
     <!-- Card Body — Reactive Form -->
@@ -52,12 +51,13 @@
         </div>
 
         <!-- Form Actions -->
-        <div class="d-flex flex-column-reverse flex-sm-row justify-content-sm-end gap-2 pt-4 mt-3 border-top department-form-footer">
-          <button type="button" class="btn btn-lumina-outline" (click)="closeForm()">
-            <i class="bi bi-x-circle me-1"></i> Discard
+        <div
+          class="d-flex flex-column-reverse flex-sm-row justify-content-sm-end gap-2 pt-4 mt-3 border-top department-form-footer">
+          <button type="button" class="btn-cancel-modal" (click)="closeForm()">
+            Cancel
           </button>
-          <button type="submit" class="btn btn-save-action" [disabled]="deptForm.invalid">
-            <i class="bi bi-check-lg me-1"></i> Save Department
+          <button type="submit" class="btn-save-modal" [disabled]="deptForm.invalid || isSubmitting">
+            Save Department
           </button>
         </div>
       </form>

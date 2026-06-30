@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 export class RoleManagementComponent implements OnInit {
   roles: Role[] = [];
   isLoading: boolean = false;
+  isSubmitting: boolean = false;
 
   // متغيرات الفورم
   showCreateForm: boolean = false;
@@ -30,7 +31,7 @@ export class RoleManagementComponent implements OnInit {
   constructor(
     private roleService: RoleService,
     private permissionService: PermissionService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadRoles();
@@ -107,7 +108,8 @@ export class RoleManagementComponent implements OnInit {
   }
 
   saveRole(): void {
-    if (!this.newRoleName) return;
+    if (!this.newRoleName || this.isSubmitting) return;
+    this.isSubmitting = true;
 
     const roleData = {
       name: this.newRoleName,
@@ -129,8 +131,11 @@ export class RoleManagementComponent implements OnInit {
           // نحدث الجدول الأول وبعدين نقفل الفورم
           this.loadRoles();
           this.resetForm();
+          this.isSubmitting = false;
         },
-        error: (err) => console.error('Error updating role:', err),
+        error: (err) => {
+          this.isSubmitting = false;
+        }
       });
     } else {
       // حالة الإضافة
@@ -145,8 +150,10 @@ export class RoleManagementComponent implements OnInit {
           });
           this.loadRoles();
           this.resetForm();
+          this.isSubmitting = false;
         },
         error: (err) => {
+          this.isSubmitting = false;
           console.error('API Error:', err);
           const serverMessage =
             err.error?.errorMessage ||
