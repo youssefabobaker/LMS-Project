@@ -15,11 +15,11 @@ export class PermissionService {
         // console.log(decoded); // هنا هيظهر لك الـ Object كامل زي الصورة اللي بعتها
         return decoded;
       } catch (error) {
-        console.error('Invalid token format', error);
+        // console.error('Invalid token format', error);
         return null;
       }
     } else {
-      console.warn('No token found in localStorage');
+      // console.warn('No token found in localStorage');
       return null;
     }
   }
