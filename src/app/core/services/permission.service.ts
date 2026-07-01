@@ -12,7 +12,7 @@ export class PermissionService {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        console.log(decoded); // هنا هيظهر لك الـ Object كامل زي الصورة اللي بعتها
+        // console.log(decoded); // هنا هيظهر لك الـ Object كامل زي الصورة اللي بعتها
         return decoded;
       } catch (error) {
         console.error('Invalid token format', error);
