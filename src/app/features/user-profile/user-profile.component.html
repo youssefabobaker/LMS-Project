@@ -5,18 +5,18 @@
         <p class="text-muted mb-0">Manage your profile details and security preferences.</p>
     </div>
 
-    <div class="row g-4 fade-in" [ngClass]="{'flex-column drawer-mode': isDrawer}">
+    <div class="row g-4 fade-in" [ngClass]="isDrawer ? 'flex-column drawer-mode' : (isStudent ? 'align-items-stretch' : 'flex-column align-items-center')">
         <!-- Left Column: Profile Card -->
-        <div [ngClass]="isDrawer ? 'col-12' : 'col-12 col-xl-4 col-lg-5'">
-            <div class="glass-card p-4 text-center" [class.h-100]="isDrawer">
+        <div [ngClass]="isDrawer ? 'col-12' : (isStudent ? 'col-12 col-xl-4 col-lg-5' : 'col-12 col-xl-6 col-lg-8')">
+            <div class="glass-card p-4 text-center d-flex flex-column h-100">
                 <div class="profile-img-container mb-3 position-relative">
                     <img [src]="localProfileImageUrl || 'assets/hero-vector.png'" alt="Profile Picture"
                         class="img-fluid shadow">
 
-                    <label *ngIf="!isDrawer" for="fileUpload" class="edit-photo-btn">
+                    <label *ngIf="!isDrawer && isStudent" for="fileUpload" class="edit-photo-btn">
                         <i class="bi bi-camera-fill"></i>
                     </label>
-                    <input *ngIf="!isDrawer" type="file" id="fileUpload" (change)="onFileSelected($event)" hidden accept="image/*">
+                    <input *ngIf="!isDrawer && isStudent" type="file" id="fileUpload" (change)="onFileSelected($event)" hidden accept="image/*">
                 </div>
 
                 <h4 class="text-white fw-bold mb-1">{{userProfile?.firstName}} {{userProfile?.lastName}}</h4>
@@ -35,13 +35,13 @@
             </div>
         </div>
 
-        <!-- Right Column: Forms -->
-        <div [ngClass]="isDrawer ? 'col-12' : 'col-12 col-xl-8 col-lg-7'">
+        <!-- Right Column: Forms (Profile Info) -->
+        <div [ngClass]="isDrawer ? 'col-12' : (isStudent ? 'col-12 col-xl-8 col-lg-7' : 'd-none')">
             
             <!-- ── DRAWER MODE (Accordions) ── -->
             <ng-container *ngIf="isDrawer">
                 <div class="glass-card p-4 h-100">
-                    <div class="action-section mb-4">
+                    <div class="action-section mb-4" *ngIf="isStudent">
                         <button class="btn w-100 py-3 d-flex justify-content-between align-items-center"
                             [class.btn-info-active]="activeTab === 'info'" [class.btn-outline-info]="activeTab !== 'info'"
                             (click)="handleAction('info')">
@@ -127,9 +127,9 @@
             <ng-container *ngIf="!isDrawer">
                 
                 <!-- Profile Information Card -->
-                <div class="glass-card p-4 mb-4">
+                <div class="glass-card p-4 h-100 d-flex flex-column" *ngIf="isStudent">
                     <h5 class="fw-bold mb-4 header-title"><i class="bi bi-person-gear me-2" style="color: #41b3e3;"></i> Profile Information</h5>
-                    <form [formGroup]="profileForm" (ngSubmit)="updateInfo()">
+                    <form [formGroup]="profileForm" (ngSubmit)="updateInfo()" class="d-flex flex-column flex-grow-1">
                         <div class="row g-4">
                             <div class="col-md-6 text-start">
                                 <label class="form-label small fw-bold text-muted mb-1">First Name</label>
@@ -154,7 +154,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="text-end mt-4 pt-2" style="border-top: 1px solid rgba(0,0,0,0.05);">
+                        <div class="text-end mt-auto pt-4" style="border-top: 1px solid rgba(0,0,0,0.05);">
                             <button type="submit" class="btn btn-login-grad px-4 py-2" [disabled]="profileForm.invalid || isUpdatingProfile">
                                 <span *ngIf="isUpdatingProfile" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                                 {{ isUpdatingProfile ? 'Saving...' : 'Save Profile Changes' }}
@@ -163,8 +163,15 @@
                     </form>
                 </div>
 
-                <!-- Security Settings Card -->
-                <div class="glass-card p-4">
+            </ng-container>
+
+        </div>
+    </div>
+
+    <!-- Security Preferences Row (Only for Desktop/Settings Page) -->
+    <div class="row g-4 fade-in mt-0" *ngIf="!isDrawer" [ngClass]="isStudent ? 'justify-content-end' : 'justify-content-center'">
+        <div [ngClass]="isStudent ? 'col-12 col-xl-8 col-lg-7' : 'col-12 col-xl-6 col-lg-8'">
+            <div class="glass-card p-4">
                     <h5 class="fw-bold mb-4 header-title"><i class="bi bi-shield-lock me-2" style="color: #41b3e3;"></i> Security Preferences</h5>
                     <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()">
                         <div class="row g-4">
@@ -189,9 +196,6 @@
                         </div>
                     </form>
                 </div>
-
-            </ng-container>
-
         </div>
     </div>
 </div>

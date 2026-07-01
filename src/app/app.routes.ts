@@ -23,6 +23,7 @@ import { QuizAttemptsComponent } from './features/quizzes/quiz-attempts/quiz-att
 import { PaymentFeesComponent } from './features/payment/payment-fees/payment-fees.component';
 import { PaymentResultComponent } from './features/payment/payment-result/payment-result.component';
 import { roleGuard } from './core/guards/role.guard';
+import { DesktopGuideComponent } from './features/desktop-guide/desktop-guide.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -30,7 +31,8 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'Auth/emailConfrimation', component: EmailConfirmationComponent },
   { path: 'auth/forgetPassword', component: ResetPasswordComponent },
-  
+  { path: 'desktop-app', component: DesktopGuideComponent },
+
   // Public Payment Result Webhook redirect target
   { path: 'payment/result', component: PaymentResultComponent },
 
@@ -149,8 +151,8 @@ export const routes: Routes = [
     ],
   },
   { path: '', component: LandingPageComponent },
-  { 
-    path: '**', 
+  {
+    path: '**',
     canActivate: [() => {
       const router = inject(Router);
       if (router.url !== '/') {

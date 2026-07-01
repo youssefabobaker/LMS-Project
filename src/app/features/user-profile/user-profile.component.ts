@@ -47,6 +47,10 @@ export class UserProfileComponent implements OnInit {
     return this.permissionService.hasPermission(permission);
   }
 
+  get isStudent(): boolean {
+    return this.permissionService.getRole().includes('Student');
+  }
+
   ngOnInit() {
     // Ensure the profile is fetched (no-op if already cached by DashboardComponent).
     this.userProfileService.loadProfile();
@@ -55,7 +59,7 @@ export class UserProfileComponent implements OnInit {
       this.userProfile = data;
       // Only set the local preview if it hasn't been locally overridden by a new selection
       if (!this.selectedFile) {
-         this.localProfileImageUrl = data.profilePictureUrl;
+        this.localProfileImageUrl = data.profilePictureUrl;
       }
       this.profileForm.patchValue(data);
     });
@@ -113,7 +117,7 @@ export class UserProfileComponent implements OnInit {
           // avoiding server-side query parameter bugs or stale CDN fetches.
           const response = await fetch(this.userProfile.profilePictureUrl, { cache: 'force-cache' });
           const blob = await response.blob();
-          
+
           // Extract the actual filename from the URL instead of a hardcoded name
           let filename = this.userProfile.profilePictureUrl.substring(this.userProfile.profilePictureUrl.lastIndexOf('/') + 1) || 'profile.jpg';
           if (filename.includes('?')) filename = filename.split('?')[0];
@@ -138,7 +142,7 @@ export class UserProfileComponent implements OnInit {
         );
         return;
       }
-      
+
       this.isUpdatingProfile = true;
 
       this.userProfileService.updateProfile(formData).subscribe({
@@ -148,8 +152,16 @@ export class UserProfileComponent implements OnInit {
           // By keeping it in memory, if the user hits "Save" again for text edits,
           // it re-uploads the known good local file instead of fetching the potentially
           // cached old image from the browser's cache.
-          
-          Swal.fire('Success', 'Profile Updated Successfully', 'success');
+
+          Swal.fire({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: false,
+            icon: 'success',
+            title: 'Profile Updated Successfully'
+          });
           // Re-fetch the full profile from the server so the profilePictureUrl
           // is always the correct server URL and is broadcast to all subscribers
           // (dashboard header + profile card) without needing a page reload.
@@ -163,20 +175,63 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  onFileSelected(event: any) {
+  async onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-      
-      // Optional: Update the local image preview instantly for a better UX
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.localProfileImageUrl = e.target.result;
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
 
-      // Immediately call the endpoint to save it with current form info
-      this.updateInfo();
+    Swal.fire({
+      title: 'Analyzing Biometrics...',
+      text: 'Please wait while our AI engine verifies the image authenticity to secure your account.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    try {
+      const oldPicResponse = await fetch(this.userProfile.profilePictureUrl, { cache: 'no-cache' });
+      if (!oldPicResponse.ok) {
+        throw new Error('Failed to fetch the reference image.');
+      }
+      const oldPicBlob = await oldPicResponse.blob();
+
+      const formData = new FormData();
+      formData.append('reference', oldPicBlob, 'reference.jpg');
+      formData.append('frame', file, file.name);
+
+      const aiResponse = await fetch('https://moustafaalaa30--eduai-proctoring-proctoring-serve.modal.run/analysis/face-frame', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!aiResponse.ok) {
+        throw new Error('Biometric verification server returned an error.');
+      }
+
+      const aiData = await aiResponse.json();
+      const evidence: string = aiData.face_recognition?.evidence || '';
+
+      if (evidence.includes('Authorised')) {
+        this.selectedFile = file;
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.localProfileImageUrl = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        this.updateInfo();
+      } else {
+        Swal.fire(
+          'Identity Verification Failed',
+          'The selected image could not be verified against our records. Please ensure the new photo clearly shows your face under good lighting conditions and matches your current identity.',
+          'error'
+        );
+        event.target.value = '';
+      }
+    } catch (err) {
+      console.error('Biometric verification error:', err);
+      Swal.fire('Error', 'Network Error: Failed to contact the biometric server.', 'error');
+      event.target.value = '';
     }
   }
 

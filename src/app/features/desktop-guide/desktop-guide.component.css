@@ -1,0 +1,104 @@
+.desktop-guide-container {
+  background-color: var(--lms-bg-light, #F4F9FC);
+  padding-top: 100px; /* Offset for navbar */
+  padding-bottom: 60px;
+  margin-bottom: -3rem; /* Offset the app-footer's mt-5 */
+  color: var(--lms-dark, #003366);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light/Dark mode support via app theme class */
+:host-context(.dark-mode) .desktop-guide-container {
+  background-color: #0f1117 !important;
+  color: #e2e8f0 !important;
+}
+:host-context(.dark-mode) .desktop-guide-container .text-muted {
+  color: #94a3b8 !important;
+}
+:host-context(.dark-mode) .step-card {
+  background: #1a1f2e !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+:host-context(.dark-mode) .step-card h3 {
+  color: #e2e8f0 !important;
+}
+:host-context(.dark-mode) .notice-panel {
+  background: rgba(245, 158, 11, 0.1) !important;
+  border-color: rgba(245, 158, 11, 0.2) !important;
+}
+:host-context(.dark-mode) .notice-panel h4 {
+  color: #e2e8f0 !important;
+}
+:host-context(.dark-mode) .btn-outline-secondary {
+  color: #cbd5e1 !important;
+  border-color: #475569 !important;
+}
+:host-context(.dark-mode) .btn-outline-secondary:hover {
+  background-color: #475569 !important;
+  color: #ffffff !important;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--lms-primary, #41B3E3) 0%, #0056b3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.download-btn {
+  background-color: var(--lms-primary, #41B3E3);
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+  background-color: var(--lms-hover, #3599C4);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(65, 179, 227, 0.4) !important;
+}
+
+.step-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(65, 179, 227, 0.15);
+}
+
+.icon-wrapper {
+  width: 80px;
+  height: 80px;
+  background: rgba(65, 179, 227, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notice-panel {
+  background: rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 20px;
+}
+
+.guidelines-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.guidelines-list li {
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.guidelines-list li:last-child {
+  margin-bottom: 0;
+}

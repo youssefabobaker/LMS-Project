@@ -38,13 +38,19 @@
 
         </p>
 
-        <div class="hero-cta-group animate-fade-up" style="--delay: 0.5s;">
-          <button class="btn-lumina-hero-primary" routerLink="/login">
-            <span>Get Started</span>
-            <i class="bi bi-arrow-right-circle-fill btn-icon"></i>
-          </button>
-          <button type="button" class="btn-lumina-hero-secondary" (click)="scrollToFeatures()">
-            <span>See Features</span>
+        <div class="animate-fade-up d-inline-flex flex-column gap-3" style="--delay: 0.5s; margin-bottom: 40px;">
+          <div class="d-flex gap-3 flex-wrap">
+            <button class="btn-lumina-hero-primary" routerLink="/login">
+              <span>Get Started</span>
+              <i class="bi bi-arrow-right-circle-fill btn-icon"></i>
+            </button>
+            <button type="button" class="btn-lumina-hero-secondary" (click)="scrollToFeatures()">
+              <span>See Features</span>
+            </button>
+          </div>
+          <button type="button" class="btn-lumina-hero-secondary w-100 justify-content-center" routerLink="/desktop-app">
+            <i class="bi bi-windows btn-icon-left me-2"></i>
+            <span>Get Desktop Exam App</span>
           </button>
         </div>
 
