@@ -296,5 +296,6 @@
     margin-left: 0 !important;
     padding-left: calc(42px + 1rem) !important;
     padding-top: 0.5rem;
+    flex-wrap: wrap;
   }
 }

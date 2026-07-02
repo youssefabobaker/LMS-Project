@@ -398,6 +398,7 @@
     margin-left: 0 !important;
     padding-left: calc(42px + 1rem) !important; /* Align actions with the text block */
     padding-top: 0.5rem;
+    flex-wrap: wrap;
   }
 
   /* Reduce container padding on xs */
