@@ -32,7 +32,7 @@
                     </div>
                     <div>
                       <span class="info-label">Location</span>
-                      <span class="info-value">Cairo, Egypt</span>
+                      <span class="info-value">Egypt</span>
                     </div>
                   </div>
 
@@ -42,7 +42,7 @@
                     </div>
                     <div>
                       <span class="info-label">Email</span>
-                      <span class="info-value">support&#64;lumina.edu</span>
+                      <span class="info-value">youssefabobaker90&#64;gmail.com</span>
                     </div>
                   </div>
 
@@ -52,7 +52,7 @@
                     </div>
                     <div>
                       <span class="info-label">Phone</span>
-                      <span class="info-value">+20 123 456 789</span>
+                      <span class="info-value">+20 112 395 4334</span>
                     </div>
                   </div>
                 </div>
@@ -76,37 +76,66 @@
             <!-- Right Form Panel -->
             <div class="col-md-7">
               <div class="contact-form-panel">
-                <form class="contact-form">
+                <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
                   <div class="row g-3">
                     <div class="col-sm-6">
                       <div class="form-floating-custom">
                         <label>Full Name</label>
-                        <input type="text" class="form-input" id="contact-name" placeholder="John Doe">
+                        <input type="text" class="form-input" id="contact-name" placeholder="John Doe"
+                          formControlName="fullName"
+                          [class.is-invalid]="contactForm.get('fullName')?.invalid && contactForm.get('fullName')?.touched">
+                        <div class="invalid-feedback"
+                          *ngIf="contactForm.get('fullName')?.invalid && contactForm.get('fullName')?.touched">
+                          Full name is required.
+                        </div>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-floating-custom">
                         <label>Email Address</label>
-                        <input type="email" class="form-input" id="contact-email" placeholder="john@example.com">
+                        <input type="email" class="form-input" id="contact-email" placeholder="john@example.com"
+                          formControlName="emailAddress"
+                          [class.is-invalid]="contactForm.get('emailAddress')?.invalid && contactForm.get('emailAddress')?.touched">
+                        <div class="invalid-feedback"
+                          *ngIf="contactForm.get('emailAddress')?.invalid && contactForm.get('emailAddress')?.touched">
+                          Valid email is required.
+                        </div>
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="form-floating-custom">
                         <label>Subject</label>
-                        <input type="text" class="form-input" id="contact-subject" placeholder="How can we help?">
+                        <input type="text" class="form-input" id="contact-subject" placeholder="How can we help?"
+                          formControlName="subject"
+                          [class.is-invalid]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
+                        <div class="invalid-feedback"
+                          *ngIf="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
+                          Subject is required.
+                        </div>
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="form-floating-custom">
                         <label>Message</label>
                         <textarea class="form-input form-textarea" id="contact-message" rows="5"
-                          placeholder="Describe your question or feedback..."></textarea>
+                          placeholder="Describe your question or feedback..." formControlName="messageContent"
+                          [class.is-invalid]="contactForm.get('messageContent')?.invalid && contactForm.get('messageContent')?.touched"></textarea>
+                        <div class="invalid-feedback"
+                          *ngIf="contactForm.get('messageContent')?.invalid && contactForm.get('messageContent')?.touched">
+                          Message content is required.
+                        </div>
                       </div>
                     </div>
                     <div class="col-12">
-                      <button type="submit" class="btn-contact-send">
-                        <span>Send Message</span>
-                        <i class="bi bi-send-fill btn-icon"></i>
+                      <button type="submit" class="btn-contact-send" [disabled]="isSending">
+                        <ng-container *ngIf="!isSending">
+                          <span>Send Message</span>
+                          <i class="bi bi-send-fill btn-icon"></i>
+                        </ng-container>
+                        <ng-container *ngIf="isSending">
+                          <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                          <span>Sending...</span>
+                        </ng-container>
                       </button>
                     </div>
                   </div>
