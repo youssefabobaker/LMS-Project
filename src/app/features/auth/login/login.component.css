@@ -2,15 +2,20 @@
 .auth-wrapper {
   position: relative;
   width: 100%;
-  height: 100vh !important; /* إجبار الطول يكون كامل الشاشة */
+  height: 100vh !important;
+  /* إجبار الطول يكون كامل الشاشة */
   display: flex !important;
-  align-items: center !important; /* توسطن رأسي */
-  justify-content: center !important; /* توسطن أفقي */
-  padding: 1.5rem; /* Add padding to prevent cards from touching edges on mobile */
+  align-items: center !important;
+  /* توسطن رأسي */
+  justify-content: center !important;
+  /* توسطن أفقي */
+  padding: 1.5rem;
+  /* Add padding to prevent cards from touching edges on mobile */
   background: linear-gradient(-45deg, #001529, #002d5b, #001529, #41b3e3);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
-  overflow: hidden; /* عشان نمنع الـ Scroll لو مش محتاجينه */
+  overflow: hidden;
+  /* عشان نمنع الـ Scroll لو مش محتاجينه */
 }
 
 .glass-card {
@@ -23,7 +28,8 @@
   width: 100%;
   max-width: 450px;
   padding: 2.5rem !important;
-  margin: 0 !important; /* شيلنا الـ margin auto عشان الـ flexbox يشتغل بدقة */
+  margin: 0 !important;
+  /* شيلنا الـ margin auto عشان الـ flexbox يشتغل بدقة */
 
   /* تشغيل الـ Animations */
   animation:
@@ -35,9 +41,11 @@
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -79,6 +87,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -91,10 +100,12 @@
 }
 
 @keyframes pulseGlow {
+
   0%,
   100% {
     opacity: 0.8;
   }
+
   50% {
     opacity: 1;
   }
@@ -105,9 +116,12 @@
   0% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-15px);
-  } /* بيطلع لفوق 15 بكسل */
+  }
+
+  /* بيطلع لفوق 15 بكسل */
   100% {
     transform: translateY(0px);
   }
@@ -138,6 +152,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -156,8 +171,10 @@
 
 /* تنسيق الحقل لما يكون غلط */
 .glass-input.is-invalid {
-  border-color: #ff4d4d !important; /* لون أحمر */
-  background: rgba(255, 77, 77, 0.1) !important; /* خلفية محمرة خفيفة */
+  border-color: #ff4d4d !important;
+  /* لون أحمر */
+  background: rgba(255, 77, 77, 0.1) !important;
+  /* خلفية محمرة خفيفة */
   box-shadow: 0 0 10px rgba(255, 77, 77, 0.2) !important;
 }
 
@@ -166,5 +183,6 @@
   color: #ff4d4d !important;
   font-size: 0.8rem;
   font-weight: 500;
-  display: block; /* عشان يظهر مع الـ ngIf */
+  display: block;
+  /* عشان يظهر مع الـ ngIf */
 }
