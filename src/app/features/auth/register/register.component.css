@@ -6,6 +6,7 @@
   display: flex !important;
   align-items: center !important; /* رجعناها سنتر عشان الكارد بقى ملموم ويظهر في النص */
   justify-content: center !important;
+  padding: 1.5rem; /* Add padding to prevent cards from touching edges on mobile */
   background: linear-gradient(-45deg, #001529, #002D5B, #001529, #41B3E3);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;

@@ -27,14 +27,14 @@
                     <a class="nav-link fw-medium px-3" href="#" (click)="navigateTo('contact', $event)"
                         [class.active]="isActive('contact')">Contact</a>
                 </li>
-                <li class="nav-item d-flex align-items-center ms-lg-2">
+                <li class="nav-item d-flex align-items-center my-3 my-lg-0 ms-lg-2">
                     <button class="theme-toggle-btn" (click)="themeService.toggleTheme()"
                         [attr.aria-label]="(themeService.isDarkMode$ | async) ? 'Switch to light mode' : 'Switch to dark mode'"
                         [title]="(themeService.isDarkMode$ | async) ? 'Light mode' : 'Dark mode'">
                         <i class="bi" [ngClass]="(themeService.isDarkMode$ | async) ? 'bi-sun' : 'bi-moon-stars'"></i>
                     </button>
                 </li>
-                <li class="nav-item ms-lg-3">
+                <li class="nav-item mb-3 mb-lg-0 ms-lg-3">
                     <a class="btn btn-primary px-4 shadow-sm" routerLink="/login">Login</a>
                 </li>
             </ul>

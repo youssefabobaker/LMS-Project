@@ -65,7 +65,7 @@ export class RegisterComponent implements OnInit {
         dob: ['', [Validators.required]],
         departmentId: ['', [Validators.required]], // حقل القسم الجديد
         academicYear: ['', [Validators.required]], // سيخزن الآن 'first', 'second', إلخ
-        profilePic: [null], // مفيش Validators.required هنا عشان تكون Optional
+        profilePic: [null, [Validators.required]],
       },
       {
         // Validator على مستوى الفورم بالكامل لمقارنة الخانتين

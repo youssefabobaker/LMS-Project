@@ -134,11 +134,15 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label text-white-50 small">Profile Picture (Optional)</label>
+                    <label class="form-label text-white-50 small">Profile Picture</label>
                     <div class="input-group">
                         <span class="input-group-text glass-input-icon"><i class="bi bi-image"></i></span>
                         <input type="file" (change)="onFileSelected($event)" class="form-control glass-input"
-                            accept="image/*">
+                            accept="image/*" [class.is-invalid]="registerForm.get('profilePic')?.invalid && registerForm.get('profilePic')?.touched">
+                    </div>
+                    <div class="invalid-feedback d-block"
+                        *ngIf="registerForm.get('profilePic')?.invalid && registerForm.get('profilePic')?.touched">
+                        Profile picture is required.
                     </div>
                 </div>
 
