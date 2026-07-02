@@ -668,37 +668,37 @@
 .hero-pill-1 {
   top: 12%;
   left: -18%;
-  animation: floatPill 4.7s ease-in-out infinite 0s;
+  animation: floatPill 5s ease-in-out infinite -0.4s;
 }
 
 .hero-pill-2 {
   top: 12%;
   right: -15%;
-  animation: floatPill 6.3s ease-in-out infinite 2.8s;
+  animation: floatPill 5s ease-in-out infinite -2.7s;
 }
 
 .hero-pill-3 {
   top: 45%;
   left: -28%;
-  animation: floatPill 5.2s ease-in-out infinite 1.4s;
+  animation: floatPill 5s ease-in-out infinite -1.2s;
 }
 
 .hero-pill-4 {
   top: 48%;
   right: -25%;
-  animation: floatPill 7.4s ease-in-out infinite 0.6s;
+  animation: floatPill 5s ease-in-out infinite -4.1s;
 }
 
 .hero-pill-5 {
   bottom: 15%;
   left: -10%;
-  animation: floatPill 5.9s ease-in-out infinite 3.5s;
+  animation: floatPill 5s ease-in-out infinite -3.5s;
 }
 
 .hero-pill-6 {
   bottom: 13%;
   right: -12%;
-  animation: floatPill 6.8s ease-in-out infinite 1.9s;
+  animation: floatPill 5s ease-in-out infinite -1.9s;
 }
 
 /* ── Bottom Wave ── */
