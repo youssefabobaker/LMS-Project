@@ -202,11 +202,21 @@ export class LecturesComponent implements OnInit {
   }
 
   joinLive(lectureId: number): void {
+    // Open window synchronously to bypass mobile popup blockers
+    const newWindow = window.open('', '_blank');
+    
     this.lectureService.joinLiveLecture(lectureId).subscribe({
       next: (res) => {
-        window.open(res.jitsiUrl, '_blank');
+        if (newWindow) {
+          newWindow.location.href = res.jitsiUrl;
+        } else {
+          window.location.href = res.jitsiUrl;
+        }
       },
       error: (err) => {
+        if (newWindow) {
+          newWindow.close();
+        }
         Swal.fire('Connection Error', err.error?.message || 'Could not join live lecture.', 'error');
       }
     });
