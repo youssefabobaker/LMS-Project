@@ -427,7 +427,7 @@
 /* ── Custom Bar Chart ──────────────────────────────────────────────── */
 .custom-bar-chart-container {
   display: flex;
-  height: 250px;
+  height: 280px;
   position: relative;
   font-family: inherit;
 }
@@ -437,10 +437,20 @@
   flex-direction: column;
   justify-content: space-between;
   padding-right: 15px;
+  padding-bottom: 40px;
   text-align: right;
   width: 50px;
   flex-shrink: 0;
   border-right: 1px solid #e2e8f0;
+}
+
+.chart-scroll-wrapper {
+  flex-grow: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  display: flex;
+  padding-bottom: 40px;
 }
 
 .chart-plot-area {
@@ -449,6 +459,7 @@
   display: flex;
   align-items: flex-end;
   padding-left: 20px;
+  min-width: 500px;
 }
 
 .chart-grid {
@@ -485,6 +496,7 @@
   height: 100%;
   justify-content: flex-end;
   width: 60px;
+  flex-shrink: 0;
 }
 
 .bars {

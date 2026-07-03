@@ -215,6 +215,7 @@ export class QuizAttemptsComponent implements OnInit {
     this.cheatingReportService.getRiskAssessment(reportId).subscribe({
       next: (assessment) => {
         this.riskAssessment = assessment;
+        this.computeDynamicMax();
         this.isRiskAssessmentLoading = false;
       },
       error: (err) => {
@@ -226,6 +227,35 @@ export class QuizAttemptsComponent implements OnInit {
         }
       }
     });
+  }
+
+  dynamicRiskMax = 1;
+  yAxisTicks: number[] = [];
+
+  private computeDynamicMax(): void {
+    if (!this.riskAssessment || !this.riskAssessment.questions || this.riskAssessment.questions.length === 0) {
+      this.dynamicRiskMax = 1;
+      this.yAxisTicks = [1, 0.75, 0.5, 0.25, 0];
+      return;
+    }
+
+    let maxVal = 0;
+    this.riskAssessment.questions.forEach(q => {
+      if (q.studentRiskScore > maxVal) maxVal = q.studentRiskScore;
+      if (q.cohortAvgRiskScore > maxVal) maxVal = q.cohortAvgRiskScore;
+    });
+
+    if (maxVal === 0) maxVal = 1;
+
+    this.dynamicRiskMax = maxVal * 1.15;
+
+    this.yAxisTicks = [
+      this.dynamicRiskMax,
+      this.dynamicRiskMax * 0.75,
+      this.dynamicRiskMax * 0.5,
+      this.dynamicRiskMax * 0.25,
+      0
+    ];
   }
 
   deleteViolation(violationId: number): void {

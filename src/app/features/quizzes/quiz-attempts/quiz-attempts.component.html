@@ -2,7 +2,7 @@
 
   <!-- ── Loading Spinner ──────────────────────────────────────────── -->
   <div *ngIf="isLoading" class="text-center my-5 py-5">
-    <div class="spinner-border text-lms-primary" role="status" style="width:3rem;height:3rem;">
+    <div class="spinner-border text-info" role="status" style="width:3rem;height:3rem;">
       <span class="visually-hidden">Loading...</span>
     </div>
     <p class="text-muted mt-3">Loading student attempts…</p>
@@ -459,7 +459,7 @@
                     <div
                       class="risk-gauge-circle d-flex flex-column align-items-center justify-content-center shadow-inner">
                       <span class="fs-1 fw-bold text-dark lh-1 mb-1 ai-stat-number">{{
-                        riskAssessment.overallSessionRiskScore | percent:'1.0-0' }}</span>
+                        riskAssessment.overallSessionRiskScore | number:'1.0-2' }}</span>
                       <span class="small fw-medium text-muted">Risk</span>
                     </div>
                   </div>
@@ -502,41 +502,39 @@
 
               <div class="custom-bar-chart-container mt-2 mb-4 pb-2">
                 <div class="chart-y-axis text-muted small fw-medium">
-                  <span>100%</span>
-                  <span>75%</span>
-                  <span>50%</span>
-                  <span>25%</span>
-                  <span>0%</span>
+                  <span *ngFor="let tick of yAxisTicks">{{ tick | number:'1.0-2' }}</span>
                 </div>
 
-                <div class="chart-plot-area">
-                  <!-- Grid lines -->
-                  <div class="chart-grid">
-                    <div class="grid-line"></div>
-                    <div class="grid-line"></div>
-                    <div class="grid-line"></div>
-                    <div class="grid-line"></div>
-                    <div class="grid-line border-bottom border-secondary opacity-25"></div>
-                  </div>
+                <div class="chart-scroll-wrapper">
+                  <div class="chart-plot-area">
+                    <!-- Grid lines -->
+                    <div class="chart-grid">
+                      <div class="grid-line"></div>
+                      <div class="grid-line"></div>
+                      <div class="grid-line"></div>
+                      <div class="grid-line"></div>
+                      <div class="grid-line border-bottom border-secondary opacity-25"></div>
+                    </div>
 
-                  <!-- Bars -->
-                  <div class="chart-bars">
-                    <div *ngFor="let q of riskAssessment.questions; let idx = index"
-                      class="bar-group position-relative">
-                      <div class="bars">
-                        <!-- Student Bar -->
-                        <div class="bar bar-student shadow-sm" [style.height.%]="q.studentRiskScore * 100"
-                          [title]="'Student: ' + (q.studentRiskScore | percent)">
-                          <div class="bar-tooltip">{{ q.studentRiskScore | percent:'1.0-0' }}</div>
+                    <!-- Bars -->
+                    <div class="chart-bars">
+                      <div *ngFor="let q of riskAssessment.questions; let idx = index"
+                        class="bar-group position-relative">
+                        <div class="bars">
+                          <!-- Student Bar -->
+                          <div class="bar bar-student shadow-sm" [style.height.%]="(q.studentRiskScore / dynamicRiskMax) * 100"
+                            [title]="'Student: ' + (q.studentRiskScore | number:'1.0-2')">
+                            <div class="bar-tooltip">{{ q.studentRiskScore | number:'1.0-2' }}</div>
+                          </div>
+                          <!-- Cohort Bar -->
+                          <div class="bar bar-cohort shadow-sm" [style.height.%]="(q.cohortAvgRiskScore / dynamicRiskMax) * 100"
+                            [title]="'Cohort: ' + (q.cohortAvgRiskScore | number:'1.0-2')">
+                            <div class="bar-tooltip">{{ q.cohortAvgRiskScore | number:'1.0-2' }}</div>
+                          </div>
                         </div>
-                        <!-- Cohort Bar -->
-                        <div class="bar bar-cohort shadow-sm" [style.height.%]="q.cohortAvgRiskScore * 100"
-                          [title]="'Cohort: ' + (q.cohortAvgRiskScore | percent)">
-                          <div class="bar-tooltip">{{ q.cohortAvgRiskScore | percent:'1.0-0' }}</div>
-                        </div>
+                        <div class="bar-label fw-bold text-secondary position-absolute w-100 text-center"
+                          style="bottom: -28px;">Q{{ idx + 1 }}</div>
                       </div>
-                      <div class="bar-label fw-bold text-secondary position-absolute w-100 text-center"
-                        style="bottom: -28px;">Q{{ idx + 1 }}</div>
                     </div>
                   </div>
                 </div>
