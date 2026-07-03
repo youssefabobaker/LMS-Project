@@ -24,13 +24,13 @@
     <div class="card-header-row d-flex align-items-center justify-content-between p-4">
 
       <!-- Left: Number + Title/Description + Chips -->
-      <div class="d-flex align-items-center gap-4 flex-grow-1">
-        <div class="content-number-badge">
+      <div class="d-flex align-items-center gap-4 flex-grow-1" style="min-width: 0;">
+        <div class="content-number-badge flex-shrink-0">
           <span class="fw-bold">{{ (i + 1) | number: '2.0-0' }}</span>
         </div>
 
-        <div class="flex-grow-1 overflow-hidden">
-          <div class="d-flex align-items-center gap-2 mb-1">
+        <div class="flex-grow-1 overflow-hidden" style="min-width: 0;">
+          <div class="d-flex align-items-center gap-2 mb-1" style="min-width: 0;">
             <h5 class="content-title mb-0 text-truncate" [title]="lecture.title">{{ lecture.title }}</h5>
             <span *ngIf="!lecture.isActive" class="draft-pill">Draft</span>
           </div>

@@ -35,15 +35,15 @@
       [style.cursor]="editingIds.has(item.id) ? 'default' : 'pointer'">
 
       <!-- Left: Number + Title/Description + Chips -->
-      <div class="d-flex align-items-center gap-4 flex-grow-1">
+      <div class="d-flex align-items-center gap-4 flex-grow-1" style="min-width: 0;">
 
         <!-- Number Badge -->
-        <div class="content-number-badge">
+        <div class="content-number-badge flex-shrink-0">
           <span class="fw-bold">{{ (i + 1) | number: '2.0-0' }}</span>
         </div>
 
-        <div class="flex-grow-1 overflow-hidden">
-          <div class="d-flex align-items-center gap-2 mb-1">
+        <div class="flex-grow-1 overflow-hidden" style="min-width: 0;">
+          <div class="d-flex align-items-center gap-2 mb-1" style="min-width: 0;">
             <h5 class="content-title mb-0 text-truncate" [title]="item.title">{{ item.title }}</h5>
           </div>
 
@@ -69,7 +69,7 @@
       </div>
 
       <!-- Action Icons -->
-      <div class="d-flex align-items-center border-start ps-2 ms-2 gap-1" (click)="$event.stopPropagation()">
+      <div class="d-flex align-items-center border-start ps-2 ms-2 gap-1 flex-shrink-0" (click)="$event.stopPropagation()">
 
         <!-- Edit button -->
         <button *ngIf="canAddOrUpdate" class="btn action-icon-btn p-2 text-secondary" [id]="'btn-edit-' + item.id"

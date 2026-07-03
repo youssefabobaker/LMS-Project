@@ -5,7 +5,8 @@
         <p class="text-muted mb-0">Manage your profile details and security preferences.</p>
     </div>
 
-    <div class="row g-4 fade-in" [ngClass]="isDrawer ? 'flex-column drawer-mode' : (isStudent ? 'align-items-stretch' : 'flex-column align-items-center')">
+    <div class="row g-4 fade-in"
+        [ngClass]="isDrawer ? 'flex-column drawer-mode' : (isStudent ? 'align-items-stretch' : 'flex-column align-items-center')">
         <!-- Left Column: Profile Card -->
         <div [ngClass]="isDrawer ? 'col-12' : (isStudent ? 'col-12 col-xl-4 col-lg-5' : 'col-12 col-xl-6 col-lg-8')">
             <div class="glass-card p-4 text-center d-flex flex-column h-100">
@@ -16,7 +17,8 @@
                     <label *ngIf="!isDrawer && isStudent" for="fileUpload" class="edit-photo-btn">
                         <i class="bi bi-camera-fill"></i>
                     </label>
-                    <input *ngIf="!isDrawer && isStudent" type="file" id="fileUpload" (change)="onFileSelected($event)" hidden accept="image/*">
+                    <input *ngIf="!isDrawer && isStudent" type="file" id="fileUpload" (change)="onFileSelected($event)"
+                        hidden accept="image/*">
                 </div>
 
                 <h4 class="text-white fw-bold mb-1">{{userProfile?.firstName}} {{userProfile?.lastName}}</h4>
@@ -37,19 +39,20 @@
 
         <!-- Right Column: Forms (Profile Info) -->
         <div [ngClass]="isDrawer ? 'col-12' : (isStudent ? 'col-12 col-xl-8 col-lg-7' : 'd-none')">
-            
+
             <!-- ── DRAWER MODE (Accordions) ── -->
             <ng-container *ngIf="isDrawer">
                 <div class="glass-card p-4 h-100">
                     <div class="action-section mb-4" *ngIf="isStudent">
                         <button class="btn w-100 py-3 d-flex justify-content-between align-items-center"
-                            [class.btn-info-active]="activeTab === 'info'" [class.btn-outline-info]="activeTab !== 'info'"
-                            (click)="handleAction('info')">
+                            [class.btn-info-active]="activeTab === 'info'"
+                            [class.btn-outline-info]="activeTab !== 'info'" (click)="handleAction('info')">
                             <span><i class="bi bi-person-gear me-2"></i>Edit Profile Information</span>
                         </button>
 
                         <div class="expand-content" [class.show]="activeTab === 'info'">
-                            <form [formGroup]="profileForm" (ngSubmit)="updateInfo()" class="p-3 bg-white rounded-bottom">
+                            <form [formGroup]="profileForm" (ngSubmit)="updateInfo()"
+                                class="p-3 bg-white rounded-bottom">
                                 <div class="d-flex flex-column gap-2">
                                     <div class="text-start">
                                         <label class="form-label small fw-bold text-muted">First Name</label>
@@ -61,7 +64,8 @@
                                     </div>
                                     <div class="text-start">
                                         <label class="form-label small fw-bold text-muted">Date of Birth</label>
-                                        <input type="date" formControlName="dateOfBirth" class="form-control glass-input">
+                                        <input type="date" formControlName="dateOfBirth"
+                                            class="form-control glass-input">
                                     </div>
                                     <div class="text-start" *ngIf="hasPermission('Profile:levelUp')">
                                         <label class="form-label small fw-bold text-muted">Academic Year</label>
@@ -74,8 +78,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-login-grad w-100 mt-3" [disabled]="profileForm.invalid || isUpdatingProfile">
-                                    <span *ngIf="isUpdatingProfile" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                <button type="submit" class="btn btn-login-grad w-100 mt-3"
+                                    [disabled]="profileForm.invalid || isUpdatingProfile">
+                                    <span *ngIf="isUpdatingProfile" class="spinner-border spinner-border-sm me-2"
+                                        role="status" aria-hidden="true"></span>
                                     {{ isUpdatingProfile ? 'Saving...' : 'Save Changes' }}
                                 </button>
                             </form>
@@ -85,8 +91,7 @@
                     <div class="action-section mb-4">
                         <button class="btn w-100 py-3 d-flex justify-content-between align-items-center"
                             [class.btn-info-active]="activeTab === 'password'"
-                            [class.btn-outline-info]="activeTab !== 'password'"
-                            (click)="handleAction('password')">
+                            [class.btn-outline-info]="activeTab !== 'password'" (click)="handleAction('password')">
                             <span><i class="bi bi-shield-lock me-2"></i>Change Security Key</span>
                         </button>
 
@@ -95,18 +100,23 @@
                                 class="p-3 bg-light rounded-bottom border-top-0">
                                 <div class="mb-2 text-start">
                                     <label class="form-label small fw-bold">Current Password</label>
-                                    <input type="password" formControlName="currentPassword" class="form-control glass-input">
+                                    <input type="password" formControlName="currentPassword"
+                                        class="form-control glass-input">
                                 </div>
                                 <div class="mb-2 text-start">
                                     <label class="form-label small fw-bold">New Password</label>
-                                    <input type="password" formControlName="newPassword" class="form-control glass-input"
+                                    <input type="password" formControlName="newPassword"
+                                        class="form-control glass-input"
                                         [class.is-invalid]="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched">
                                     <div class="invalid-feedback">
-                                        Password must be 8+ characters with uppercase, lowercase, number, and special character.
+                                        Password must be 8+ characters with uppercase, lowercase, number, and special
+                                        character.
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-login-grad w-100 mt-2" [disabled]="passwordForm.invalid || isUpdatingPassword">
-                                    <span *ngIf="isUpdatingPassword" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                <button type="submit" class="btn btn-login-grad w-100 mt-2"
+                                    [disabled]="passwordForm.invalid || isUpdatingPassword">
+                                    <span *ngIf="isUpdatingPassword" class="spinner-border spinner-border-sm me-2"
+                                        role="status" aria-hidden="true"></span>
                                     {{ isUpdatingPassword ? 'Updating...' : 'Update Password' }}
                                 </button>
                             </form>
@@ -125,10 +135,11 @@
 
             <!-- ── SETTINGS PAGE MODE (Stacked Cards) ── -->
             <ng-container *ngIf="!isDrawer">
-                
+
                 <!-- Profile Information Card -->
                 <div class="glass-card p-4 h-100 d-flex flex-column" *ngIf="isStudent">
-                    <h5 class="fw-bold mb-4 header-title"><i class="bi bi-person-gear me-2" style="color: #41b3e3;"></i> Profile Information</h5>
+                    <h5 class="fw-bold mb-4 header-title"><i class="bi bi-person-gear me-2" style="color: #41b3e3;"></i>
+                        Profile Information</h5>
                     <form [formGroup]="profileForm" (ngSubmit)="updateInfo()" class="d-flex flex-column flex-grow-1">
                         <div class="row g-4">
                             <div class="col-md-6 text-start">
@@ -155,8 +166,10 @@
                             </div>
                         </div>
                         <div class="text-end mt-auto pt-4" style="border-top: 1px solid rgba(0,0,0,0.05);">
-                            <button type="submit" class="btn btn-login-grad px-4 py-2" [disabled]="profileForm.invalid || isUpdatingProfile">
-                                <span *ngIf="isUpdatingProfile" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            <button type="submit" class="btn btn-login-grad px-4 py-2"
+                                [disabled]="profileForm.invalid || isUpdatingProfile">
+                                <span *ngIf="isUpdatingProfile" class="spinner-border spinner-border-sm me-2"
+                                    role="status" aria-hidden="true"></span>
                                 {{ isUpdatingProfile ? 'Saving...' : 'Save Profile Changes' }}
                             </button>
                         </div>
@@ -169,33 +182,38 @@
     </div>
 
     <!-- Security Preferences Row (Only for Desktop/Settings Page) -->
-    <div class="row g-4 fade-in mt-0" *ngIf="!isDrawer" [ngClass]="isStudent ? 'justify-content-end' : 'justify-content-center'">
+    <div class="row g-4 fade-in mt-0" *ngIf="!isDrawer"
+        [ngClass]="isStudent ? 'justify-content-end' : 'justify-content-center'">
         <div [ngClass]="isStudent ? 'col-12 col-xl-8 col-lg-7' : 'col-12 col-xl-6 col-lg-8'">
             <div class="glass-card p-4">
-                    <h5 class="fw-bold mb-4 header-title"><i class="bi bi-shield-lock me-2" style="color: #41b3e3;"></i> Security Preferences</h5>
-                    <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()">
-                        <div class="row g-4">
-                            <div class="col-md-6 text-start">
-                                <label class="form-label small fw-bold text-muted mb-1">Current Password</label>
-                                <input type="password" formControlName="currentPassword" class="form-control glass-input p-2">
-                            </div>
-                            <div class="col-md-6 text-start">
-                                <label class="form-label small fw-bold text-muted mb-1">New Password</label>
-                                <input type="password" formControlName="newPassword" class="form-control glass-input p-2"
-                                    [class.is-invalid]="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched">
-                                <div class="invalid-feedback">
-                                    Password must be 8+ characters with uppercase, lowercase, number, and special character.
-                                </div>
+                <h5 class="fw-bold mb-4 header-title"><i class="bi bi-shield-lock me-2" style="color: #41b3e3;"></i>
+                    Security Preferences</h5>
+                <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()">
+                    <div class="row g-4">
+                        <div class="col-md-6 text-start">
+                            <label class="form-label small fw-bold text-muted mb-1">Current Password</label>
+                            <input type="password" formControlName="currentPassword"
+                                class="form-control glass-input p-2">
+                        </div>
+                        <div class="col-md-6 text-start">
+                            <label class="form-label small fw-bold text-muted mb-1">New Password</label>
+                            <input type="password" formControlName="newPassword" class="form-control glass-input p-2"
+                                [class.is-invalid]="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched">
+                            <div class="invalid-feedback">
+                                Password must be 8+ characters with uppercase, lowercase, number, and special character.
                             </div>
                         </div>
-                        <div class="text-end mt-4 pt-2" style="border-top: 1px solid rgba(0,0,0,0.05);">
-                            <button type="submit" class="btn btn-login-grad px-4 py-2" [disabled]="passwordForm.invalid || isUpdatingPassword">
-                                <span *ngIf="isUpdatingPassword" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                {{ isUpdatingPassword ? 'Updating...' : 'Update Security Key' }}
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="text-end mt-4 pt-2" style="border-top: 1px solid rgba(0,0,0,0.05);">
+                        <button type="submit" class="btn btn-login-grad px-4 py-2"
+                            [disabled]="passwordForm.invalid || isUpdatingPassword">
+                            <span *ngIf="isUpdatingPassword" class="spinner-border spinner-border-sm me-2" role="status"
+                                aria-hidden="true"></span>
+                            {{ isUpdatingPassword ? 'Updating...' : 'Update Security Key' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
