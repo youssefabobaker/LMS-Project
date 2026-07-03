@@ -33,6 +33,10 @@ export class QuizService {
     if (sDate && !sDate.endsWith('Z')) {
       sDate += 'Z';
     }
+    let subDate = q.submittedAt ?? q.SubmittedAt ?? null;
+    if (subDate && typeof subDate === 'string' && !subDate.endsWith('Z')) {
+      subDate += 'Z';
+    }
     return {
       id: q.id ?? q.Id ?? 0,
       title: q.title ?? q.Title ?? '',
@@ -42,6 +46,9 @@ export class QuizService {
       quizCode: q.quizCode ?? q.QuizCode ?? '',
       isActive: q.isActive ?? q.IsActive ?? false,
       totalMarks: q.totalMarks ?? q.TotalMarks ?? 0,
+      isSubmitted: q.isSubmitted ?? q.IsSubmitted,
+      score: q.score ?? q.Score ?? null,
+      submittedAt: subDate
     };
   }
 

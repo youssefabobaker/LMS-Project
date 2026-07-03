@@ -8,6 +8,9 @@ export interface QuizListItemDto {
   quizCode: string;        // 8-character code
   isActive: boolean;
   totalMarks: number;
+  isSubmitted?: boolean;
+  score?: number | null;
+  submittedAt?: string | null;
 }
 
 /** Sent to POST /api/Quiz/course/{courseId} */
